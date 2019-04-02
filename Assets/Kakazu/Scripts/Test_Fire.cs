@@ -8,20 +8,30 @@ public class Test_Fire : MonoBehaviour {
     private float Speed;
     private float Radius;
     private float YPosition;
-    private float X, Y, Z;
+    private float x, y, z;
+
+    //2次関数 y = a(x-p)+q
+    [SerializeField] private float X, Y;
+    [SerializeField] private float a;
+    [SerializeField] private float p, q;
+    [SerializeField] private float powerX;
 
     // Use this for initialization
     void Start () {
         Speed = 1.0f;
         Radius = 2.0f;
         YPosition = 0.5f;
-	}
+
+        //a = 0.05f;
+        //p = 37.0f;
+        //q = 62.0f;
+        //X = 0; Y = 0;
+    }
 	
 	// Update is called once per frame
 	void Update () {
         InputMouse_Touch();
         RotateFire();
-        //Debug.Log(transform.position);
     }
 
     void InputMouse_Touch()
@@ -37,7 +47,8 @@ public class Test_Fire : MonoBehaviour {
             }
             if (Input.GetMouseButton(0)) {
                 Debug.Log("クリックしっぱなし");
-                ClickFlg = 1;
+                //ClickFlg = 1;
+                ClickFlg = 2;
             }
         } else {// 実機で実行中
             //タッチされているかどうか
@@ -60,16 +71,18 @@ public class Test_Fire : MonoBehaviour {
 
     void RotateFire()
     {
-        //X = Radius * Mathf.Sin(Time.time * Speed * ClickFlg);
-        //Y = YPosition;
-        //Z = Radius * Mathf.Sin(Time.time * Speed * ClickFlg);
-
-        //transform.position = new Vector3(X, Y, Z);
         if(ClickFlg == 1) {
-            X = Radius * Mathf.Sin(Time.time * Speed);
-            Y = YPosition;
-            Z = Radius * Mathf.Cos(Time.time * Speed);
-            transform.position = new Vector3(X, Y, Z);
+            x = Radius * Mathf.Sin(Time.time * Speed);
+            y = YPosition;
+            z = Radius * Mathf.Cos(Time.time * Speed);
+            transform.position = new Vector3(x, y, z);
+        }
+        if(ClickFlg == 2) {
+            X += powerX * Time.deltaTime;
+            Y = -a * Mathf.Pow((X - p), 2.0f) + q;
+            transform.position = new Vector3(transform.position.x + X, transform.position.y + Y, transform.position.z);
+        }
+        if(ClickFlg == 3) {
         }
     }
 }
