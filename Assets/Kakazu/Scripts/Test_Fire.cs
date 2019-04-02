@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Test_Fire : MonoBehaviour {
 
-    private int ClickFlg = 0;//クリックしているかどうか
+    private int ClickFlg = 99;//クリックしているかどうか
     private float Speed;
     private float Radius;
     private float YPosition;
@@ -71,6 +71,8 @@ public class Test_Fire : MonoBehaviour {
 
     void RotateFire()
     {
+        if(ClickFlg == 0) {
+        }
         if(ClickFlg == 1) {
             x = Radius * Mathf.Sin(Time.time * Speed);
             y = YPosition;
@@ -80,9 +82,7 @@ public class Test_Fire : MonoBehaviour {
         if(ClickFlg == 2) {
             X += powerX * Time.deltaTime;
             Y = -a * Mathf.Pow((X - p), 2.0f) + q;
-            transform.position = new Vector3(transform.position.x + X, transform.position.y + Y, transform.position.z);
-        }
-        if(ClickFlg == 3) {
+            transform.position = new Vector3(transform.position.x + X, transform.position.y + (Y * Time.deltaTime), transform.position.z);
         }
     }
 }
