@@ -12,7 +12,8 @@ public class Stairscollision : MonoBehaviour {
     private GameObject touchobject;                     //タッチアイコンのオブジェクト
     private bool Touchbool;                             //タッチアイコン用Bool
     private float time;                                 //時間計測用
-    private Text text;
+    private Text text;                                  //テキスト
+    private Camera camera;                              //カメラ
 
     // Use this for initialization
     void Start () {
