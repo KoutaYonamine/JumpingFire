@@ -13,8 +13,8 @@ public class CameraMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.LookAt(pivot);
+        transform.LookAt(pivot);    //プレイヤーを見る
 
-        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x, pivot.position.y, transform.position.z);
 	}
 }

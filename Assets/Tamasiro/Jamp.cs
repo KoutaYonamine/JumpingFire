@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test4 : MonoBehaviour {
+public class Jamp : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
