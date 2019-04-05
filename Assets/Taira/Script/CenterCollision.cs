@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CenterCollision : MonoBehaviour {
 
-    bool Trigger;   //当たり
-    bool Collision; //はずれ
+    private bool Trigger;   //当たり
+    private bool Collision; //はずれ
 
-    GameObject FireFX;
+    private GameObject FireFX;
 
     // Use this for initialization
     void Start()
@@ -15,8 +15,8 @@ public class CenterCollision : MonoBehaviour {
         Trigger = false;
         Collision = false;
 
-        FireFX = GameObject.Find("FireFx");
-        FireFX.SetActive(false);
+        //FireFX = GameObject.Find("FireFx");
+        //FireFX.SetActive(false);パーティクル生成
     }
 
     // Update is called once per frame
@@ -30,7 +30,7 @@ public class CenterCollision : MonoBehaviour {
     {
         Trigger = true;
         AddSpeed();
-        FireActiv();
+        //FireActiv();
         //Debug.Log("Hit Trigger");
     }
 
@@ -38,7 +38,7 @@ public class CenterCollision : MonoBehaviour {
     void OnCollisionEnter(Collision collision)
     {
         Collision = true;
-        FireActiv();
+        //FireActiv();
 
         //当たりに入ってなかったらスピードを元に戻す
         if(Trigger != true)
@@ -61,8 +61,8 @@ public class CenterCollision : MonoBehaviour {
     }
 
     //パーティクルを表示
-    void FireActiv()
-    {
-        FireFX.SetActive(true);
-    }
+    //void FireActiv()
+    //{
+    //    FireFX.SetActive(true);
+    //}
 }
