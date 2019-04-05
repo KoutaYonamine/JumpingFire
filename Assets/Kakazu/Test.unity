@@ -192,7 +192,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 359437407}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -272,7 +272,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1145586812}
   m_LocalRotation: {x: 0.19705251, y: -0, z: -0, w: 0.980393}
-  m_LocalPosition: {x: 0, y: 6.492, z: -12.713}
+  m_LocalPosition: {x: 0, y: 13.22, z: -28.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -354,8 +354,8 @@ GameObject:
   - component: {fileID: 1914052197}
   - component: {fileID: 1914052196}
   - component: {fileID: 1914052195}
-  - component: {fileID: 1914052199}
   - component: {fileID: 1914052200}
+  - component: {fileID: 1914052199}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -422,9 +422,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1914052194}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -437,15 +437,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1914052194}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d202ccdfb4b1194b914fcc2da96c1f1, type: 3}
+  m_Script: {fileID: 11500000, guid: a8ca1738ec3a8bb4ba78d52d9319053a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  X: 0
-  Y: 0
-  a: 0.045
-  p: 1
-  q: 10
-  powerX: 0.5
+  Speed: 0
+  Radius: 0
+  YPosition: 0
 --- !u!54 &1914052200
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -456,7 +453,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
