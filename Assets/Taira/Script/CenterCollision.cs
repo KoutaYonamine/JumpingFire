@@ -9,6 +9,12 @@ public class CenterCollision : MonoBehaviour {
 
     private GameObject FireFX;
 
+    public bool trigger//Triggerの値をPlayerに参照
+    {
+        get { return this.Trigger; }
+        //private set { this.Trigger = value; }
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -26,12 +32,26 @@ public class CenterCollision : MonoBehaviour {
     }
 
     //当たりを感知する (真ん中)
-    void OnTriggerEnter(Collider collision)
+    void OnTriggerEnter(Collider other)//触れた瞬間
     {
-        Trigger = true;
-        AddSpeed();
+        if(other.gameObject.tag == "Player") {
+            Trigger = true;
+            AddSpeed();
+        }
         //FireActiv();
         //Debug.Log("Hit Trigger");
+    }
+    private void OnTriggerStay(Collider other)//触れ続けている間
+    {
+        if (other.gameObject.tag == "Player") {
+        }
+    }
+    private void OnTriggerExit(Collider other)//抜けた瞬間
+    {
+        if (other.gameObject.tag == "Player") {
+            Trigger = false;
+            Debug.Log("抜けた");
+        }
     }
 
     //はずれを感知する
@@ -45,7 +65,6 @@ public class CenterCollision : MonoBehaviour {
         {
             ReturnSpeed();
         }
-        //Debug.Log("Hit");
     }
 
     //加速処理
