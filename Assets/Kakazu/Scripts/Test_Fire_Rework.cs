@@ -6,33 +6,36 @@ public class Test_Fire_Rework : MonoBehaviour {
 
     private Rigidbody rigidBody;
 
+    public GameObject CandleStick;//燭台の当たり判定取得
+    private CenterCollision CandleTrigger;
+
     private int ClickFlg = 99;//クリックしているかどうか
     private bool IsJump = false;
-    private bool FallFlg = false;
+    private bool InitialVelocity = true;
 
     private float Speed;
     private float Radius;
-    private float YPosition;
 
     private float x, y, z;
-    private float TimeCount;
-    private float TimeOut;
 
     private Vector3 Force;
-    private float JumpGrvity;
+    private float Force_y;
+    private float FreeFallGrvity;
+    private float UnnaturalGrvity;
     private int FrameCount;
 
     // Use this for initialization
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        CandleTrigger = CandleStick.GetComponent<CenterCollision>();
 
         Speed = 1.0f;
         Radius = 10.0f;
-        YPosition = 20.0f;
-        TimeOut = 0.75f;
+        Force_y = 20.0f;
 
-        JumpGrvity = 0.98f;
+        FreeFallGrvity = 0.98f;
+        UnnaturalGrvity = 2.98f;
         FrameCount = 0;
     }
 
@@ -40,7 +43,9 @@ public class Test_Fire_Rework : MonoBehaviour {
     void Update()
     {
         InputMouse_Touch();
-        FrameCount++;
+        
+        if(ClickFlg == 2)
+            FrameCount++;
         Debug.Log(ClickFlg);
     }
     private void FixedUpdate()
@@ -53,11 +58,9 @@ public class Test_Fire_Rework : MonoBehaviour {
         // エディタ、実機で処理を分ける
         if (Application.isEditor) {// エディタで実行中
             if (Input.GetMouseButtonDown(0)) {//押した時
-                ClickFlg = 1;
             }
             if (Input.GetMouseButton(0)) {//押し続けた時
                 ClickFlg = 2;
-
             }
             if (Input.GetMouseButtonUp(0)) {//離した時
                 ClickFlg = 0;
@@ -68,19 +71,10 @@ public class Test_Fire_Rework : MonoBehaviour {
     void RotateFire()
     {
         if (ClickFlg == 0) {
-            YPosition = 20.0f;
-            rigidBody.velocity = Vector3.zero;
-
-            IsJump = false;
-            FallFlg = true;
-            FrameCount = 0;
-            ClickFlg = 99;
-        }
-        if(ClickFlg == 1) {
-            rigidBody.velocity = new Vector3(0, 10.0f, 0);//初速度
-        }
-        if (ClickFlg == 2) {
-            //TimeCount += Time.deltaTime;
+            if (InitialVelocity) {
+                rigidBody.velocity = new Vector3(0, 0, 0);
+                InitialVelocity = false;
+            }
 
             //円運動　
             x = Radius * Mathf.Sin(Time.time * Speed);
@@ -88,24 +82,34 @@ public class Test_Fire_Rework : MonoBehaviour {
             z = Radius * Mathf.Cos(Time.time * Speed);
             transform.position = new Vector3(x, y, z);
 
-            if(FrameCount > 30) {//20フレーム超えたら
-                IsJump = true;
+            Force_y = Force_y - UnnaturalGrvity;
+
+            Force = new Vector3(0, Force_y, 0);
+            rigidBody.AddForce(Force);
+
+            FrameCount = 0;
+        }
+        
+        if (ClickFlg == 2) {
+            //円運動　
+            x = Radius * Mathf.Sin(Time.time * Speed);
+            y = transform.position.y;
+            z = Radius * Mathf.Cos(Time.time * Speed);
+            transform.position = new Vector3(x, y, z);
+
+            if(FrameCount > 30) {//30フレーム超えたらForceに重力を加算
+                Force_y = Force_y - FreeFallGrvity;
             }
 
-            //if (TimeOut < TimeCount) {
-            //    ClickFlg = 4;
-            //}
-            if (IsJump) {
-                YPosition = YPosition - JumpGrvity;
-            }
-
-            Force = new Vector3(0, YPosition, 0);
+            Force = new Vector3(0, Force_y, 0);
             rigidBody.AddForce(Force);
         }
 
-        //if (FallFlg) {
-        //    JumpGrvity = 1.98f;
-        //    YPosition = YPosition - JumpGrvity;
-        //}
+        if(ClickFlg == 0 && CandleTrigger.trigger == true) {
+            Debug.Log("クリックしていない&&地面についている");
+            Force_y = 20.0f;
+            ClickFlg = 99;
+            InitialVelocity = true;
+        }
     }
 }
