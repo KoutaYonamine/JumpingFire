@@ -7,24 +7,39 @@ using UnityEngine.SceneManagement;
 public class Stairscollision : MonoBehaviour {
 
     private int Candlestick;                            //進んだ燭台の数
+    private float time;                                 //時間計測用
     private bool Collision;                             //当たり判定用Bool
+    private bool Touchbool;                             //タッチアイコン用Bool
+    private bool focusflag;                             //ソフトフォーカス用フラグ
     private GameObject numberobject;                    //ナンバーのオブジェクト
     private GameObject touchobject;                     //タッチアイコンのオブジェクト
-    private bool Touchbool;                             //タッチアイコン用Bool
-    private float time;                                 //時間計測用
+    private GameObject completely;                      //マルイメージ
     private Text text;                                  //テキスト
-    private Camera camera;                              //カメラ
-
+    private Sprite[] num;                               //ナンバーイメージ格納用
+    
     // Use this for initialization
     void Start () {
         Candlestick = 0;                                //進んだ燭台の数
+        time = 0;                                       //計測用
         Collision = false;                              //当たっていないとき
+        Touchbool = false;                              //タッチアイコンを表示しない
+        focusflag = false;                              //フォーカスしない
         text = GameObject.Find("Textnumber").GetComponent<Text>();
         numberobject = GameObject.Find("Textnumber");   //ナンバーのオブジェクト取得
         touchobject = GameObject.Find("Touch");         //タッチアイコンのオブジェクト取得
-        Touchbool = false;                              //タッチアイコンを表示しない
-        time = 0;                                       //計測用
-	}
+        completely = GameObject.Find("Completely");     //マルイメージの取得
+        num = Resources.LoadAll<Sprite>("Image/number");//ナンバーイメージをすべて読み込む
+        
+    }
+
+    //Collisionflagを返す
+    public bool getCollisionflag(){
+        return Collision;
+    }
+    //focusflagを返す
+    public bool getFocusflag(){
+        return focusflag;
+    }
 
     private void OnCollisionEnter(Collision collision){
         if(collision.gameObject.name == "Stairs"){      //触れたものが階段の場合
@@ -39,7 +54,7 @@ public class Stairscollision : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Debug.Log(Candlestick);
+        //Debug.Log(Candlestick);
         //タッチアイコンの表示/非表示
         if(Touchbool == false){
             touchobject.SetActive(false);       //タッチアイコンの非表示
@@ -51,17 +66,17 @@ public class Stairscollision : MonoBehaviour {
             }
         }
         //触れてからの時間差
-        if(Collision == true){
+        if (Collision == true){  
             time += Time.deltaTime;             //時間計測
-            Debug.Log(time);
+            //Debug.Log(time);
             if(time >= 2){                      //2秒以上たったら
             numberobject.transform.localScale = new Vector3(1, 1, 0);           //数字の大きさを変える
             numberobject.transform.localPosition = new Vector3(0, 150, 0);      //数字の位置を変える
             Touchbool = true;                   //スイッチオン
+            focusflag = true;                   //ソフトフォーカスさせる
             }
         }
         //点数加算の表示
         text.text = Candlestick.ToString();
-
     }
 }
