@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class CenterCollision : MonoBehaviour {
 
-    bool Trigger;   //当たり
-    bool Collision; //はずれ
+    private bool Trigger;   //当たり
+    private bool Collision; //はずれ
 
-    GameObject FireFX;
+    private GameObject FireFX;
+
+    public bool trigger//Triggerの値をPlayerに参照
+    {
+        get { return this.Trigger; }
+        //private set { this.Trigger = value; }
+    }
 
     // Use this for initialization
     void Start()
@@ -15,8 +21,8 @@ public class CenterCollision : MonoBehaviour {
         Trigger = false;
         Collision = false;
 
-        FireFX = GameObject.Find("FireFx");
-        FireFX.SetActive(false);
+        //FireFX = GameObject.Find("FireFx");
+        //FireFX.SetActive(false);パーティクル生成
     }
 
     // Update is called once per frame
@@ -26,26 +32,39 @@ public class CenterCollision : MonoBehaviour {
     }
 
     //当たりを感知する (真ん中)
-    void OnTriggerEnter(Collider collision)
+    void OnTriggerEnter(Collider other)//触れた瞬間
     {
-        Trigger = true;
-        AddSpeed();
-        FireActiv();
+        if(other.gameObject.tag == "Player") {
+            Trigger = true;
+            AddSpeed();
+        }
+        //FireActiv();
         //Debug.Log("Hit Trigger");
+    }
+    private void OnTriggerStay(Collider other)//触れ続けている間
+    {
+        if (other.gameObject.tag == "Player") {
+        }
+    }
+    private void OnTriggerExit(Collider other)//抜けた瞬間
+    {
+        if (other.gameObject.tag == "Player") {
+            Trigger = false;
+            Debug.Log("抜けた");
+        }
     }
 
     //はずれを感知する
     void OnCollisionEnter(Collision collision)
     {
         Collision = true;
-        FireActiv();
+        //FireActiv();
 
         //当たりに入ってなかったらスピードを元に戻す
         if(Trigger != true)
         {
             ReturnSpeed();
         }
-        //Debug.Log("Hit");
     }
 
     //加速処理
@@ -61,8 +80,8 @@ public class CenterCollision : MonoBehaviour {
     }
 
     //パーティクルを表示
-    void FireActiv()
-    {
-        FireFX.SetActive(true);
-    }
+    //void FireActiv()
+    //{
+    //    FireFX.SetActive(true);
+    //}
 }
