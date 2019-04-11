@@ -24,21 +24,39 @@ public class Test_Fire_Rework : MonoBehaviour {
     private float UnnaturalGrvity;
     private int FrameCount;
 
+    private Vector3 StartPosition;
+    public GameObject Camera;
+    private Vector3 CameraPosition;
+
+    private float Length;
+    float AtanAngle;
+    float count;
+
+
     // Use this for initialization
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
         CandleTrigger = CandleStick.GetComponent<CenterCollision>();
 
+        StartPosition = this.transform.position;
+        CameraPosition = Camera.transform.position;
+
         Speed = 1.0f;
-        Radius = 10.0f;
+        Radius = 30.0f;
         Force_y = 20.0f;
 
         FreeFallGrvity = 0.98f;
         UnnaturalGrvity = 2.98f;
         FrameCount = 0;
-    }
 
+        Length = transform.position.magnitude;
+        AtanAngle = Mathf.Atan2(StartPosition.x, StartPosition.z);
+        count = AtanAngle;
+        Debug.Log(AtanAngle);
+        Debug.Log(count);
+    }
+    
     // Update is called once per frame
     void Update()
     {
@@ -58,9 +76,11 @@ public class Test_Fire_Rework : MonoBehaviour {
         // エディタ、実機で処理を分ける
         if (Application.isEditor) {// エディタで実行中
             if (Input.GetMouseButtonDown(0)) {//押した時
+                Debug.Log("1");
             }
             if (Input.GetMouseButton(0)) {//押し続けた時
                 ClickFlg = 2;
+                Debug.Log("2");
             }
             if (Input.GetMouseButtonUp(0)) {//離した時
                 ClickFlg = 0;
@@ -70,16 +90,26 @@ public class Test_Fire_Rework : MonoBehaviour {
 
     void RotateFire()
     {
+        x = Length * Mathf.Sin(count * Speed);
+        y = transform.position.y;
+        z = Length * Mathf.Cos(count * Speed);
+        transform.position = new Vector3(x, y, z);
+        Debug.Log(transform.position);
+
+        if (InitialVelocity) {
+            InitialVelocity = false;
+        }
+
         if (ClickFlg == 0) {
             if (InitialVelocity) {
-                rigidBody.velocity = new Vector3(0, 0, 0);
                 InitialVelocity = false;
             }
+            count += 1 * Time.deltaTime;
 
             //円運動　
-            x = Radius * Mathf.Sin(Time.time * Speed);
+            x = Length * Mathf.Sin(count * Speed);
             y = transform.position.y;
-            z = Radius * Mathf.Cos(Time.time * Speed);
+            z = Length * Mathf.Cos(count * Speed);
             transform.position = new Vector3(x, y, z);
 
             Force_y = Force_y - UnnaturalGrvity;
@@ -88,16 +118,21 @@ public class Test_Fire_Rework : MonoBehaviour {
             rigidBody.AddForce(Force);
 
             FrameCount = 0;
+
+
         }
         
         if (ClickFlg == 2) {
-            //円運動　
-            x = Radius * Mathf.Sin(Time.time * Speed);
-            y = transform.position.y;
-            z = Radius * Mathf.Cos(Time.time * Speed);
-            transform.position = new Vector3(x, y, z);
+            count += 1 * Time.deltaTime;
 
-            if(FrameCount > 30) {//30フレーム超えたらForceに重力を加算
+            //円運動　
+            x = Length * Mathf.Sin(count * Speed);
+            y = transform.position.y;
+            z = Length * Mathf.Cos(count * Speed);
+            transform.position = new Vector3(x, y, z);
+            Debug.Log("X : " + x + "   " + "Z : " + z);
+
+            if (FrameCount > 30) {//30フレーム超えたらForceに重力を加算
                 Force_y = Force_y - FreeFallGrvity;
             }
 
