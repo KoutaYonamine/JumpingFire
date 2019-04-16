@@ -66,10 +66,12 @@ public class Test_Fire_Rework : MonoBehaviour {
         
         if(ClickFlg == 2)
             FrameCount++;
+        
     }
     private void FixedUpdate()
     {
         RotateFire();
+        Debug.Log(count);
     }
 
     void InputMouse_Touch()
@@ -152,6 +154,18 @@ public class Test_Fire_Rework : MonoBehaviour {
             CandleTrigger = ChildObj.GetComponent<CenterCollision>();
             Debug.Log("CandleTrigger" + CandleTrigger.trigger);
             Debug.Log(ChildObj);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Respawn") {
+            ClickFlg = 99;
+            rigidBody.velocity = Vector3.zero;
+            Force_y = 20.0f;
+            FirstVelocity = true;
+            count = AtanAngle;
+            transform.position = StartPosition;
+            Debug.Log(StartPosition);
         }
     }
 }
