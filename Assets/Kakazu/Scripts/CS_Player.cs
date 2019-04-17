@@ -88,6 +88,32 @@ public class CS_Player : MonoBehaviour {
                 ClickFlg = 0;
             }
         }
+        else
+        {
+            // タッチされているかチェック
+            if (Input.touchCount > 0)
+            {
+                // タッチ情報の取得
+                Touch touch = Input.GetTouch(0);
+
+                if (touch.phase == TouchPhase.Began)
+                {
+                    Debug.Log("押した瞬間");
+                }
+
+                if (touch.phase == TouchPhase.Ended)
+                {
+                    ClickFlg = 0;
+                    Debug.Log("離した瞬間");
+                }
+
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    ClickFlg = 2;
+                    Debug.Log("押しっぱなし");
+                }
+            }
+        }
     }
 
     void RotateFire()
@@ -125,7 +151,7 @@ public class CS_Player : MonoBehaviour {
             y = transform.position.y;
             z = Length * Mathf.Cos(count);
             transform.position = new Vector3(x, y, z);
-            //Debug.Log(transform.position);
+
             Force = new Vector3(0, Force_y, 0);
             rigidBody.AddForce(Force);
         }
