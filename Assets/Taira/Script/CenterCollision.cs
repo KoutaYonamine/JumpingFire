@@ -28,7 +28,7 @@ public class CenterCollision : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
+        //Debug.Log(Trigger);
     }
 
     //当たりを感知する (真ん中)
@@ -50,7 +50,7 @@ public class CenterCollision : MonoBehaviour {
     {
         if (other.gameObject.tag == "Player") {
             Trigger = false;
-            Debug.Log("抜けた");
+            //Debug.Log("抜けた");
         }
     }
 
