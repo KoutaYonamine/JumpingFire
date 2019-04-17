@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test_Fire_Rework : MonoBehaviour {
+public class CS_Player : MonoBehaviour {
 
     private Rigidbody rigidBody;
-
-    GameObject CandleStick;//燭台の当たり判定取得
-    private CenterCollision CandleTrigger;
 
     private int ClickFlg = 99;//クリックしているかどうか
     private bool IsJump = false;//
     private bool FirstVelocity = true;//一度だけ入る(1フレーム目
+    private bool AddSpeedFlg; //燭台の中心に当たったかどうか
 
     private float Speed;//移動速度
 
@@ -40,7 +38,6 @@ public class Test_Fire_Rework : MonoBehaviour {
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
-        //CandleTrigger = CandleStick.GetComponent<CenterCollision>();
 
         StartPosition = this.transform.position;
         CameraPosition = Camera.transform.position;
@@ -131,31 +128,20 @@ public class Test_Fire_Rework : MonoBehaviour {
             rigidBody.AddForce(Force);
         }
 
-        if (ClickFlg == 0 && CandleTrigger.trigger == true) {
-            Debug.Log("クリックしていない&&地面についている");
-            Force_y = 20.0f;
-            ClickFlg = 99;
-            FirstVelocity = true;
-            //rigidBody.velocity = Vector3.zero;
-            //HitCandle = false;
-        }
-
+        //if (ClickFlg == 0 && CandleTrigger.trigger == true) {
+        //    Debug.Log("クリックしていない&&地面についている");
+        //    Force_y = 20.0f;
+        //    ClickFlg = 99;
+        //    FirstVelocity = true;
+        //    //rigidBody.velocity = Vector3.zero;
+        //    //HitCandle = false;
+        //}
         if (ClickFlg == 99) {
             //rigidBody.velocity = Vector3.zero;
         }
        
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Candle") {
-            //HitCandle = true;
-            ChildObj = other.transform.Find("Lamp");
-            CandleTrigger = ChildObj.GetComponent<CenterCollision>();
-            Debug.Log("CandleTrigger" + CandleTrigger.trigger);
-            Debug.Log(ChildObj);
-        }
-    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Respawn") {
@@ -167,5 +153,16 @@ public class Test_Fire_Rework : MonoBehaviour {
             transform.position = StartPosition;
             Debug.Log(StartPosition);
         }
+
+        if (collision.gameObject.tag == "Candle")
+        {
+
+        }
+    }
+
+    public bool addspeed
+    {
+        get { return AddSpeedFlg; }
+        set { AddSpeedFlg = value; }
     }
 }
