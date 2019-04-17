@@ -10,6 +10,8 @@ public class CS_Player : MonoBehaviour {
     private bool IsJump = false;//
     private bool FirstVelocity = true;//一度だけ入る(1フレーム目
     private bool AddSpeedFlg; //燭台の中心に当たったかどうか
+    private bool InitializeSpeedFlg; //スピード初期化
+
 
     private float Speed;//移動速度
 
@@ -68,7 +70,7 @@ public class CS_Player : MonoBehaviour {
     private void FixedUpdate()
     {
         RotateFire();
-        Debug.Log(count);
+        //Debug.Log(count);
     }
 
     void InputMouse_Touch()
@@ -128,14 +130,15 @@ public class CS_Player : MonoBehaviour {
             rigidBody.AddForce(Force);
         }
 
-        //if (ClickFlg == 0 && CandleTrigger.trigger == true) {
-        //    Debug.Log("クリックしていない&&地面についている");
-        //    Force_y = 20.0f;
-        //    ClickFlg = 99;
-        //    FirstVelocity = true;
-        //    //rigidBody.velocity = Vector3.zero;
-        //    //HitCandle = false;
-        //}
+        if (ClickFlg == 0 && InitializeSpeedFlg == true)
+        {
+            Debug.Log("クリックしていない&&地面についている");
+            Force_y = 20.0f;
+            ClickFlg = 99;
+            FirstVelocity = true;
+            //rigidBody.velocity = Vector3.zero;
+            //HitCandle = false;
+        }
         if (ClickFlg == 99) {
             //rigidBody.velocity = Vector3.zero;
         }
@@ -162,7 +165,12 @@ public class CS_Player : MonoBehaviour {
 
     public bool addspeed
     {
-        get { return AddSpeedFlg; }
+        get { return AddSpeedFlg ; }
         set { AddSpeedFlg = value; }
+    }
+    public bool initializespeed
+    {
+        get { return InitializeSpeedFlg; }
+        set { InitializeSpeedFlg = value; }
     }
 }

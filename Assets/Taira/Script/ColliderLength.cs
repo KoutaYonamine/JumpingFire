@@ -9,7 +9,7 @@ public class ColliderLength : MonoBehaviour {
 
     private bool LengthCheckFlg; //範囲内だとtrue;
 
-    public GameObject PlayerObj; //プレイヤーオブジェクト格納
+    private GameObject PlayerObj; //プレイヤーオブジェクト格納
     private CS_Player Player; //プレイヤーゲットコンポーネント
 
     [SerializeField] private float Length; //範囲チェック(inspectorで変更可能)
@@ -17,6 +17,7 @@ public class ColliderLength : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        PlayerObj = GameObject.Find("Fire");
         Player = PlayerObj.GetComponent<CS_Player>();
     }
 	
@@ -27,13 +28,22 @@ public class ColliderLength : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Player") //プレイヤータグ？
+        Player.initializespeed = true;
+
+        if (collision.gameObject.tag == "Player") //プレイヤータグ？
         {
             P_Position = collision.transform.position; //プレイヤーの座標を代入
             Difference = P_Position - transform.position; //差分
             Magnitude = Difference.magnitude;
             Debug.Log(Magnitude);
             LengthCheck(); //フラグ切り替え
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            Player.initializespeed = false;
         }
     }
 
