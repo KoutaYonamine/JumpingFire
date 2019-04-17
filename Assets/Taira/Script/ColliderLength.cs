@@ -6,19 +6,18 @@ public class ColliderLength : MonoBehaviour {
 
     private Vector3 P_Position; //プレイヤーのポジション
     private Vector3 Difference; //プレイヤーと燭台の差分
-    private float Magnitude; 
 
     private bool LengthCheckFlg; //範囲内だとtrue;
-    private bool Flg;
 
-    public GameObject Player;
-    private Test_GetSet Script;
+    public GameObject PlayerObj; //プレイヤーオブジェクト格納
+    private CS_Player Player; //プレイヤーゲットコンポーネント
 
-    [SerializeField] private float Length; //範囲(inspectorで変更可能)
+    [SerializeField] private float Length; //範囲チェック(inspectorで変更可能)
+    private float Magnitude; //プレイヤーと燭台の距離
 
-	// Use this for initialization
-	void Start () {
-        Script = Player.GetComponent<Test_GetSet>();
+    // Use this for initialization
+    void Start () {
+        Player = PlayerObj.GetComponent<CS_Player>();
     }
 	
 	// Update is called once per frame
@@ -42,8 +41,8 @@ public class ColliderLength : MonoBehaviour {
     {
         if(Magnitude <= Length)
         {
-            Script.Test = true;
-            Debug.Log(Script.Test);
+            Player.addspeed = true;
+            Debug.Log(Player.addspeed);
 
             LengthCheckFlg = true; //当たり
             Debug.Log("当たり");
