@@ -61,17 +61,16 @@ public class Stairscollision : MonoBehaviour {
             touchobject.SetActive(true);        //タッチアイコンの表示
             if (Input.GetMouseButtonDown(0)){
                 //初期化
-                Candlestick = 0;                                //進んだ燭台の数
-                time = 0;                                       //計測用
-                Collision = false;                              //当たっていないとき
-                Touchbool = false;                              //タッチアイコンを表示しない
-                focusflag = false;                              //フォーカスしない
+                Candlestick = 0;                //進んだ燭台の数
+                time = 0;                       //計測用
+                Collision = false;              //当たっていないとき
+                Touchbool = false;              //タッチアイコンを表示しない
+                focusflag = false;              //フォーカスしない
             }
         }
         //触れてからの時間差
         if (Collision == true){  
             time += Time.deltaTime;             //時間計測
-            //Debug.Log(time);
             if(time >= 2){                      //2秒以上たったら
             //numberobject.transform.localScale = new Vector3(2, 2, 0);           //数字の大きさを変える
             //numberobject.transform.localPosition = new Vector3(0, 150, 0);      //数字の位置を変える
