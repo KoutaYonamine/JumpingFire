@@ -5,9 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Nagamoto/start.unity
+  - enabled: 0
+    path: Assets/Nagamoto/Scene/start.unity
     guid: ada0180df41f0944da78989d50ccf32d
   - enabled: 1
-    path: Assets/Nagamoto/Stairscollision.unity
+    path: Assets/Nagamoto/Scene/Stairscollision.unity
     guid: 9de504cc37979e04483f4e969eb68d6d

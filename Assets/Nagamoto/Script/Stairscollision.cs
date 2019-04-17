@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class Stairscollision : MonoBehaviour {
 
@@ -13,9 +12,7 @@ public class Stairscollision : MonoBehaviour {
     private bool focusflag;                             //ソフトフォーカス用フラグ
     private GameObject numberobject;                    //ナンバーのオブジェクト
     private GameObject touchobject;                     //タッチアイコンのオブジェクト
-    private GameObject completely;                      //マルイメージ
-    private Text text;                                  //テキスト
-    private Sprite[] num;                               //ナンバーイメージ格納用
+    private Number number;                              //ナンバースクリプト
     
     // Use this for initialization
     void Start () {
@@ -24,11 +21,9 @@ public class Stairscollision : MonoBehaviour {
         Collision = false;                              //当たっていないとき
         Touchbool = false;                              //タッチアイコンを表示しない
         focusflag = false;                              //フォーカスしない
-        text = GameObject.Find("Textnumber").GetComponent<Text>();
-        numberobject = GameObject.Find("Textnumber");   //ナンバーのオブジェクト取得
+        numberobject = GameObject.Find("Number");       //ナンバーのオブジェクト取得
         touchobject = GameObject.Find("Touch");         //タッチアイコンのオブジェクト取得
-        completely = GameObject.Find("Completely");     //マルイメージの取得
-        num = Resources.LoadAll<Sprite>("Image/number");//ナンバーイメージをすべて読み込む
+        number = GameObject.Find("Canvas").GetComponent<Number>();  //ナンバースクリプトの取得
         
     }
 
@@ -40,21 +35,24 @@ public class Stairscollision : MonoBehaviour {
     public bool getFocusflag(){
         return focusflag;
     }
+    //Candlestickを返す
+    public int getCandlestick(){
+        return Candlestick;
+    }
 
     private void OnCollisionEnter(Collision collision){
         if(collision.gameObject.name == "Stairs"){      //触れたものが階段の場合
             Collision = true;
         }
         if(collision.gameObject.name == "Candlestick"){ //触れたものが燭台の場合
-            Candlestick += 1;
-            Debug.Log("a");
+            Candlestick += 10;
+            number.View(Candlestick);
         }
         
     }
 
     // Update is called once per frame
     void Update () {
-        //Debug.Log(Candlestick);
         //タッチアイコンの表示/非表示
         if(Touchbool == false){
             touchobject.SetActive(false);       //タッチアイコンの非表示
@@ -62,7 +60,12 @@ public class Stairscollision : MonoBehaviour {
         else{
             touchobject.SetActive(true);        //タッチアイコンの表示
             if (Input.GetMouseButtonDown(0)){
-                SceneManager.LoadScene("start");
+                //初期化
+                Candlestick = 0;                                //進んだ燭台の数
+                time = 0;                                       //計測用
+                Collision = false;                              //当たっていないとき
+                Touchbool = false;                              //タッチアイコンを表示しない
+                focusflag = false;                              //フォーカスしない
             }
         }
         //触れてからの時間差
@@ -70,13 +73,11 @@ public class Stairscollision : MonoBehaviour {
             time += Time.deltaTime;             //時間計測
             //Debug.Log(time);
             if(time >= 2){                      //2秒以上たったら
-            numberobject.transform.localScale = new Vector3(1, 1, 0);           //数字の大きさを変える
-            numberobject.transform.localPosition = new Vector3(0, 150, 0);      //数字の位置を変える
+            //numberobject.transform.localScale = new Vector3(2, 2, 0);           //数字の大きさを変える
+            //numberobject.transform.localPosition = new Vector3(0, 150, 0);      //数字の位置を変える
             Touchbool = true;                   //スイッチオン
             focusflag = true;                   //ソフトフォーカスさせる
             }
         }
-        //点数加算の表示
-        text.text = Candlestick.ToString();
     }
 }
