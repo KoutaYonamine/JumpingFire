@@ -98,6 +98,7 @@ public class CS_Player : MonoBehaviour {
 
                 if (touch.phase == TouchPhase.Began)
                 {
+                    ClickFlg = 2;
                     Debug.Log("押した瞬間");
                 }
 
