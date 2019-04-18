@@ -77,16 +77,46 @@ public class Test_Fire_Rework : MonoBehaviour {
     void InputMouse_Touch()
     {
         // エディタ、実機で処理を分ける
-        if (Application.isEditor) {// エディタで実行中
-            if (Input.GetMouseButtonDown(0)) {//押した時
+        if (Application.isEditor)
+        {// エディタで実行中
+            if (Input.GetMouseButtonDown(0))
+            {//押した時
                 Debug.Log("1");
             }
-            if (Input.GetMouseButton(0)) {//押し続けた時
+            if (Input.GetMouseButton(0))
+            {//押し続けた時
                 ClickFlg = 2;
                 Debug.Log("2");
             }
-            if (Input.GetMouseButtonUp(0)) {//離した時
+            if (Input.GetMouseButtonUp(0))
+            {//離した時
                 ClickFlg = 0;
+            }
+        }
+        else
+        {
+            // タッチされているかチェック
+            if (Input.touchCount > 0)
+            {
+                // タッチ情報の取得
+                Touch touch = Input.GetTouch(0);
+
+                if (touch.phase == TouchPhase.Began)
+                {
+                    Debug.Log("押した瞬間");
+                }
+
+                if (touch.phase == TouchPhase.Ended)
+                {
+                    ClickFlg = 0;
+                    Debug.Log("離した瞬間");
+                }
+
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    ClickFlg = 2;
+                    Debug.Log("押しっぱなし");
+                }
             }
         }
     }
