@@ -159,11 +159,11 @@ public class CS_Player : MonoBehaviour {
 
         if (ClickFlg == 0 && InitializeSpeedFlg == true)
         {
-            Debug.Log("クリックしていない&&地面についている");
+            //Debug.Log("クリックしていない&&地面についている");
             Force_y = 20.0f;
             ClickFlg = 99;
             FirstVelocity = true;
-            //rigidBody.velocity = Vector3.zero;
+            rigidBody.velocity = Vector3.zero;
             //HitCandle = false;
         }
         if (ClickFlg == 99) {
@@ -181,7 +181,7 @@ public class CS_Player : MonoBehaviour {
             FirstVelocity = true;
             count = AtanAngle;
             transform.position = StartPosition;
-            Debug.Log(StartPosition);
+            //Debug.Log(StartPosition);
         }
 
         if (collision.gameObject.tag == "Candle")
