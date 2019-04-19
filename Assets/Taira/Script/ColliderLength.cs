@@ -39,7 +39,7 @@ public class ColliderLength : MonoBehaviour {
             P_Position = collision.transform.position; //プレイヤーの座標を代入
             Difference = P_Position - transform.position; //差分
             Magnitude = Difference.magnitude;
-            Debug.Log(Magnitude);
+            //Debug.Log(Magnitude);
             LengthCheck(); //フラグ切り替え
         }
     }

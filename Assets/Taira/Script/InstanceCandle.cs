@@ -25,7 +25,7 @@ public class InstanceCandle : MonoBehaviour {
     {
         Player = GameObject.Find("Fire");
         radius = Player.transform.position.magnitude - 0.5f;
-        Debug.Log(radius);
+        //Debug.Log(radius);
 
 
         var oneCycle = 2.0f * Mathf.PI; // sin の周期は 2π
