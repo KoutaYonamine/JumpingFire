@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Yonamine/Scene/Test.unity
-    guid: 3911f749d9d0ec448bfd5f4b6ff3a17e
+    path: Assets/Yonamine/Test 1.unity
+    guid: ba870861d28fdf54fbc17432e8827ef3

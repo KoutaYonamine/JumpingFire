@@ -140,7 +140,7 @@ PlayerSettings:
       useProtectedVideoMemory: 0
     hololens:
       depthFormat: 1
-  protectGraphicsMemory: 0
+  protectGraphicsMemory: 1
   useHDRDisplay: 0
   m_ColorGamuts: 00000000
   targetPixelDensity: 0
@@ -523,7 +523,7 @@ PlayerSettings:
     22: MOBILE_INPUT
   platformArchitecture: {}
   scriptingBackend:
-    Android: 0
+    Android: 1
   incrementalIl2cppBuild: {}
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 0
@@ -612,9 +612,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: 0a7bf330-e0d1-436f-9a4b-bc49fb919b9a
+  cloudProjectId: 4982dd61-e042-477a-a709-9b82a2de1e87
   projectName: JumpingFire
-  organizationId: peppushi_yonasan
+  organizationId: nagamotoyuuya
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

@@ -59,7 +59,8 @@ public class Stairscollision : MonoBehaviour {
         }
         else{
             touchobject.SetActive(true);        //タッチアイコンの表示
-            if (Input.GetMouseButtonDown(0)){
+            if (Input.GetMouseButtonDown(0)||Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
                 //初期化
                 Candlestick = 0;                //進んだ燭台の数
                 time = 0;                       //計測用
