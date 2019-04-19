@@ -1,19 +1,40 @@
 fileFormatVersion: 2
-guid: f8ef2bd0bcb40f247a21c9410c9711bc
-timeCreated: 1554794015
+guid: 8fa99677e1416c04aa6d6c6657684ca2
+timeCreated: 1555564258
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Cube
-    4300002: Cube_001
+    100000: Cube
+    100002: Cube_001
+    100004: Cube_002
+    100006: Cylinder
+    100008: //RootNode
+    400000: Cube
+    400002: Cube_001
+    400004: Cube_002
+    400006: Cylinder
+    400008: //RootNode
+    2300000: Cube
+    2300002: Cube_001
+    2300004: Cube_002
+    2300006: Cylinder
+    3300000: Cube
+    3300002: Cube_001
+    3300004: Cube_002
+    3300006: Cylinder
+    4300000: Cylinder
+    4300002: Cube_002
+    4300004: Cube
+    4300006: Cube_001
     7400000: Default Take
     9500000: //RootNode
   externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_005
+    second: {fileID: 2100000, guid: 4f4d423855d59e447b2ffebf5012b797, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
