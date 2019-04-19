@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InstanceCandle : MonoBehaviour {
 
+    private GameObject Player;
+
     [SerializeField]
     private GameObject createObject; // 生成するオブジェクト
 
@@ -11,21 +13,24 @@ public class InstanceCandle : MonoBehaviour {
     private int itemCount = 100; // 生成するオブジェクトの数
 
     [SerializeField]
-    private float radius = 5f; // 半径
+    private float radius = 5f; // 半径 *プレイヤーとカメラの距離
 
     [SerializeField]
     private float repeat = 5f; // 何周期するか
 
     [SerializeField]
-    private float length = 50f; // Z軸の長さ
+    private float length = 50f; // y軸の長さ
 
     void Start()
     {
+        Player = GameObject.Find("Fire");
+        radius = Player.transform.position.magnitude - 0.5f;
+        Debug.Log(radius);
+
 
         var oneCycle = 2.0f * Mathf.PI; // sin の周期は 2π
-        var oneLength = length / itemCount; // Z軸の1単位
-     // var z = transform.position.z - oneLength; // Z軸初期位置 (生成前に足しこみをしているので、一回分引いておく)
-        var y = transform.position.y - oneLength; // Z軸初期位置 (生成前に足しこみをしているので、一回分引いておく)
+        var oneLength = length / itemCount; // y軸の1単位
+        var y = transform.position.y - oneLength; // y軸初期位置 (生成前に足しこみをしているので、一回分引いておく)
 
 
         for (var i = 0; i < itemCount; ++i)
@@ -46,7 +51,6 @@ public class InstanceCandle : MonoBehaviour {
                 Quaternion.identity,
                 transform
             );
-
         }
 
     }

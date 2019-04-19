@@ -10,25 +10,29 @@ public class ColliderLength : MonoBehaviour {
     private bool LengthCheckFlg; //範囲内だとtrue;
 
     private GameObject PlayerObj; //プレイヤーオブジェクト格納
+
     private CS_Player Player; //プレイヤーゲットコンポーネント
 
     [SerializeField] private float Length; //範囲チェック(inspectorで変更可能)
     private float Magnitude; //プレイヤーと燭台の距離
 
+    private GameObject targetObject; //カメラを格納
     // Use this for initialization
     void Start () {
-        PlayerObj = GameObject.Find("Fire");
+        targetObject = GameObject.Find("Main Camera");
+        this.transform.LookAt(new Vector3(targetObject.transform.position.x, transform.position.y, targetObject.transform.position.z)); //燭台をカメラに向ける
+
+        PlayerObj = GameObject.Find("Fire"); //プレイヤーを格納
         Player = PlayerObj.GetComponent<CS_Player>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-        
-	}
+
+    // Update is called once per frame
+    void Update () {
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Player.initializespeed = true;
+        Player.initializespeed = true; //燭台に乗ったらtrue
 
         if (collision.gameObject.tag == "Player") //プレイヤータグ？
         {
@@ -41,10 +45,7 @@ public class ColliderLength : MonoBehaviour {
     }
     private void OnCollisionExit(Collision collision)
     {
-        if(collision.gameObject.tag == "Player")
-        {
-            Player.initializespeed = false;
-        }
+        Player.initializespeed = false;
     }
 
     private void LengthCheck() //フラグ切り替え
