@@ -9,8 +9,10 @@ public class CS_Player : MonoBehaviour {
     private int ClickFlg = 99;//クリックしているかどうか
     private bool IsJump = false;//
     private bool FirstVelocity = true;//一度だけ入る(1フレーム目
+
     private bool AddSpeedFlg; //燭台の中心に当たったかどうか
     private bool InitializeSpeedFlg; //スピード初期化
+    private float NotBarrageCount = 0;//連打禁止   燭台に乗ったら入力受付
 
 
     private float Speed;//移動速度
@@ -70,7 +72,6 @@ public class CS_Player : MonoBehaviour {
     private void FixedUpdate()
     {
         RotateFire();
-        //Debug.Log(count);
     }
 
     void InputMouse_Touch()
@@ -79,6 +80,7 @@ public class CS_Player : MonoBehaviour {
         if (Application.isEditor) {// エディタで実行中
             if (Input.GetMouseButtonDown(0)) {//押した時
                 Debug.Log("1");
+                //NotBarrageCount++;//何回押したかカウント
             }
             if (Input.GetMouseButton(0)) {//押し続けた時
                 ClickFlg = 2;
@@ -159,15 +161,14 @@ public class CS_Player : MonoBehaviour {
 
         if (ClickFlg == 0 && InitializeSpeedFlg == true)
         {
-            //Debug.Log("クリックしていない&&地面についている");
+            Debug.Log("クリックしていない&&地面についている");
             Force_y = 20.0f;
             ClickFlg = 99;
             FirstVelocity = true;
             rigidBody.velocity = Vector3.zero;
-            //HitCandle = false;
         }
         if (ClickFlg == 99) {
-            //rigidBody.velocity = Vector3.zero;
+
         }
        
     }
@@ -181,7 +182,6 @@ public class CS_Player : MonoBehaviour {
             FirstVelocity = true;
             count = AtanAngle;
             transform.position = StartPosition;
-            //Debug.Log(StartPosition);
         }
 
         if (collision.gameObject.tag == "Candle")
@@ -190,14 +190,19 @@ public class CS_Player : MonoBehaviour {
         }
     }
 
-    public bool addspeed
+    public bool addspeed//スピードの変化
     {
         get { return AddSpeedFlg ; }
         set { AddSpeedFlg = value; }
     }
-    public bool initializespeed
+    public bool initializespeed//燭台に乗ったかどうか
     {
         get { return InitializeSpeedFlg; }
         set { InitializeSpeedFlg = value; }
+    }
+    public float notbarragecount//連打禁止
+    {
+        get { return NotBarrageCount; }
+        set { NotBarrageCount = value; }
     }
 }

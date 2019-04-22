@@ -17,6 +17,9 @@ public class ColliderLength : MonoBehaviour {
     private float Magnitude; //プレイヤーと燭台の距離
 
     private GameObject targetObject; //カメラを格納
+
+    [SerializeField] float DifferenceY;
+
     // Use this for initialization
     void Start () {
         targetObject = GameObject.Find("Main Camera");
@@ -32,15 +35,18 @@ public class ColliderLength : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        Player.initializespeed = true; //燭台に乗ったらtrue
+        //Player.initializespeed = true; //燭台に乗ったらtrue
 
         if (collision.gameObject.tag == "Player") //プレイヤータグ？
         {
             P_Position = collision.transform.position; //プレイヤーの座標を代入
             Difference = P_Position - transform.position; //差分
             Magnitude = Difference.magnitude;
-            //Debug.Log(Magnitude);
             LengthCheck(); //フラグ切り替え
+        }
+        if (P_Position.y > transform.position.y + DifferenceY) {
+            Player.initializespeed = true; //燭台に乗ったらtrue
+            Debug.Log("Player.initializespeed" + Player.initializespeed);
         }
     }
     private void OnCollisionExit(Collision collision)
