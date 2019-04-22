@@ -105,6 +105,8 @@ public class CS_Player : MonoBehaviour {
                 {
                     //ClickFlg = 2;
                     NotBarrageCount++;
+                    if (NotBarrageCount == 1)
+                        ClickFlg = 2;
                     Debug.Log("押した瞬間");
                 }
 
