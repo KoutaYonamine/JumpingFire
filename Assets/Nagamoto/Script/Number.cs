@@ -18,7 +18,7 @@ public class Number : MonoBehaviour {
         img = GameObject.Find("Number").GetComponent<Image>();              //ナンバーイメージの取得
         nummove = GameObject.Find("Number").GetComponent<RectTransform>();  //Numberの移動
         Candlestick = GameObject.Find("Player").GetComponent<Stairscollision>().getCandlestick();//進んだ燭台の数
-        View(Candlestick);
+        //View(Candlestick);
     }
 
     public void View(int move){
