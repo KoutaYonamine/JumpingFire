@@ -103,19 +103,22 @@ public class CS_Player : MonoBehaviour {
 
                 if (touch.phase == TouchPhase.Began)
                 {
-                    ClickFlg = 2;
+                    //ClickFlg = 2;
+                    NotBarrageCount++;
                     Debug.Log("押した瞬間");
                 }
 
                 if (touch.phase == TouchPhase.Ended)
                 {
-                    ClickFlg = 0;
+                    if (ClickFlg != 99)
+                        ClickFlg = 0;
                     Debug.Log("離した瞬間");
                 }
 
                 if (touch.phase == TouchPhase.Moved)
                 {
-                    ClickFlg = 2;
+                    if (NotBarrageCount == 1)
+                        ClickFlg = 2;
                     Debug.Log("押しっぱなし");
                 }
             }
