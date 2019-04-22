@@ -9,31 +9,28 @@ public class Stairscollision : MonoBehaviour {
     private float time;                                 //時間計測用
     private bool Collision;                             //当たり判定用Bool
     private bool Touchbool;                             //タッチアイコン用Bool
-    private bool focusflag;                             //ソフトフォーカス用フラグ
     private GameObject numberobject;                    //ナンバーのオブジェクト
     private GameObject touchobject;                     //タッチアイコンのオブジェクト
     private Number number;                              //ナンバースクリプト
-    
+    private Vector3 StartPosition;                      //プレイヤーの最初の位置
+    private bool softfocus;                             //ソフトフォーカスflag
+
     // Use this for initialization
     void Start () {
         Candlestick = 0;                                //進んだ燭台の数
         time = 0;                                       //計測用
         Collision = false;                              //当たっていないとき
         Touchbool = false;                              //タッチアイコンを表示しない
-        focusflag = false;                              //フォーカスしない
         numberobject = GameObject.Find("Number");       //ナンバーのオブジェクト取得
         touchobject = GameObject.Find("Touch");         //タッチアイコンのオブジェクト取得
         number = GameObject.Find("Canvas").GetComponent<Number>();  //ナンバースクリプトの取得
-        
+        StartPosition = this.transform.position;        //スタート位置の保存  
+        softfocus = false;                              
     }
 
     //Collisionflagを返す
     public bool getCollisionflag(){
         return Collision;
-    }
-    //focusflagを返す
-    public bool getFocusflag(){
-        return focusflag;
     }
     //Candlestickを返す
     public int getCandlestick(){
@@ -45,7 +42,7 @@ public class Stairscollision : MonoBehaviour {
             Collision = true;
         }
         if(collision.gameObject.name == "Candlestick"){ //触れたものが燭台の場合
-            Candlestick += 10;
+            Candlestick += 1;
             number.View(Candlestick);
         }
         
@@ -59,14 +56,15 @@ public class Stairscollision : MonoBehaviour {
         }
         else{
             touchobject.SetActive(true);        //タッチアイコンの表示
-            if (Input.GetMouseButtonDown(0)||Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-            {
+            //タッチアイコンが出たとき
+            if (Input.GetMouseButtonDown(0)||Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began){
                 //初期化
                 Candlestick = 0;                //進んだ燭台の数
                 time = 0;                       //計測用
                 Collision = false;              //当たっていないとき
                 Touchbool = false;              //タッチアイコンを表示しない
-                focusflag = false;              //フォーカスしない
+                softfocus = true;               //
+                this.transform.position = StartPosition;    //スタート位置に行く
             }
         }
         //触れてからの時間差
@@ -76,7 +74,6 @@ public class Stairscollision : MonoBehaviour {
             //numberobject.transform.localScale = new Vector3(2, 2, 0);           //数字の大きさを変える
             //numberobject.transform.localPosition = new Vector3(0, 150, 0);      //数字の位置を変える
             Touchbool = true;                   //スイッチオン
-            focusflag = true;                   //ソフトフォーカスさせる
             }
         }
     }
