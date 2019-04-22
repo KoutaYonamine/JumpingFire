@@ -11,7 +11,8 @@ public class ColliderLength : MonoBehaviour {
 
     private GameObject PlayerObj; //プレイヤーオブジェクト格納
 
-    private CS_Player Player; //プレイヤーゲットコンポーネント
+    private CS_Player CsPlayer; //CS_Playerをゲットコンポーネント
+    private Rigidbody RigidPlayer;//Rigidbodyをゲットコンポーネント
 
     [SerializeField] private float Length; //範囲チェック(inspectorで変更可能)
     private float Magnitude; //プレイヤーと燭台の距離
@@ -26,7 +27,8 @@ public class ColliderLength : MonoBehaviour {
         this.transform.LookAt(new Vector3(targetObject.transform.position.x, transform.position.y, targetObject.transform.position.z)); //燭台をカメラに向ける
 
         PlayerObj = GameObject.Find("Fire"); //プレイヤーを格納
-        Player = PlayerObj.GetComponent<CS_Player>();
+        CsPlayer = PlayerObj.GetComponent<CS_Player>();
+        RigidPlayer = PlayerObj.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -45,29 +47,30 @@ public class ColliderLength : MonoBehaviour {
             LengthCheck(); //フラグ切り替え
         }
         if (P_Position.y > transform.position.y + DifferenceY) {
-            Player.initializespeed = true; //燭台に乗ったらtrue
-            Debug.Log("Player.initializespeed" + Player.initializespeed);
+            CsPlayer.initializespeed = true; //燭台に乗ったらtrue
+            RigidPlayer.isKinematic = true;
+            Debug.Log("Player.initializespeed" + CsPlayer.initializespeed);
         }
     }
     private void OnCollisionExit(Collision collision)
     {
-        Player.initializespeed = false;
+        CsPlayer.initializespeed = false;
     }
 
     private void LengthCheck() //フラグ切り替え
     {
         if(Magnitude <= Length)
         {
-            Player.addspeed = true;
-            Debug.Log(Player.addspeed);
+            CsPlayer.addspeed = true;
+            //Debug.Log(Player.addspeed);
 
             LengthCheckFlg = true; //当たり
-            Debug.Log("当たり");
+            //Debug.Log("当たり");
         }
         else if(Magnitude > Length)
         {
             LengthCheckFlg = false; //はずれ
-            Debug.Log("はずれ");
+            //Debug.Log("はずれ");
         }
     }
 }

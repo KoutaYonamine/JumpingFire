@@ -67,7 +67,8 @@ public class CS_Player : MonoBehaviour {
         
         if(ClickFlg == 2)
             FrameCount++;
-        
+
+        //Debug.Log(rigidBody.velocity);
     }
     private void FixedUpdate()
     {
@@ -80,14 +81,16 @@ public class CS_Player : MonoBehaviour {
         if (Application.isEditor) {// エディタで実行中
             if (Input.GetMouseButtonDown(0)) {//押した時
                 Debug.Log("1");
-                //NotBarrageCount++;//何回押したかカウント
+                NotBarrageCount++;//何回押したかカウント
             }
             if (Input.GetMouseButton(0)) {//押し続けた時
-                ClickFlg = 2;
+                if(NotBarrageCount == 1)
+                    ClickFlg = 2;
                 Debug.Log("2");
             }
             if (Input.GetMouseButtonUp(0)) {//離した時
-                ClickFlg = 0;
+                if(ClickFlg != 99)
+                    ClickFlg = 0;
             }
         }
         else
@@ -122,9 +125,7 @@ public class CS_Player : MonoBehaviour {
     void RotateFire()
     {
         if (ClickFlg == 0) {
-            if (FirstVelocity) {
-                FirstVelocity = false;
-            }
+
             count += Time.deltaTime * RotateSpeed;
 
             //円運動　
@@ -161,14 +162,15 @@ public class CS_Player : MonoBehaviour {
 
         if (ClickFlg == 0 && InitializeSpeedFlg == true)
         {
-            Debug.Log("クリックしていない&&地面についている");
             Force_y = 20.0f;
             ClickFlg = 99;
             FirstVelocity = true;
+            //rigidBody.isKinematic = true;
+            rigidBody.isKinematic = false;
             rigidBody.velocity = Vector3.zero;
         }
         if (ClickFlg == 99) {
-
+            NotBarrageCount = 0;
         }
        
     }
