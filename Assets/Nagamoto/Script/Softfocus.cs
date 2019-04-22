@@ -33,6 +33,10 @@ public class Softfocus : MonoBehaviour {
             }
 
         }
-        
+        if(stair.getsoftfocus() == true){
+            alfa = 0f;
+            completely.color = new Color(red, green, blue, alfa);
+        }
+
     }
 }
