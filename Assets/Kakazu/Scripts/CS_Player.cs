@@ -8,11 +8,14 @@ public class CS_Player : MonoBehaviour {
 
     private int ClickFlg = 99;//クリックしているかどうか
     private bool IsJump = false;//
+    private float NotBarrageCount = 0;//連打禁止   燭台に乗ったら入力受付
+    private bool OutPutFlg;//一度指を離した
+    private bool FallFlg;//落ちたかどうか
+
     private bool FirstVelocity = true;//一度だけ入る(1フレーム目
 
     private bool AddSpeedFlg; //燭台の中心に当たったかどうか
     private bool InitializeSpeedFlg; //スピード初期化
-    private float NotBarrageCount = 0;//連打禁止   燭台に乗ったら入力受付
 
 
     private float Speed;//移動速度
@@ -67,8 +70,7 @@ public class CS_Player : MonoBehaviour {
         
         if(ClickFlg == 2)
             FrameCount++;
-
-        //Debug.Log(rigidBody.velocity);
+        Debug.Log(ClickFlg);
     }
     private void FixedUpdate()
     {
@@ -80,13 +82,12 @@ public class CS_Player : MonoBehaviour {
         // エディタ、実機で処理を分ける
         if (Application.isEditor) {// エディタで実行中
             if (Input.GetMouseButtonDown(0)) {//押した時
-                Debug.Log("1");
                 NotBarrageCount++;//何回押したかカウント
+           
             }
             if (Input.GetMouseButton(0)) {//押し続けた時
                 if(NotBarrageCount == 1)
                     ClickFlg = 2;
-                Debug.Log("2");
             }
             if (Input.GetMouseButtonUp(0)) {//離した時
                 if(ClickFlg != 99)
@@ -101,27 +102,24 @@ public class CS_Player : MonoBehaviour {
                 // タッチ情報の取得
                 Touch touch = Input.GetTouch(0);
 
-                if (touch.phase == TouchPhase.Began)
+                if (touch.phase == TouchPhase.Began)//押した瞬間
                 {
-                    //ClickFlg = 2;
                     NotBarrageCount++;
                     if (NotBarrageCount == 1)
                         ClickFlg = 2;
-                    Debug.Log("押した瞬間");
                 }
 
-                if (touch.phase == TouchPhase.Ended)
-                {
-                    if (ClickFlg != 99)
-                        ClickFlg = 0;
-                    Debug.Log("離した瞬間");
-                }
-
-                if (touch.phase == TouchPhase.Moved)
-                {
+                if (touch.phase == TouchPhase.Moved) {//押しっぱなし
                     if (NotBarrageCount == 1)
                         ClickFlg = 2;
-                    Debug.Log("押しっぱなし");
+                }
+
+                if (touch.phase == TouchPhase.Ended)//離した瞬間
+                {
+                    if (ClickFlg != 99) {
+                        ClickFlg = 0;
+                        OutPutFlg = true;//一度指を離した
+                    }
                 }
             }
         }
@@ -132,12 +130,8 @@ public class CS_Player : MonoBehaviour {
         if (ClickFlg == 0) {
 
             count += Time.deltaTime * RotateSpeed;
-
-            //円運動　
-            x = Length * Mathf.Sin(count);
-            y = transform.position.y;
-            z = Length * Mathf.Cos(count);
-            transform.position = new Vector3(x, y, z);
+　
+            CircularMotion();//円運動
 
             Force_y = Force_y - UnnaturalGrvity;
 
@@ -147,48 +141,47 @@ public class CS_Player : MonoBehaviour {
         }
 
         if (ClickFlg == 2) {
-            count += Time.deltaTime * RotateSpeed;
+            count += Time.deltaTime * RotateSpeed;//今いる位置から移動を開始
             if (FirstVelocity) {//一度だけ入る
                 rigidBody.velocity = Vel;
                 FirstVelocity = false;
+                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!");
             }
-            if (FrameCount > 20) {//30フレーム超えたらForceに重力を加算
+            if (FrameCount > 20) {//20フレーム超えたらForceに重力を加算
                 Force_y = Force_y - FreeFallGrvity;
             }
-            //円運動　
-            x = Length * Mathf.Sin(count);
-            y = transform.position.y;
-            z = Length * Mathf.Cos(count);
-            transform.position = new Vector3(x, y, z);
 
-            Force = new Vector3(0, Force_y, 0);
+            CircularMotion();//円運動
+
+            Force = new Vector3(0, Force_y, 0);//y座標に力を加算
             rigidBody.AddForce(Force);
         }
 
         if (ClickFlg == 0 && InitializeSpeedFlg == true)
         {
-            Force_y = 20.0f;
+            Force_y = 20.0f;//y軸に与える力を初期化
             ClickFlg = 99;
-            FirstVelocity = true;
-            //rigidBody.isKinematic = true;
+            FirstVelocity = true;//一度だけ入る処理をリセット
             rigidBody.isKinematic = false;
             rigidBody.velocity = Vector3.zero;
         }
+     
         if (ClickFlg == 99) {
             NotBarrageCount = 0;
+            FirstVelocity = true;//一度だけ入る処理をリセット
         }
        
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Respawn") {
-            ClickFlg = 99;
+        if (collision.gameObject.tag == "Respawn") {//地面に落ちたらスタートのポジションにリスポーン
             rigidBody.velocity = Vector3.zero;
-            Force_y = 20.0f;
-            FirstVelocity = true;
-            count = AtanAngle;
-            transform.position = StartPosition;
+            Force_y = 20.0f;//y軸に与える力を初期化
+            //FirstVelocity = true;//一度だけ入る処理をリセット
+            count = AtanAngle;//円運動の始まりを初期化
+            transform.position = StartPosition;//初期位置にセット
+            ClickFlg = 99;
         }
 
         if (collision.gameObject.tag == "Candle")
@@ -207,9 +200,17 @@ public class CS_Player : MonoBehaviour {
         get { return InitializeSpeedFlg; }
         set { InitializeSpeedFlg = value; }
     }
-    public float notbarragecount//連打禁止
+    //public float notbarragecount//連打禁止
+    //{
+    //    get { return NotBarrageCount; }
+    //    set { NotBarrageCount = value; }
+    //}
+
+    private void CircularMotion()//円運動
     {
-        get { return NotBarrageCount; }
-        set { NotBarrageCount = value; }
+        x = Length * Mathf.Sin(count);
+        y = transform.position.y;
+        z = Length * Mathf.Cos(count);
+        transform.position = new Vector3(x, y, z);
     }
 }

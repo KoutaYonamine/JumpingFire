@@ -46,9 +46,9 @@ public class ColliderLength : MonoBehaviour {
             Magnitude = Difference.magnitude;
             LengthCheck(); //フラグ切り替え
         }
-        if (P_Position.y > transform.position.y + DifferenceY) {
+        if (P_Position.y > transform.position.y + DifferenceY) {//プレイヤーが燭台の上にいたら
             CsPlayer.initializespeed = true; //燭台に乗ったらtrue
-            RigidPlayer.isKinematic = true;
+            RigidPlayer.isKinematic = true;//物理挙動をカット 
             Debug.Log("Player.initializespeed" + CsPlayer.initializespeed);
         }
     }
