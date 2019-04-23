@@ -546,7 +546,7 @@ Prefab:
     - target: {fileID: 114120456918871932, guid: 80a5bdf3a285e5b49b0aec90f64fa094,
         type: 2}
       propertyPath: RotateSpeed
-      value: 0.3
+      value: 0.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 80a5bdf3a285e5b49b0aec90f64fa094, type: 2}
@@ -5361,7 +5361,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1132021145
+  randomSeed: -2091653295
   InitialModule:
     serializedVersion: 3
     enabled: 1
