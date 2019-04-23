@@ -1450,7 +1450,7 @@ MeshCollider:
   m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
-  m_InflateMesh: 0
+  m_InflateMesh: 1
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300002, guid: 0d2c23c2ddbc5e942ba1ad3d73d25a91, type: 3}
 --- !u!1 &1638841475
