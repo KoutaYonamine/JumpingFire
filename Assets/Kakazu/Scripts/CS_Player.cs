@@ -7,39 +7,35 @@ public class CS_Player : MonoBehaviour {
     private Rigidbody rigidBody;
 
     private int ClickFlg = 99;//クリックしているかどうか
-    private float NotBarrageCount = 0;//連打禁止   燭台に乗ったら入力受付
-    private bool ReleasedFlg;//指を離したかどうか
-    private bool FallFlg;//落ちたかどうか
+    private bool ReleasedFlg;//連打禁止 
 
     private bool FirstVelocity = true;//一度だけ入る(1フレーム目
 
     private bool AddSpeedFlg; //燭台の中心に当たったかどうか
-    private bool Initialize; //スピード初期化
+    private bool Initialize; //スピード初期化判定
 
 
     private float Speed;//移動速度
 
-    private float x, y, z;
+    private float x, y, z;//プレイヤーの移動座標
 
-    private Vector3 Force;
-    private float Force_y;//上に与える力
+    private Vector3 Force;//AddForce
+    private float Force_y;//yに与える力
     private float FreeFallGrvity;//フレーム後に与える力
     private float UnnaturalGrvity;//指を離した時に与える力
-    private int FrameCount;
+    private int FrameCount;//フレームをカウント
 
     private Vector3 StartPosition;//初期位置
-    public GameObject Camera;
-    private Vector3 CameraPosition;
+    public GameObject Camera;//カメラをゲットコンポーネント
+    private Vector3 CameraPosition;//カメラのポジション
 
     private float Length;//半径
     float AtanAngle;//方位角　角度
     float count;
-    [SerializeField] private float RotateSpeed;
 
-    [SerializeField] private Vector3 Vel;
+    [SerializeField] private float RotateSpeed;//円運動の速度
+    [SerializeField] private Vector3 Vel;//初速度
 
-    Transform ChildObj;
-    private bool HitCandle = false;
     // Use this for initialization
     void Start()
     {
@@ -65,8 +61,8 @@ public class CS_Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(rigidBody.velocity);
         InputMouse_Touch();
+
         if(ClickFlg == 2)
             FrameCount++;
     }
@@ -131,7 +127,6 @@ public class CS_Player : MonoBehaviour {
 
             Force = new Vector3(0, Force_y, 0);
             rigidBody.AddForce(Force);
-            //FrameCount = 0;//フレームカウントを初期化
         }
 
         if (ClickFlg == 2) {
@@ -155,7 +150,6 @@ public class CS_Player : MonoBehaviour {
             Force_y = 20.0f;//y軸に与える力を初期化
             FirstVelocity = true;//一度だけ入る処理をリセット
             rigidBody.isKinematic = false;
-            //rigidBody.velocity = Vector3.zero;
             Initialize = false;
             ReleasedFlg = false;
             FrameCount = 0;//フレームカウントを初期化

@@ -47,8 +47,6 @@ public class ColliderLength : MonoBehaviour {
         if (P_Position.y > transform.position.y + DifferenceY) {//プレイヤーが燭台の上にいたら
             CsPlayer.initialize = true; //燭台に乗ったらtrue
             RigidPlayer.isKinematic = true;//物理挙動をカット 
-            //RigidPlayer.velocity = Vector3.zero;
-            Debug.Log("触れた");
         }
     }
     private void OnCollisionExit(Collision collision)
