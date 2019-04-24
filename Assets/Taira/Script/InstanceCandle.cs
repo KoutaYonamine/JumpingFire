@@ -19,7 +19,7 @@ public class InstanceCandle : MonoBehaviour {
     private float repeat = 5f; // 何周期するか
 
     [SerializeField]
-    private float length = 50f; // y軸の長さ
+    private float length; // y軸の長さ
 
     void Start()
     {

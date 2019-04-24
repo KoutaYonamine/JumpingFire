@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColliderLength : MonoBehaviour {
+public class ColliderLength_copy : MonoBehaviour {
 
     private Vector3 P_Position; //プレイヤーのポジション
     private Vector3 Difference; //プレイヤーと燭台の差分
@@ -11,7 +11,7 @@ public class ColliderLength : MonoBehaviour {
 
     private GameObject PlayerObj; //プレイヤーオブジェクト格納
 
-    private CS_Player CsPlayer; //CS_Playerをゲットコンポーネント
+    private CS_Player_copy CsPlayer; //CS_Playerをゲットコンポーネント
     private Rigidbody RigidPlayer;//Rigidbodyをゲットコンポーネント
 
     [SerializeField] private float Length; //範囲チェック(inspectorで変更可能)
@@ -19,7 +19,7 @@ public class ColliderLength : MonoBehaviour {
 
     private GameObject targetObject; //カメラを格納
 
-    [SerializeField] float DifferenceY;//燭台の中心を調整
+    [SerializeField] float DifferenceY;
 
     // Use this for initialization
     void Start () {
@@ -27,7 +27,7 @@ public class ColliderLength : MonoBehaviour {
         this.transform.LookAt(new Vector3(targetObject.transform.position.x, transform.position.y, targetObject.transform.position.z)); //燭台をカメラに向ける
 
         PlayerObj = GameObject.Find("Fire"); //プレイヤーを格納
-        CsPlayer = PlayerObj.GetComponent<CS_Player>();
+        CsPlayer = PlayerObj.GetComponent<CS_Player_copy>();
         RigidPlayer = PlayerObj.GetComponent<Rigidbody>();
     }
 
@@ -37,6 +37,8 @@ public class ColliderLength : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
+        //Player.initializespeed = true; //燭台に乗ったらtrue
+
         if (collision.gameObject.tag == "Player") //プレイヤータグ？
         {
             P_Position = collision.transform.position; //プレイヤーの座標を代入
@@ -44,14 +46,15 @@ public class ColliderLength : MonoBehaviour {
             Magnitude = Difference.magnitude;
             LengthCheck(); //フラグ切り替え
         }
-        if (P_Position.y > transform.position.y + DifferenceY) {//プレイヤーが燭台の上にいたら
-            CsPlayer.initialize = true; //燭台に乗ったらtrue
-            RigidPlayer.isKinematic = true;//物理挙動をカット 
+        if (P_Position.y > transform.position.y + DifferenceY) {
+            CsPlayer.initializespeed = true; //燭台に乗ったらtrue
+            RigidPlayer.isKinematic = true;
+            Debug.Log("Player.initializespeed" + CsPlayer.initializespeed);
         }
     }
     private void OnCollisionExit(Collision collision)
     {
-        CsPlayer.initialize = false;
+        CsPlayer.initializespeed = false;
     }
 
     private void LengthCheck() //フラグ切り替え
@@ -59,13 +62,15 @@ public class ColliderLength : MonoBehaviour {
         if(Magnitude <= Length)
         {
             CsPlayer.addspeed = true;
-            Debug.Log("Hit");
+            //Debug.Log(Player.addspeed);
+
             LengthCheckFlg = true; //当たり
+            //Debug.Log("当たり");
         }
         else if(Magnitude > Length)
         {
             LengthCheckFlg = false; //はずれ
-            Debug.Log("Not");
+            //Debug.Log("はずれ");
         }
     }
 }
