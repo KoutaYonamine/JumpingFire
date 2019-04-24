@@ -11,13 +11,15 @@ public class Number : MonoBehaviour {
     private RectTransform nummove;                      //Numberの移動
     private int Candlestick;                            //進んだ燭台の数
     private bool candlestickflag;                       //燭台用フラグ
+    private bool numflag = false;
+    private int numten = 0;                             //number10出現数制限
 
     // Use this for initialization
     void Start () {
         //num = Resources.LoadAll<Sprite>("Image/number");//ナンバーイメージをすべて読み込む
         img = GameObject.Find("Number").GetComponent<Image>();              //ナンバーイメージの取得
         nummove = GameObject.Find("Number").GetComponent<RectTransform>();  //Numberの移動
-        Candlestick = GameObject.Find("Player").GetComponent<Stairscollision>().getCandlestick();//進んだ燭台の数
+        Candlestick = GameObject.Find("Fire").GetComponent<Stairscollision>().getCandlestick();//進んだ燭台の数
         //View(Candlestick);
     }
 
@@ -29,7 +31,6 @@ public class Number : MonoBehaviour {
             num.Add(move);
         }
         while (digit != 0){ 
-            Debug.Log("aaa");
             move = digit % 10;
             digit = digit / 10;
             num.Add(move);
@@ -41,6 +42,7 @@ public class Number : MonoBehaviour {
             if(i == 1){
                 numberimage.name = "Number10";
                 numberimage.localPosition += new Vector3(50, 0, 0);
+                numten += 1;
             }
             else if(i == 2){
                 numberimage.name = "Number100";
@@ -52,7 +54,10 @@ public class Number : MonoBehaviour {
                 numberimage.localPosition.y);
             numberimage.GetComponent<Image>().sprite = numimg[num[i]];
             //移動
-            nummove.localPosition += new Vector3(50, 0, 0);
+            if (numflag == false){
+                nummove.localPosition += new Vector3(50, 0, 0);
+                numflag = true;
+            }
             RectTransform a = GameObject.Find("Number10").GetComponent<RectTransform>();
             //名前がNumber100だった場合
             if(numberimage.name == "Number100"){
@@ -63,8 +68,7 @@ public class Number : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Candlestick = GameObject.Find("Player").GetComponent<Stairscollision>().getCandlestick();//進んだ燭台の数
-        Debug.Log(Candlestick);
+        Candlestick = GameObject.Find("Fire").GetComponent<Stairscollision>().getCandlestick();//進んだ燭台の数
         //View(Candlestick);
     }
 }

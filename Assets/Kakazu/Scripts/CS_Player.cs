@@ -2,55 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CS_Player : MonoBehaviour {
-
+public class CS_Player : InitializeVariable     //サブクラス
+{
     private Rigidbody rigidBody;
-
-    private int ClickFlg = 99;//クリックしているかどうか
-    private bool ReleasedFlg;//連打禁止 
-
-    private bool FirstVelocity = true;//一度だけ入る(1フレーム目
-
-    private bool AddSpeedFlg; //燭台の中心に当たったかどうか
-    private bool Initialize; //スピード初期化判定
-
-
-    private float Speed;//移動速度
 
     private float x, y, z;//プレイヤーの移動座標
 
-    private Vector3 Force;//AddForce
-    private float Force_y;//yに与える力
-    private float FreeFallGrvity;//フレーム後に与える力
-    private float UnnaturalGrvity;//指を離した時に与える力
-    private int FrameCount;//フレームをカウント
+    private float FreeFallGrvity = 9.8f;//フレーム後に与える力
+    private float UnnaturalGrvity = 19.6f;//指を離した時に与える力
 
     private Vector3 StartPosition;//初期位置
-    public GameObject Camera;//カメラをゲットコンポーネント
+    private GameObject Camera;//カメラをゲットコンポーネント
     private Vector3 CameraPosition;//カメラのポジション
 
     private float Length;//半径
     float AtanAngle;//方位角　角度
     float count;
 
-    [SerializeField] private float RotateSpeed;//円運動の速度
-    [SerializeField] private Vector3 Vel;//初速度
-
-    // Use this for initialization
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
 
         StartPosition = this.transform.position;
+        Camera = GameObject.Find("Main Camera");
         CameraPosition = Camera.transform.position;
-
-        Speed = 1.0f;
-        Force_y = 20.0f;
-
-        FreeFallGrvity = 9.8f;
-        UnnaturalGrvity = 19.6f;
-
-        FrameCount = 0;
 
         Length = transform.position.magnitude - 0.5f;
         AtanAngle = Mathf.Atan2(StartPosition.x, StartPosition.z);
@@ -168,10 +143,6 @@ public class CS_Player : MonoBehaviour {
             ReleasedFlg = false;
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
-        }
-
-        if (collision.gameObject.tag == "Candle")
-        {
         }
     }
 
