@@ -59,12 +59,13 @@ public class ColliderLength : MonoBehaviour {
         if(Magnitude <= Length)
         {
             CsPlayer.addspeed = true;
-
+            Debug.Log("Hit");
             LengthCheckFlg = true; //当たり
         }
         else if(Magnitude > Length)
         {
             LengthCheckFlg = false; //はずれ
+            Debug.Log("Not");
         }
     }
 }
