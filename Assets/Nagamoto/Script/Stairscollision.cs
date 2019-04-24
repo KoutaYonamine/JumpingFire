@@ -133,8 +133,8 @@ public class Stairscollision : MonoBehaviour {
         if (Collision == true){  
             time += Time.deltaTime;             //時間計測
             if(time >= 2){                      //2秒以上たったら
-                numberobject.transform.localScale = new Vector3(2, 2, 0);           //数字の大きさを変える
-                numberobject.transform.localPosition = new Vector3(0, 150, 0);      //数字の位置を変える
+                numberobject.transform.localScale = new Vector3(0.75f, 0.75f, 0);           //数字の大きさを変える
+                numberobject.transform.localPosition = new Vector3(0, 75, 0);      //数字の位置を変える
                 Touchbool = true;                   //スイッチオン
                 time = 0;
             }

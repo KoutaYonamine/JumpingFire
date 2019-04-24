@@ -74,13 +74,13 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 // タッチ情報の取得
                 Touch touch = Input.GetTouch(0);
 
-                if (touch.phase == TouchPhase.Began && staircollision.getstaflag() == true && staircollision.getmoveflag() == true)//押した瞬間
+                if (touch.phase == TouchPhase.Began && staircollision.getmoveflag() == true)//押した瞬間
                 {
                     ClickFlg = 2;
                     ReleasedFlg = true;
                 }
 
-                if (touch.phase == TouchPhase.Moved && staircollision.getstaflag() == true && staircollision.getmoveflag() == true) {//押しっぱなし
+                if (touch.phase == TouchPhase.Moved && staircollision.getmoveflag() == true) {//押しっぱなし
                 }
 
                 if (touch.phase == TouchPhase.Ended)//離した瞬間
