@@ -104,7 +104,6 @@ public class Stairscollision : MonoBehaviour {
         //タッチアイコンの表示/非表示
         if (Touchbool == false){
             touchobject.SetActive(false);       //タッチアイコンの非表示
-
             softfocus = false;                  //ソフトフォーカスする
         }
         else{
@@ -120,7 +119,7 @@ public class Stairscollision : MonoBehaviour {
             }
         }
         //スタートを押したとき
-        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && Staflag == false){
+        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && Staflag == true){
             Staflag = true;
         }
         //ナンバーイメージの表示/非表示

@@ -48,12 +48,10 @@ public class Number : MonoBehaviour {
                 numberimage.name = "Number100";
                 numberimage.localPosition += new Vector3(50, 0, 0);
             }
-            if(numten != 2){
             numberimage.SetParent(this.transform, false);
             numberimage.localPosition = new Vector2(
                 numberimage.localPosition.x - numberimage.sizeDelta.x * i,
                 numberimage.localPosition.y);
-            }
             numberimage.GetComponent<Image>().sprite = numimg[num[i]];
             //移動
             if (numflag == false){

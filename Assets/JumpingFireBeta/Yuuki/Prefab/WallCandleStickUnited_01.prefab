@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33925020225187552}
   - component: {fileID: 23735541132765414}
   - component: {fileID: 65531669601088234}
-  - component: {fileID: 114593488093311930}
+  - component: {fileID: 114200218771952768}
   m_Layer: 0
   m_Name: WallCandleStickUnited_01
   m_TagString: Untagged
@@ -96,7 +96,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.02, y: 0, z: 0.0276835}
   m_Center: {x: -0.0000000011920929, y: 0.014778099, z: -0.0041275653}
---- !u!114 &114593488093311930
+--- !u!114 &114200218771952768
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1076481871427012}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bace9d6c3c738ff48b7eeedf36339477, type: 3}
+  m_Script: {fileID: 11500000, guid: 2349f497032fe1648a4ac3f4806a21e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Length: 2
