@@ -19,7 +19,7 @@ public class ColliderLength : MonoBehaviour {
 
     private GameObject targetObject; //カメラを格納
 
-    [SerializeField] float DifferenceY;
+    [SerializeField] float DifferenceY;//燭台の中心を調整
 
     // Use this for initialization
     void Start () {
@@ -37,8 +37,6 @@ public class ColliderLength : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Player.initializespeed = true; //燭台に乗ったらtrue
-
         if (collision.gameObject.tag == "Player") //プレイヤータグ？
         {
             P_Position = collision.transform.position; //プレイヤーの座標を代入
@@ -46,15 +44,14 @@ public class ColliderLength : MonoBehaviour {
             Magnitude = Difference.magnitude;
             LengthCheck(); //フラグ切り替え
         }
-        if (P_Position.y > transform.position.y + DifferenceY) {
-            CsPlayer.initializespeed = true; //燭台に乗ったらtrue
-            RigidPlayer.isKinematic = true;
-            Debug.Log("Player.initializespeed" + CsPlayer.initializespeed);
+        if (P_Position.y > transform.position.y + DifferenceY) {//プレイヤーが燭台の上にいたら
+            CsPlayer.initialize = true; //燭台に乗ったらtrue
+            RigidPlayer.isKinematic = true;//物理挙動をカット 
         }
     }
     private void OnCollisionExit(Collision collision)
     {
-        CsPlayer.initializespeed = false;
+        CsPlayer.initialize = false;
     }
 
     private void LengthCheck() //フラグ切り替え
@@ -62,15 +59,13 @@ public class ColliderLength : MonoBehaviour {
         if(Magnitude <= Length)
         {
             CsPlayer.addspeed = true;
-            //Debug.Log(Player.addspeed);
-
+            Debug.Log("Hit");
             LengthCheckFlg = true; //当たり
-            //Debug.Log("当たり");
         }
         else if(Magnitude > Length)
         {
             LengthCheckFlg = false; //はずれ
-            //Debug.Log("はずれ");
+            Debug.Log("Not");
         }
     }
 }
