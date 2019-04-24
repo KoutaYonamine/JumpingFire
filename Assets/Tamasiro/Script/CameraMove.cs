@@ -19,7 +19,9 @@ public class CameraMove : MonoBehaviour {
 	}
     private void LateUpdate()
     {
-        transform.LookAt(new Vector3(pivot.position.x, transform.position.y, pivot.position.z));
-        transform.position = new Vector3(transform.position.x, pivot.position.y, transform.position.z);
+        
+        transform.position = new Vector3(transform.position.x , pivot.position.y +4, transform.position.z);
+        //transform.LookAt(new Vector3(pivot.position.x, pivot.position.y, pivot.position.z));
+        transform.LookAt(pivot.position + transform.right * 3);
     }
 }
