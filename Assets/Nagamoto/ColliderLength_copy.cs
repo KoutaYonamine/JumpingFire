@@ -47,14 +47,13 @@ public class ColliderLength_copy : MonoBehaviour {
             LengthCheck(); //フラグ切り替え
         }
         if (P_Position.y > transform.position.y + DifferenceY) {
-            CsPlayer.initializespeed = true; //燭台に乗ったらtrue
-            RigidPlayer.isKinematic = true;
-            Debug.Log("Player.initializespeed" + CsPlayer.initializespeed);
+            CsPlayer.initialize = true; //燭台に乗ったらtrue
+            RigidPlayer.isKinematic = true;//物理挙動をカット
         }
     }
     private void OnCollisionExit(Collision collision)
     {
-        CsPlayer.initializespeed = false;
+        CsPlayer.initialize = false;
     }
 
     private void LengthCheck() //フラグ切り替え
