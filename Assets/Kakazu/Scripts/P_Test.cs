@@ -33,7 +33,7 @@ public class P_Test : InitializeVariable{
     float AtanAngle;//方位角　角度
     float count;
 
-    [SerializeField] private float RotateSpeed;//円運動の速度
+    //[SerializeField] private float RotateSpeed;//円運動の速度
     [SerializeField] private Vector3 Vel;//初速度
 
     // Use this for initialization

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 797110f3ead10e0449df5e3d66c866ca
-timeCreated: 1556153435
+guid: 2a044b58e85364a42beed4f51b51d228
+timeCreated: 1556161694
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -13,8 +13,10 @@ ModelImporter:
     400004: //RootNode
     2300000: Cylinder
     2300002: Cylinder_001
+    2300004: //RootNode
     3300000: Cylinder
     3300002: Cylinder_001
+    3300004: //RootNode
     4300000: Cylinder_001
     4300002: Cylinder
     7400000: Default Take
@@ -24,7 +26,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: None__PublishFire_Texture_04_png
-    second: {fileID: 2100000, guid: f76cbd00b5ab8a44bae3823411c51760, type: 2}
+    second: {fileID: 2100000, guid: 7c72308782af0fe4c967bba26d0c555d, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
