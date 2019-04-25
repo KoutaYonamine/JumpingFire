@@ -473,6 +473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0.3
+  _Vel: {x: 10, y: 10, z: 0}
 --- !u!4 &782887646 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4768134010890298, guid: 80a5bdf3a285e5b49b0aec90f64fa094,
@@ -1231,6 +1232,11 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 54219084341521902, guid: 80a5bdf3a285e5b49b0aec90f64fa094,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114120456918871932, guid: 80a5bdf3a285e5b49b0aec90f64fa094, type: 2}

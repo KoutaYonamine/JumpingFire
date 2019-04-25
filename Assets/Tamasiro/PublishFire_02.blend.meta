@@ -1,21 +1,30 @@
 fileFormatVersion: 2
-guid: fae681f7a19fac44e837b06254a5cce1
-timeCreated: 1556066329
+guid: 797110f3ead10e0449df5e3d66c866ca
+timeCreated: 1556153435
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Cone
+    100000: Cylinder
+    100002: Cylinder_001
+    100004: //RootNode
+    400000: Cylinder
+    400002: Cylinder_001
+    400004: //RootNode
+    2300000: Cylinder
+    2300002: Cylinder_001
+    3300000: Cylinder
+    3300002: Cylinder_001
+    4300000: Cylinder_001
+    4300002: Cylinder
+    7400000: Default Take
+    9500000: //RootNode
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: No Name
-    second: {fileID: 2100000, guid: 364c90c0500ffb1499614ab3e76f3bd7, type: 2}
+      name: None__PublishFire_Texture_04_png
+    second: {fileID: 2100000, guid: f76cbd00b5ab8a44bae3823411c51760, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -87,7 +96,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
