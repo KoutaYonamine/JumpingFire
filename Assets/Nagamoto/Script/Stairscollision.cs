@@ -14,6 +14,7 @@ public class Stairscollision : MonoBehaviour {
     private bool Numflag;                               //ナンバーイメージflag
     private bool Staflag;                               //スタートflag
     private bool moveflag;                              //移動flag
+    private bool mouseflag = true;                             //画面タッチflag
 
     private GameObject numberobject;                    //ナンバーのオブジェクト
     private GameObject touchobject;                     //タッチアイコンのオブジェクト
@@ -77,6 +78,10 @@ public class Stairscollision : MonoBehaviour {
     public bool getmoveflag(){
         return moveflag;
     }
+    //mouseflagを返す
+    public bool getmouseflag(){
+        return mouseflag;
+    }
 
     private void OnCollisionEnter(Collision collision){
         if(collision.gameObject.name == "Stairs"){      //触れたものが階段の場合
@@ -116,10 +121,19 @@ public class Stairscollision : MonoBehaviour {
                 numberobject.transform.position = NumberPosition;
                 numberobject.transform.localScale = NumberScale;
                 Start();
+                mouseflag = false;
+            }
+        }
+        if(mouseflag == false){
+            time += Time.deltaTime;
+            Debug.Log(time);
+            if(time >= 2){
+                mouseflag = true;
+                time = 0;
             }
         }
         //スタートを押したとき
-        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && Staflag == true){
+        if (Input.GetMouseButtonDown(0) && mouseflag == true || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && mouseflag == true){
             Staflag = true;
         }
         //ナンバーイメージの表示/非表示
@@ -134,7 +148,7 @@ public class Stairscollision : MonoBehaviour {
             time += Time.deltaTime;             //時間計測
             if(time >= 2){                      //2秒以上たったら
                 numberobject.transform.localScale = new Vector3(0.75f, 0.75f, 0);           //数字の大きさを変える
-                numberobject.transform.localPosition = new Vector3(0, 75, 0);      //数字の位置を変える
+                numberobject.transform.localPosition = new Vector3(0, 95, 0);               //数字の位置を変える
                 Touchbool = true;                   //スイッチオン
                 time = 0;
             }
