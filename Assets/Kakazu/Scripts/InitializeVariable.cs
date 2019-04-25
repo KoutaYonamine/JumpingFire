@@ -10,6 +10,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     protected bool FirstVelocity = true;//一度だけ入る(1フレーム目
     protected bool AddSpeedFlg = false;//燭台の中心に当たったかどうか
     protected bool Initialize = false; //スピード初期化判定
+    protected bool BoundFlg = false;//階段に落下した際の挙動判定
 
     protected float Force_y = 20.0f;//yに与える力
 

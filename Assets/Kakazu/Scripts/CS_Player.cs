@@ -53,6 +53,7 @@ public class CS_Player : InitializeVariable     //サブクラス
             if (Input.GetMouseButtonDown(0)) {//押した時
                 ClickFlg = 2;
                 ReleasedFlg = true;
+                BoundFlg = true;
             }
             if (Input.GetMouseButton(0)) {//押し続けた時
             }
@@ -60,6 +61,7 @@ public class CS_Player : InitializeVariable     //サブクラス
                 if (ReleasedFlg) {
                     ClickFlg = 0;
                     ReleasedFlg = false;
+                    BoundFlg = true;
                 }
             }
         }
@@ -134,16 +136,26 @@ public class CS_Player : InitializeVariable     //サブクラス
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Respawn") {//地面に落ちたらスタートのポジションにリスポーン
+        if (collision.gameObject.tag == "Respawn" || collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
             rigidBody.velocity = Vector3.zero;
             Force_y = 20.0f;//y軸に与える力を初期化
             count = AtanAngle;//円運動の始まりを初期化
-            transform.position = StartPosition;//初期位置にセット
+            //transform.position = StartPosition;//初期位置にセット
             FirstVelocity = true;//一度だけ入る処理をリセット
             ReleasedFlg = false;
             FrameCount = 0;//フレームカウントを初期化
+            //BoundFlg = true;
             ClickFlg = 99;
+            if (BoundFlg == true) {//一度だけvelocityを加える
+                rigidBody.useGravity = true;
+                rigidBody.velocity = new Vector3(25.0f, 5.0f, 25.0f);
+                BoundFlg = false;
+                Debug.Log("!!!!!!!!!!!!!!!!"); rigidBody.useGravity = true;
+            }
         }
+        //if(collision.gameObject.tag == "Cylinder") {
+            
+        //}
     }
 
     public bool addspeed//スピードの変化
