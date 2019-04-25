@@ -19,6 +19,11 @@ public class CS_Player : InitializeVariable     //サブクラス
     float AtanAngle;//方位角　角度
     float count;
 
+    private float _x = 0;
+    private float _z = 0;
+    private float _Atan = 0;
+    [SerializeField] Vector3 _Vel;
+
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
@@ -30,7 +35,8 @@ public class CS_Player : InitializeVariable     //サブクラス
         Length = transform.position.magnitude - 0.5f;
         AtanAngle = Mathf.Atan2(StartPosition.x, StartPosition.z);
         count = AtanAngle;
-        
+
+        _Atan = Mathf.Atan2(CameraPosition.x, CameraPosition.z);
     }
     
     // Update is called once per frame
@@ -40,6 +46,8 @@ public class CS_Player : InitializeVariable     //サブクラス
 
         if(ClickFlg == 2)
             FrameCount++;
+
+        //transform.LookAt(new Vector3(Camera.transform.rotation.x, 0, 0));
     }
     private void FixedUpdate()
     {
@@ -96,10 +104,9 @@ public class CS_Player : InitializeVariable     //サブクラス
     void RotateFire()
     {
         if (ClickFlg == 0) {
-            count += Time.deltaTime * RotateSpeed;
+            //count += Time.deltaTime * RotateSpeed;
 　
             CircularMotion();//円運動
-
             Force_y = Force_y - UnnaturalGrvity;//離した時に急な落下をさせる
 
             Force = new Vector3(0, Force_y, 0);
@@ -107,7 +114,7 @@ public class CS_Player : InitializeVariable     //サブクラス
         }
 
         if (ClickFlg == 2) {
-            count += Time.deltaTime * RotateSpeed;//今いる位置から移動を開始
+            //count += Time.deltaTime * RotateSpeed;//今いる位置から移動を開始
             if (FirstVelocity) {//一度だけ入る
                 rigidBody.velocity = Vel;//初速度を与える
                 FirstVelocity = false;
@@ -137,20 +144,23 @@ public class CS_Player : InitializeVariable     //サブクラス
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Respawn" || collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
-            rigidBody.velocity = Vector3.zero;
+            //rigidBody.velocity = Vector3.zero;
             Force_y = 20.0f;//y軸に与える力を初期化
-            count = AtanAngle;//円運動の始まりを初期化
+            //count = AtanAngle;//円運動の始まりを初期化
             //transform.position = StartPosition;//初期位置にセット
             FirstVelocity = true;//一度だけ入る処理をリセット
             ReleasedFlg = false;
             FrameCount = 0;//フレームカウントを初期化
             //BoundFlg = true;
             ClickFlg = 99;
-            if (BoundFlg == true) {//一度だけvelocityを加える
+            if (BoundFlg == true) {//階段での動き
                 rigidBody.useGravity = true;
-                rigidBody.velocity = new Vector3(25.0f, 5.0f, 25.0f);
+
+                rigidBody.velocity = _Vel;
+                CircularMotion();//円運動
+                //rigidBody.AddForce(new Vector3(10.0f, 5.0f, 0), ForceMode.Impulse);
                 BoundFlg = false;
-                Debug.Log("!!!!!!!!!!!!!!!!"); rigidBody.useGravity = true;
+                Debug.Log("!!!!!!!!!!!!!!!!");
             }
         }
         //if(collision.gameObject.tag == "Cylinder") {
@@ -171,9 +181,17 @@ public class CS_Player : InitializeVariable     //サブクラス
   
     private void CircularMotion()//円運動
     {
+        count += Time.deltaTime * RotateSpeed;
         x = Length * Mathf.Sin(count);
         y = transform.position.y;
         z = Length * Mathf.Cos(count);
         transform.position = new Vector3(x, y, z);
+
+        //transform.LookAt(Camera.transform);
+        //_Atan += Time.deltaTime;
+        //_x = Mathf.Sin(_Atan) * Mathf.Deg2Rad;
+        //_z = Mathf.Cos(_Atan) * Mathf.Deg2Rad;
+        //transform.rotation = Quaternion.Euler(_x, y, _z);
+        //Debug.Log(transform.rotation);
     }
 }
