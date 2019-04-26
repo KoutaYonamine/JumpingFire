@@ -12,7 +12,8 @@ public class Number : MonoBehaviour {
     private int Candlestick;                            //進んだ燭台の数
     private bool candlestickflag;                       //燭台用フラグ
     private bool numflag = false;
-    private int numten = 0;                             //number10出現数制限
+    private GameObject numobject;                       //Numberオブジェクト
+    private Stairscollision sta;                        //階段スクリプト
 
     // Use this for initialization
     void Start () {
@@ -20,6 +21,7 @@ public class Number : MonoBehaviour {
         img = GameObject.Find("Number").GetComponent<Image>();              //ナンバーイメージの取得
         nummove = GameObject.Find("Number").GetComponent<RectTransform>();  //Numberの移動
         Candlestick = GameObject.Find("Fire").GetComponent<Stairscollision>().getCandlestick();//進んだ燭台の数
+        sta = GameObject.Find("Fire").GetComponent<Stairscollision>();
         //View(Candlestick);
     }
 
@@ -38,31 +40,19 @@ public class Number : MonoBehaviour {
         img.sprite = numimg[num[0]];
         for (int i = 1; i < num.Count; i++){
             //複製
+            if (numflag == true){
+                Destroy(numobject);
+            }
             RectTransform numberimage = (RectTransform)Instantiate(GameObject.Find("Number")).transform;
-            if(i == 1){
-                numberimage.name = "Number10";
-                numberimage.localPosition += new Vector3(50, 0, 0);
-                numten += 1;
-            }
-            else if(i == 2){
-                numberimage.name = "Number100";
-                numberimage.localPosition += new Vector3(50, 0, 0);
-            }
             numberimage.SetParent(this.transform, false);
-            numberimage.localPosition = new Vector2(
-                numberimage.localPosition.x - numberimage.sizeDelta.x * i,
-                numberimage.localPosition.y);
+            if(i == 1){
+                numberimage.localPosition += new Vector3(-30, 0, 0);
+            }
+            if(i == 2){
+                numberimage.localPosition += new Vector3(-60, 0, 0);
+            }
             numberimage.GetComponent<Image>().sprite = numimg[num[i]];
-            //移動
-            if (numflag == false){
-                nummove.localPosition += new Vector3(50, 0, 0);
-                numflag = true;
-            }
-            RectTransform a = GameObject.Find("Number10").GetComponent<RectTransform>();
-            //名前がNumber100だった場合
-            if(numberimage.name == "Number100"){
-            a.localPosition += new Vector3(50, 0, 0);
-            }
+            numflag = true;
         }
     }
 
@@ -70,5 +60,9 @@ public class Number : MonoBehaviour {
     void Update () {
         Candlestick = GameObject.Find("Fire").GetComponent<Stairscollision>().getCandlestick();//進んだ燭台の数
         //View(Candlestick);
+        numobject = GameObject.Find("Number(Clone)");
+        if(sta.getmouseflag() == false){
+            Destroy(numobject);
+        }
     }
 }
