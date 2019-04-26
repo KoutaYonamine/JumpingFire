@@ -58,7 +58,7 @@ public class CS_Player : InitializeVariable     //サブクラス
     void InputMouse_Touch()
     {
         // エディタ、実機で処理を分ける
-        if (Application.isEditor) {// エディタで実行中
+        if (Application.isEditor) {// エディタで実行中  getmoveflg->地面についた時にプレイヤーの移動を無効    getmouseflg->スタートするまでの移動制御
             if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true) {//押した時
                 ClickFlg = 2;
                 ReleasedFlg = true;
@@ -161,7 +161,6 @@ public class CS_Player : InitializeVariable     //サブクラス
                 CircularMotion();//円運動
                 //rigidBody.AddForce(new Vector3(10.0f, 5.0f, 0), ForceMode.Impulse);
                 BoundFlg = false;
-                Debug.Log("!!!!!!!!!!!!!!!!");
             }
         }
         //if(collision.gameObject.tag == "Cylinder") {
