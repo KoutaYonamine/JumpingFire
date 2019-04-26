@@ -13,6 +13,7 @@ public class Number : MonoBehaviour {
     private bool candlestickflag;                       //燭台用フラグ
     private bool numflag = false;
     private GameObject numobject;                       //Numberオブジェクト
+    private Stairscollision sta;                        //階段スクリプト
 
     // Use this for initialization
     void Start () {
@@ -20,6 +21,7 @@ public class Number : MonoBehaviour {
         img = GameObject.Find("Number").GetComponent<Image>();              //ナンバーイメージの取得
         nummove = GameObject.Find("Number").GetComponent<RectTransform>();  //Numberの移動
         Candlestick = GameObject.Find("Fire").GetComponent<Stairscollision>().getCandlestick();//進んだ燭台の数
+        sta = GameObject.Find("Fire").GetComponent<Stairscollision>();
         //View(Candlestick);
     }
 
@@ -43,7 +45,12 @@ public class Number : MonoBehaviour {
             }
             RectTransform numberimage = (RectTransform)Instantiate(GameObject.Find("Number")).transform;
             numberimage.SetParent(this.transform, false);
-            numberimage.localPosition += new Vector3(-30, 0, 0);
+            if(i == 1){
+                numberimage.localPosition += new Vector3(-30, 0, 0);
+            }
+            if(i == 2){
+                numberimage.localPosition += new Vector3(-60, 0, 0);
+            }
             numberimage.GetComponent<Image>().sprite = numimg[num[i]];
             numflag = true;
         }
@@ -54,5 +61,8 @@ public class Number : MonoBehaviour {
         Candlestick = GameObject.Find("Fire").GetComponent<Stairscollision>().getCandlestick();//進んだ燭台の数
         //View(Candlestick);
         numobject = GameObject.Find("Number(Clone)");
+        if(sta.getmouseflag() == false){
+            Destroy(numobject);
+        }
     }
 }
