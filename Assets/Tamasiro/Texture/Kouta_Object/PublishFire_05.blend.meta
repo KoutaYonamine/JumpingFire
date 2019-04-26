@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: cab2e81adb4ee4d43afe6d023ff1080a
-timeCreated: 1556066329
+guid: d25f85aabcfd5dd4aa5297be805f203d
+timeCreated: 1556251515
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -9,13 +9,15 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cone
+    4300000: Cube_001
+    7400000: Default Take
+    9500000: //RootNode
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: No Name
-    second: {fileID: 2100000, guid: 364c90c0500ffb1499614ab3e76f3bd7, type: 2}
+      name: None__PublishFire_Texture_05_png
+    second: {fileID: 2100000, guid: 9ef74d600221fdb4ead6b3bf193845e0, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -87,7 +89,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
