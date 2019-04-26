@@ -5,6 +5,7 @@ using UnityEngine;
 public class CS_Player : InitializeVariable     //サブクラス
 {
     private Rigidbody rigidBody;
+    private Stairscollision staircollision; //stairscollisionのスクリプト 変更点
 
     private float x, y, z;//プレイヤーの移動座標
 
@@ -58,7 +59,7 @@ public class CS_Player : InitializeVariable     //サブクラス
     {
         // エディタ、実機で処理を分ける
         if (Application.isEditor) {// エディタで実行中
-            if (Input.GetMouseButtonDown(0)) {//押した時
+            if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true) {//押した時
                 ClickFlg = 2;
                 ReleasedFlg = true;
                 BoundFlg = true;
@@ -81,7 +82,7 @@ public class CS_Player : InitializeVariable     //サブクラス
                 // タッチ情報の取得
                 Touch touch = Input.GetTouch(0);
 
-                if (touch.phase == TouchPhase.Began)//押した瞬間
+                if (touch.phase == TouchPhase.Began && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true)//押した瞬間
                 {
                     ClickFlg = 2;
                     ReleasedFlg = true;
@@ -186,12 +187,5 @@ public class CS_Player : InitializeVariable     //サブクラス
         y = transform.position.y;
         z = Length * Mathf.Cos(count);
         transform.position = new Vector3(x, y, z);
-
-        //transform.LookAt(Camera.transform);
-        //_Atan += Time.deltaTime;
-        //_x = Mathf.Sin(_Atan) * Mathf.Deg2Rad;
-        //_z = Mathf.Cos(_Atan) * Mathf.Deg2Rad;
-        //transform.rotation = Quaternion.Euler(_x, y, _z);
-        //Debug.Log(transform.rotation);
     }
 }
