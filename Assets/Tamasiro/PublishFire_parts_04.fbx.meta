@@ -1,27 +1,15 @@
 fileFormatVersion: 2
 guid: 21c1fcb602fa6aa45b337befdbc0851a
-timeCreated: 1556066329
+timeCreated: 1556248762
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Cube
-    100002: Cube.001
-    100004: Cube.002
-    100006: //RootNode
-    400000: Cube
-    400002: Cube.001
-    400004: Cube.002
-    400006: //RootNode
-    2300000: Cube
-    2300002: Cube.001
-    2300004: Cube.002
-    3300000: Cube
-    3300002: Cube.001
-    3300004: Cube.002
-    4300000: Cube
-    4300002: Cube.001
-    4300004: Cube.002
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Cube.001
   externalObjects:
   - first:
       type: UnityEngine:Material
