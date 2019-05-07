@@ -20,7 +20,7 @@ public class Softfocus : MonoBehaviour {
         green = completely.color.g;             //緑を取得
         blue = completely.color.b;              //青を取得
         speed = 0.01f;                          //速度設定   
-        stair = GameObject.Find("Player").GetComponent<Stairscollision>();
+        stair = GameObject.Find("Fire").GetComponent<Stairscollision>();
     }
 
     // Update is called once per frame
@@ -29,9 +29,7 @@ public class Softfocus : MonoBehaviour {
             completely.color = new Color(red, green, blue, alfa);
             if(alfa <= 0.5f){
                 alfa += speed;
-                Debug.Log(alfa);
             }
-
         }
         if(stair.getsoftfocus() == true){
             alfa = 0f;

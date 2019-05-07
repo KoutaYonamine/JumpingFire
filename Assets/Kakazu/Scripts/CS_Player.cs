@@ -5,19 +5,25 @@ using UnityEngine;
 public class CS_Player : InitializeVariable     //サブクラス
 {
     private Rigidbody rigidBody;
+    private Stairscollision staircollision; //stairscollisionのスクリプト 変更点
 
     private float x, y, z;//プレイヤーの移動座標
 
     private float FreeFallGrvity = 9.8f;//フレーム後に与える力
     private float UnnaturalGrvity = 19.6f;//指を離した時に与える力
 
-    private Vector3 StartPosition;//初期位置
+    //private Vector3 StartPosition;//初期位置
     private GameObject Camera;//カメラをゲットコンポーネント
     private Vector3 CameraPosition;//カメラのポジション
 
     private float Length;//半径
     float AtanAngle;//方位角　角度
     float count;
+
+    private float _x = 0;
+    private float _z = 0;
+    private float _Atan = 0;
+    [SerializeField] Vector3 _Vel;
 
     void Start()
     {
@@ -30,7 +36,8 @@ public class CS_Player : InitializeVariable     //サブクラス
         Length = transform.position.magnitude - 0.5f;
         AtanAngle = Mathf.Atan2(StartPosition.x, StartPosition.z);
         count = AtanAngle;
-        
+
+        _Atan = Mathf.Atan2(CameraPosition.x, CameraPosition.z);
     }
     
     // Update is called once per frame
@@ -40,6 +47,8 @@ public class CS_Player : InitializeVariable     //サブクラス
 
         if(ClickFlg == 2)
             FrameCount++;
+
+        //transform.LookAt(new Vector3(Camera.transform.rotation.x, 0, 0));
     }
     private void FixedUpdate()
     {
@@ -50,9 +59,10 @@ public class CS_Player : InitializeVariable     //サブクラス
     {
         // エディタ、実機で処理を分ける
         if (Application.isEditor) {// エディタで実行中
-            if (Input.GetMouseButtonDown(0)) {//押した時
+            if (Input.GetMouseButtonDown(0) /*&& staircollision.getmoveflag() == true && staircollision.getmouseflag() == true*/) {//押した時
                 ClickFlg = 2;
                 ReleasedFlg = true;
+                BoundFlg = true;
             }
             if (Input.GetMouseButton(0)) {//押し続けた時
             }
@@ -60,6 +70,7 @@ public class CS_Player : InitializeVariable     //サブクラス
                 if (ReleasedFlg) {
                     ClickFlg = 0;
                     ReleasedFlg = false;
+                    BoundFlg = true;
                 }
             }
         }
@@ -71,7 +82,7 @@ public class CS_Player : InitializeVariable     //サブクラス
                 // タッチ情報の取得
                 Touch touch = Input.GetTouch(0);
 
-                if (touch.phase == TouchPhase.Began)//押した瞬間
+                if (touch.phase == TouchPhase.Began/* && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true*/)//押した瞬間
                 {
                     ClickFlg = 2;
                     ReleasedFlg = true;
@@ -94,10 +105,9 @@ public class CS_Player : InitializeVariable     //サブクラス
     void RotateFire()
     {
         if (ClickFlg == 0) {
-            count += Time.deltaTime * RotateSpeed;
+            //count += Time.deltaTime * RotateSpeed;
 　
             CircularMotion();//円運動
-
             Force_y = Force_y - UnnaturalGrvity;//離した時に急な落下をさせる
 
             Force = new Vector3(0, Force_y, 0);
@@ -105,7 +115,7 @@ public class CS_Player : InitializeVariable     //サブクラス
         }
 
         if (ClickFlg == 2) {
-            count += Time.deltaTime * RotateSpeed;//今いる位置から移動を開始
+            //count += Time.deltaTime * RotateSpeed;//今いる位置から移動を開始
             if (FirstVelocity) {//一度だけ入る
                 rigidBody.velocity = Vel;//初速度を与える
                 FirstVelocity = false;
@@ -134,16 +144,29 @@ public class CS_Player : InitializeVariable     //サブクラス
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Respawn") {//地面に落ちたらスタートのポジションにリスポーン
-            rigidBody.velocity = Vector3.zero;
+        if (collision.gameObject.tag == "Respawn" || collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
+            //rigidBody.velocity = Vector3.zero;
             Force_y = 20.0f;//y軸に与える力を初期化
-            count = AtanAngle;//円運動の始まりを初期化
-            transform.position = StartPosition;//初期位置にセット
+            //count = AtanAngle;//円運動の始まりを初期化
+            //transform.position = StartPosition;//初期位置にセット
             FirstVelocity = true;//一度だけ入る処理をリセット
             ReleasedFlg = false;
             FrameCount = 0;//フレームカウントを初期化
+            //BoundFlg = true;
             ClickFlg = 99;
+            if (BoundFlg == true) {//階段での動き
+                rigidBody.useGravity = true;
+
+                rigidBody.velocity = _Vel;
+                CircularMotion();//円運動
+                //rigidBody.AddForce(new Vector3(10.0f, 5.0f, 0), ForceMode.Impulse);
+                BoundFlg = false;
+                Debug.Log("!!!!!!!!!!!!!!!!");
+            }
         }
+        //if(collision.gameObject.tag == "Cylinder") {
+            
+        //}
     }
 
     public bool addspeed//スピードの変化
@@ -159,6 +182,7 @@ public class CS_Player : InitializeVariable     //サブクラス
   
     private void CircularMotion()//円運動
     {
+        count += Time.deltaTime * RotateSpeed;
         x = Length * Mathf.Sin(count);
         y = transform.position.y;
         z = Length * Mathf.Cos(count);

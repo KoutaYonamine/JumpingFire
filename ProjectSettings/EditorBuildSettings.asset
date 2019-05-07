@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Kakazu/Player.unity
-    guid: 56a9053827f6fb64f80048e8f85d48ee
+    path: Assets/JumpingFireBeta/JF_beta.unity
+    guid: 4fec02976d6ed74418e2f0873bc084e5
