@@ -42,6 +42,9 @@ public class Number : MonoBehaviour {
             //複製
             if (numflag == true){
                 Destroy(numobject);
+                if(i == 2){
+                    Destroy(numobject);
+                }
             }
             RectTransform numberimage = (RectTransform)Instantiate(GameObject.Find("Number")).transform;
             numberimage.SetParent(this.transform, false);

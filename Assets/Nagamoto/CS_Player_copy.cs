@@ -11,7 +11,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private float FreeFallGrvity = 9.8f;//フレーム後に与える力
     private float UnnaturalGrvity = 19.6f;//指を離した時に与える力
 
-    private Vector3 StartPosition;//初期位置
+    //private Vector3 StartPosition;//初期位置
     private GameObject Camera;//カメラをゲットコンポーネント
     private Vector3 CameraPosition;//カメラのポジション
 
@@ -20,6 +20,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private float Length;//半径
     float AtanAngle;//方位角　角度
     float count;
+    [SerializeField] Vector3 _Vel;
 
     void Start()
     {
@@ -56,6 +57,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true) {//押した時
                 ClickFlg = 2;
                 ReleasedFlg = true;
+                BoundFlg = true;
             }
             if (Input.GetMouseButton(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true) {//押し続けた時
             }
@@ -63,6 +65,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 if (ReleasedFlg) {
                     ClickFlg = 0;
                     ReleasedFlg = false;
+                    BoundFlg = true;
                 }
             }
         }
@@ -137,15 +140,25 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Respawn") {//地面に落ちたらスタートのポジションにリスポーン
-            rigidBody.velocity = Vector3.zero;
+        if (collision.gameObject.tag == "Respawn" || collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
+            //rigidBody.velocity = Vector3.zero;
             Force_y = 20.0f;//y軸に与える力を初期化
-            count = AtanAngle;//円運動の始まりを初期化
+            //count = AtanAngle;//円運動の始まりを初期化
             //transform.position = StartPosition;//初期位置にセット
             FirstVelocity = true;//一度だけ入る処理をリセット
             ReleasedFlg = false;
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
+            if (BoundFlg == true){//階段での動き
+                rigidBody.useGravity = true;
+
+                rigidBody.velocity = _Vel;
+                CircularMotion();//円運動
+                //rigidBody.AddForce(new Vector3(10.0f, 5.0f, 0), ForceMode.Impulse);
+                BoundFlg = false;
+                Debug.Log("!!!!!!!!!!!!!!!!");
+            }
+            count = AtanAngle;
         }
     }
 
