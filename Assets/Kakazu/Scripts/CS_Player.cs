@@ -12,7 +12,7 @@ public class CS_Player : InitializeVariable     //サブクラス
     private float FreeFallGrvity = 9.8f;//フレーム後に与える力
     private float UnnaturalGrvity = 19.6f;//指を離した時に与える力
 
-    private Vector3 StartPosition;//初期位置
+    //private Vector3 StartPosition;//初期位置
     private GameObject Camera;//カメラをゲットコンポーネント
     private Vector3 CameraPosition;//カメラのポジション
 
