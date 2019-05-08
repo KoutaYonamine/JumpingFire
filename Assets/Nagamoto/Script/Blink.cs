@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//サイトそのままコピペしたやつ
 public class Blink : MonoBehaviour {
     //public
     public float speed = 1.0f;
