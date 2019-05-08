@@ -37,7 +37,8 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     protected Vector3 Force;//AddForce
     protected int FrameCount = 0;//フレームをカウント
 
-    [SerializeField] protected float RotateSpeed;//円運動の速度
+    /*[SerializeField] */protected float RotateSpeed = 0.4f;//円運動の速度
+
     protected Vector3 Vel = new Vector3(0, 10.0f, 10);//初速度
 
     //燭台に継承している変数
@@ -60,35 +61,35 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
 
     protected void ReloadInitializeVariable()//ゲームクリア、オーバー時に各変数を初期化
     {
-    //プレイヤーに継承している変数
-    ClickFlg = 99;//クリックしているかどうか
-    ReleasedFlg = false;//連打禁止 
-    FirstVelocity = true;//一度だけ入る(1フレーム目
-    AddSpeedFlg = false;//燭台の中心に当たったかどうか
-    Initialize = false; //スピード初期化判定
+        //プレイヤーに継承している変数
+        ClickFlg = 99;//クリックしているかどうか
+        ReleasedFlg = false;//連打禁止 
+        FirstVelocity = true;//一度だけ入る(1フレーム目
+        AddSpeedFlg = false;//燭台の中心に当たったかどうか
+        Initialize = false; //スピード初期化判定
 
-    Force_y = 20.0f;//yに与える力
+        Force_y = 20.0f;//yに与える力
+        RotateSpeed = 0.4f;//円運動の速度
 
-    //Player.transform.position = StartPosition;    //スタート位置に行く
-    Candlestick = 0;                                //進んだ燭台の数
-    Staflag = false;                                 //スタートflag
-    Collision = false;                              //当たっていないとき
-    Touchbool = false;                              //タッチアイコンを表示しない
-    softfocus = true;                               //ソフトフォーカス用flag
-    Numflag = false;                                //ナンバーイメージflag
-    moveflag = true;                                //移動flag
-    mouseflag = false;
-    number.View(Candlestick);                       //最初の数字を読み込む
-    rd.useGravity = false;
-    rd.velocity = Vector3.zero;
-    numberobject.transform.position = NumberPosition;
-    numberobject.transform.localScale = NumberScale;
+        //Player.transform.position = StartPosition;    //スタート位置に行く
+        Candlestick = 0;                                //進んだ燭台の数
+        Staflag = false;                                 //スタートflag
+        Collision = false;                              //当たっていないとき
+        Touchbool = false;                              //タッチアイコンを表示しない
+        softfocus = true;                               //ソフトフォーカス用flag
+        Numflag = false;                                //ナンバーイメージflag
+        moveflag = true;                                //移動flag
+        mouseflag = false;
+        number.View(Candlestick);                       //最初の数字を読み込む
+        rd.useGravity = false;
+        rd.velocity = Vector3.zero;
+        numberobject.transform.position = NumberPosition;
+        numberobject.transform.localScale = NumberScale;
 
         //Force;//AddForce
         FrameCount = 0;//フレームをカウント
 
-    //RotateSpeed;//円運動の速度
-    Vel = new Vector3(0, 10.0f, 10);//初速度
+        Vel = new Vector3(0, 10.0f, 10);//初速度
 
     }
 }

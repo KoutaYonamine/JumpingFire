@@ -7,11 +7,13 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private Rigidbody rigidBody;
 
     private float x, y, z;//プレイヤーの移動座標
-
+    
     private float FreeFallGrvity = 9.8f;//フレーム後に与える力
     private float UnnaturalGrvity = 19.6f;//指を離した時に与える力
 
-    //private Vector3 StartPosition;//初期位置
+    [SerializeField] private float AddSpeed;//燭台の中心に乗った時にSpeedUp
+    private float tempRotateSpeed;//RotateSpeedの退避用変数
+
     private GameObject Camera;//カメラをゲットコンポーネント
     private Vector3 CameraPosition;//カメラのポジション
 
@@ -34,6 +36,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         AtanAngle = Mathf.Atan2(StartPosition.x, StartPosition.z);
         count = AtanAngle;
 
+        tempRotateSpeed = RotateSpeed;//RotateSpeedの値を退避
+
         staircollision = GetComponent<Stairscollision>();
     }
     
@@ -41,8 +45,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     void Update()
     {
         InputMouse_Touch();
-
-        if(ClickFlg == 2)
+        
+        if (ClickFlg == 2)
             FrameCount++;
     }
     private void FixedUpdate()
@@ -140,11 +144,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private void OnCollisionEnter(Collision collision)
     {
+        UpSpeedCandleCenterHit();
         if (collision.gameObject.tag == "Respawn" || collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
-            //rigidBody.velocity = Vector3.zero;
             Force_y = 20.0f;//y軸に与える力を初期化
-            //count = AtanAngle;//円運動の始まりを初期化
-            //transform.position = StartPosition;//初期位置にセット
             FirstVelocity = true;//一度だけ入る処理をリセット
             ReleasedFlg = false;
             FrameCount = 0;//フレームカウントを初期化
@@ -154,9 +156,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
                 rigidBody.velocity = _Vel;
                 CircularMotion();//円運動
-                //rigidBody.AddForce(new Vector3(10.0f, 5.0f, 0), ForceMode.Impulse);
                 BoundFlg = false;
-                Debug.Log("!!!!!!!!!!!!!!!!");
             }
             count = AtanAngle;
         }
@@ -179,5 +179,16 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         y = transform.position.y;
         z = Length * Mathf.Cos(count);
         transform.position = new Vector3(x, y, z);
+    }
+
+    private void UpSpeedCandleCenterHit()
+    {
+        if (AddSpeedFlg) {
+            RotateSpeed += AddSpeed;
+            //Debug.Log(RotateSpeed + "True");
+        }else if(!AddSpeedFlg){
+            RotateSpeed = tempRotateSpeed;
+            //Debug.Log(RotateSpeed + "False");
+        }
     }
 }
