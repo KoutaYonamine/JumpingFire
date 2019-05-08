@@ -12,7 +12,7 @@ public class CS_Player : InitializeVariable     //サブクラス
     private float FreeFallGrvity = 9.8f;//フレーム後に与える力
     private float UnnaturalGrvity = 19.6f;//指を離した時に与える力
 
-    private Vector3 StartPosition;//初期位置
+    //private Vector3 StartPosition;//初期位置
     private GameObject Camera;//カメラをゲットコンポーネント
     private Vector3 CameraPosition;//カメラのポジション
 
@@ -59,7 +59,7 @@ public class CS_Player : InitializeVariable     //サブクラス
     {
         // エディタ、実機で処理を分ける
         if (Application.isEditor) {// エディタで実行中
-            if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true) {//押した時
+            if (Input.GetMouseButtonDown(0) /*&& staircollision.getmoveflag() == true && staircollision.getmouseflag() == true*/) {//押した時
                 ClickFlg = 2;
                 ReleasedFlg = true;
                 BoundFlg = true;
@@ -82,7 +82,7 @@ public class CS_Player : InitializeVariable     //サブクラス
                 // タッチ情報の取得
                 Touch touch = Input.GetTouch(0);
 
-                if (touch.phase == TouchPhase.Began && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true)//押した瞬間
+                if (touch.phase == TouchPhase.Began/* && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true*/)//押した瞬間
                 {
                     ClickFlg = 2;
                     ReleasedFlg = true;
