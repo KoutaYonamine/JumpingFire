@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColliderLength_copy : MonoBehaviour {
+public class ColliderLength_copy : MonoBehaviour
+{
 
     private Vector3 P_Position; //プレイヤーのポジション
     private Vector3 Difference; //プレイヤーと燭台の差分
@@ -27,24 +28,26 @@ public class ColliderLength_copy : MonoBehaviour {
         PlayerObj = GameObject.Find("Fire"); //プレイヤーを格納
         CsPlayer = PlayerObj.GetComponent<CS_Player_copy>();
         RigidPlayer = PlayerObj.GetComponent<Rigidbody>();
+
     }
 
     // Update is called once per frame
     void Update () {
+        
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Player.initializespeed = true; //燭台に乗ったらtrue
-
-        if (collision.gameObject.tag == "Player") //プレイヤータグ？
+        if (collision.gameObject.tag == "Player") //プレイヤーが触れたら
         {
             P_Position = collision.transform.position; //プレイヤーの座標を代入
             Difference = P_Position - transform.position; //差分
             Magnitude = Difference.magnitude;
             LengthCheck(); //フラグ切り替え
+            PlayerObj.GetComponent<CS_Player_copy>().UpSpeedCandleCenterHit();
+            //Debug.Log("Candle側");
         }
-        if (P_Position.y > transform.position.y + DifferenceY) {
+        if (P_Position.y > transform.position.y + DifferenceY) {//燭台より上
             CsPlayer.initialize = true; //燭台に乗ったらtrue
             RigidPlayer.isKinematic = true;//物理挙動をカット
         }
@@ -60,12 +63,12 @@ public class ColliderLength_copy : MonoBehaviour {
         {
             CsPlayer.addspeed = true;
 
-            Debug.Log(CsPlayer.addspeed);
+            //Debug.Log(CsPlayer.addspeed);
         }
         else if(Magnitude > Length)
         {
             CsPlayer.addspeed = false;
-            Debug.Log(CsPlayer.addspeed);
+            //Debug.Log(CsPlayer.addspeed);
         }
     }
 }

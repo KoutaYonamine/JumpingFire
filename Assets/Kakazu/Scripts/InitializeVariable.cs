@@ -3,43 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InitializeVariable : MonoBehaviour {//スーパークラス
-
+    
     //プレイヤーに継承している変数
-    protected float ClickFlg = 99;//クリックしているかどうか
-    protected bool ReleasedFlg = false;//連打禁止 
-    protected bool FirstVelocity = true;//一度だけ入る(1フレーム目
-    protected bool AddSpeedFlg = false;//燭台の中心に当たったかどうか
-    protected bool Initialize = false; //スピード初期化判定
-    protected bool BoundFlg = false;//階段に落下した際の挙動判定
+    static protected float ClickFlg = 99;//クリックしているかどうか
+    static protected bool ReleasedFlg = false;//連打禁止 
+    static protected bool FirstVelocity = true;//一度だけ入る(1フレーム目
+    static protected bool AddSpeedFlg = false;//燭台の中心に当たったかどうか
+    static protected bool Initialize = false; //スピード初期化判定
+    static protected bool BoundFlg = false;//階段に落下した際の挙動判定
 
-    protected int Candlestick = 0;                            //進んだ燭台の数
+    static protected int Candlestick = 0;                            //進んだ燭台の数
 
-    protected bool Collision = false;                             //当たり判定用flag
-    protected bool Touchbool = false;                             //タッチアイコン用flag
-    protected bool softfocus = true;                             //ソフトフォーカスflag
-    protected bool Numflag = false;                               //ナンバーイメージflag
-    protected bool Staflag = false;                               //スタートflag
-    protected bool moveflag = true;                              //移動flag
-    protected bool mouseflag = true;                      //画面タッチflag
+    static protected bool Collision = false;                             //当たり判定用flag
+    static protected bool Touchbool = false;                             //タッチアイコン用flag
+    static protected bool softfocus = true;                             //ソフトフォーカスflag
+    static protected bool Numflag = false;                               //ナンバーイメージflag
+    static protected bool Staflag = false;                               //スタートflag
+    static protected bool moveflag = true;                              //移動flag
+    static protected bool mouseflag = true;                      //画面タッチflag
 
-    protected Number number;
-    protected GameObject Player;
-    protected GameObject numberobject;                    //ナンバーのオブジェクト
+    static protected Number number;
+    static protected GameObject Player;
+    static protected GameObject numberobject;                    //ナンバーのオブジェクト
 
-    protected Vector3 StartPosition;                      //プレイヤーの最初の位置
-    protected Vector3 NumberPosition;                     //数字の位置
-    protected Vector3 NumberScale;                        //数字の大きさ
+    static protected Vector3 StartPosition;                      //プレイヤーの最初の位置
+    static protected Vector3 NumberPosition;                     //数字の位置
+    static protected Vector3 NumberScale;                        //数字の大きさ
 
-    protected Rigidbody rd;
+    static protected Rigidbody rd;
 
-    protected float Force_y = 20.0f;//yに与える力
+    static protected float Force_y = 20.0f;//yに与える力
 
-    protected Vector3 Force;//AddForce
-    protected int FrameCount = 0;//フレームをカウント
+    static protected Vector3 Force;//AddForce
+    static protected int FrameCount = 0;//フレームをカウント
 
-    /*[SerializeField] */protected float RotateSpeed = 0.4f;//円運動の速度
+    /*[SerializeField] */
+    static protected float RotateSpeed = 0.4f;//円運動の速度
 
-    protected Vector3 Vel = new Vector3(0, 10.0f, 10);//初速度
+    static protected Vector3 Vel = new Vector3(0, 10.0f, 10);//初速度
 
     //燭台に継承している変数
     //火のパーティクルのOn Off
@@ -70,6 +71,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
 
         Force_y = 20.0f;//yに与える力
         RotateSpeed = 0.4f;//円運動の速度
+        Debug.Log(RotateSpeed + "aaaaaaaaaaaaaaa");
 
         //Player.transform.position = StartPosition;    //スタート位置に行く
         Candlestick = 0;                                //進んだ燭台の数

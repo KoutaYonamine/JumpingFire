@@ -95,6 +95,7 @@ public class Stairscollision : InitializeVariable
                 numberobject.transform.position = NumberPosition;
                 numberobject.transform.localScale = NumberScale;
                 ReloadInitializeVariable();
+                Debug.Log("初期化側");
             }
         }
         if(mouseflag == false){

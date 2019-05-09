@@ -45,7 +45,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     void Update()
     {
         InputMouse_Touch();
-        
+        Debug.Log(RotateSpeed + "   " + tempRotateSpeed + "     " + AddSpeedFlg);
         if (ClickFlg == 2)
             FrameCount++;
     }
@@ -144,7 +144,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private void OnCollisionEnter(Collision collision)
     {
-        UpSpeedCandleCenterHit();
         if (collision.gameObject.tag == "Respawn" || collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
             Force_y = 20.0f;//y軸に与える力を初期化
             FirstVelocity = true;//一度だけ入る処理をリセット
@@ -181,14 +180,12 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         transform.position = new Vector3(x, y, z);
     }
 
-    private void UpSpeedCandleCenterHit()
+    public void UpSpeedCandleCenterHit()
     {
         if (AddSpeedFlg) {
             RotateSpeed += AddSpeed;
-            //Debug.Log(RotateSpeed + "True");
-        }else if(!AddSpeedFlg){
+        } else if (!AddSpeedFlg) {
             RotateSpeed = tempRotateSpeed;
-            //Debug.Log(RotateSpeed + "False");
         }
     }
 }
