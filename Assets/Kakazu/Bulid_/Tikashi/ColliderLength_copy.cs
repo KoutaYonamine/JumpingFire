@@ -7,14 +7,12 @@ public class ColliderLength_copy : MonoBehaviour {
     private Vector3 P_Position; //プレイヤーのポジション
     private Vector3 Difference; //プレイヤーと燭台の差分
 
-    private bool LengthCheckFlg; //範囲内だとtrue;
-
     private GameObject PlayerObj; //プレイヤーオブジェクト格納
 
     private CS_Player_copy CsPlayer; //CS_Playerをゲットコンポーネント
     private Rigidbody RigidPlayer;//Rigidbodyをゲットコンポーネント
 
-    [SerializeField] private float Length; //範囲チェック(inspectorで変更可能)
+    /*[SerializeField] */private float Length = 2.0f; //範囲チェック(inspectorで変更可能)
     private float Magnitude; //プレイヤーと燭台の距離
 
     private GameObject targetObject; //カメラを格納
@@ -61,15 +59,13 @@ public class ColliderLength_copy : MonoBehaviour {
         if(Magnitude <= Length)
         {
             CsPlayer.addspeed = true;
-            //Debug.Log(Player.addspeed);
 
-            LengthCheckFlg = true; //当たり
-            //Debug.Log("当たり");
+            Debug.Log(CsPlayer.addspeed);
         }
         else if(Magnitude > Length)
         {
-            LengthCheckFlg = false; //はずれ
-            //Debug.Log("はずれ");
+            CsPlayer.addspeed = false;
+            Debug.Log(CsPlayer.addspeed);
         }
     }
 }
