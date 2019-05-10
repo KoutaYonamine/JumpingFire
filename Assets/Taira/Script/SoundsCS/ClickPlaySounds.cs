@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class ClickPlaySounds : MonoBehaviour {
 
-    private AudioSource sound01;
+    private AudioSource audiosource;
 
     void Start()
     {
-        sound01 = GetComponent<AudioSource>();
+        audiosource = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnClick();
+        }
     }
 
     public void OnClick()
     {
-        sound01.PlayOneShot(sound01.clip);
+        if (true /*startのフラグが切り替えられたら*/)
+        {
+            audiosource.time = 0.1f;
+            audiosource.PlayOneShot(audiosource.clip);
+        }
     }
 }

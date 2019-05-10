@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ColliderLength : MonoBehaviour {
 
+    AudioSource audioSource; //サウンド
+    AudioClip clip; //サウンド
+
     private Vector3 P_Position; //プレイヤーのポジション
     private Vector3 Difference; //プレイヤーと燭台の差分
 
@@ -23,6 +26,9 @@ public class ColliderLength : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        audioSource = GetComponent<AudioSource>();  //サウンド
+        clip = audioSource.clip;    //サウンド
+
         targetObject = GameObject.Find("Main Camera");
         this.transform.LookAt(new Vector3(targetObject.transform.position.x, transform.position.y, targetObject.transform.position.z)); //燭台をカメラに向ける
 
@@ -58,6 +64,8 @@ public class ColliderLength : MonoBehaviour {
     {
         if(Magnitude <= Length)
         {
+            audioSource.PlayOneShot(clip); //サウンド
+
             CsPlayer.addspeed = true;
             Debug.Log("Hit");
             LengthCheckFlg = true; //当たり
