@@ -95,11 +95,11 @@ public class Stairscollision : InitializeVariable
                 numberobject.transform.position = NumberPosition;
                 numberobject.transform.localScale = NumberScale;
                 ReloadInitializeVariable();
+                Debug.Log("初期化側");
             }
         }
         if(mouseflag == false){
             time += Time.deltaTime;
-            Debug.Log(time);
             if(time >= 2){
                 mouseflag = true;
                 time = 0;
