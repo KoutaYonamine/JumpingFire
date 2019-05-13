@@ -25,6 +25,8 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected Number number;
     static protected GameObject Player;
     static protected GameObject numberobject;                    //ナンバーのオブジェクト
+    protected GameObject FireWindZone;//WindZone
+    protected ParticleSystem ParticleAlive;                 //炎のパーティクル
 
     static protected Vector3 StartPosition;                      //プレイヤーの最初の位置
     static protected Vector3 NumberPosition;                     //数字の位置
@@ -44,15 +46,20 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
 
     //燭台に継承している変数
     //火のパーティクルのOn Off
-
-    // Use this for initialization
-    void Start() {
+    private void Awake()
+    {
         Player = GameObject.Find("Fire");
         numberobject = GameObject.Find("Number");       //ナンバーのオブジェクト取得
         StartPosition = GameObject.Find("Fire").transform.position;
         NumberPosition = GameObject.Find("Number").transform.position;  //数字の初期位置
         NumberScale = GameObject.Find("Number").transform.localScale;   //数字の初期大きさ
-
+        FireWindZone = GameObject.Find("WindZoneManager");
+        ParticleAlive = GameObject.Find("fire1_add").GetComponent<ParticleSystem>();
+        Debug.Log(GameObject.Find("fire1_add"));
+    }
+    // Use this for initialization
+    void Start() {
+        
     }
 
     // Update is called once per frame

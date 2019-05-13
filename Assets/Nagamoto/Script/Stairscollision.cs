@@ -9,7 +9,7 @@ public class Stairscollision : InitializeVariable
 
     private GameObject touchobject;                       //タッチアイコンのオブジェクト
     private GameObject startobject;                       //スタートのオブジェクト
-    private ParticleSystem ParticleAlive;                 //炎のパーティクル
+    
 
     // Use this for initialization
     void Start () {
@@ -24,8 +24,6 @@ public class Stairscollision : InitializeVariable
 
         NumberPosition = GameObject.Find("Number").transform.position;  //数字の初期位置
         NumberScale = GameObject.Find("Number").transform.localScale;   //数字の初期大きさ
-
-        ParticleAlive = GameObject.Find("fire1_add").GetComponent<ParticleSystem>();
 
         rd = this.GetComponent<Rigidbody>();
 
@@ -101,6 +99,7 @@ public class Stairscollision : InitializeVariable
                 numberobject.transform.localScale = NumberScale;
                 ReloadInitializeVariable();
                 ParticleAlive.Play();           //炎のパーティクルを出す
+                FireWindZone.SetActive(false);
                 //Debug.Log("初期化側");
             }
         }

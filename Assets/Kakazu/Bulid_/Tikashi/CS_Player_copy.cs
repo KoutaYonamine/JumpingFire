@@ -5,9 +5,7 @@ using UnityEngine;
 public class CS_Player_copy : InitializeVariable     //サブクラス
 {
     private Rigidbody rigidBody;
-    private ParticleSystem FireParticle;//ParticleSystem
-    private GameObject FireWindZone;//WindZone
-
+    
     private float x, y, z;//プレイヤーの移動座標
     
     private float FreeFallGrvity = 9.8f;//フレーム後に与える力
@@ -32,10 +30,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
-        //FireParticle = GameObject.Find("fire1_add").GetComponent<ParticleSystem>();
-        FireWindZone = GameObject.Find("WindZoneManager");
-        FireWindZone.SetActive(false);//WindZoneを非アクティブに
 
+        FireWindZone.SetActive(false);//WindZoneを非アクティブに
+        
         StartPosition = this.transform.position;
         Camera = GameObject.Find("Main Camera");
         CameraPosition = Camera.transform.position;
@@ -47,9 +44,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         tempRotateSpeed = RotateSpeed;//RotateSpeedの値を退避
 
         staircollision = GetComponent<Stairscollision>();
-
-        //WindZoneQuaternion = FireWindZone.transform.localRotation;
-        //WindZoneQuaternion = FireWindZone.transform.eulerAngles;
     }
     
     // Update is called once per frame
