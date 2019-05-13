@@ -5,6 +5,8 @@ using UnityEngine;
 public class CS_Player_copy : InitializeVariable     //サブクラス
 {
     private Rigidbody rigidBody;
+    private ParticleSystem FireParticle;//ParticleSystem
+    private GameObject FireWindZone;//WindZone
 
     private float x, y, z;//プレイヤーの移動座標
     
@@ -24,9 +26,15 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     float count;
     [SerializeField] Vector3 _Vel;
 
+    //private Quaternion WindZoneQuaternion;
+    private Vector3 WindZoneQuaternion;
+
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        //FireParticle = GameObject.Find("fire1_add").GetComponent<ParticleSystem>();
+        FireWindZone = GameObject.Find("WindZoneManager");
+        FireWindZone.SetActive(false);//WindZoneを非アクティブに
 
         StartPosition = this.transform.position;
         Camera = GameObject.Find("Main Camera");
@@ -39,19 +47,24 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         tempRotateSpeed = RotateSpeed;//RotateSpeedの値を退避
 
         staircollision = GetComponent<Stairscollision>();
+
+        //WindZoneQuaternion = FireWindZone.transform.localRotation;
+        //WindZoneQuaternion = FireWindZone.transform.eulerAngles;
     }
     
     // Update is called once per frame
     void Update()
     {
         InputMouse_Touch();
-        Debug.Log(RotateSpeed + "   " + tempRotateSpeed + "     " + AddSpeedFlg);
+
         if (ClickFlg == 2)
             FrameCount++;
+
+        DebugParticle();//Debug用関数
     }
     private void FixedUpdate()
     {
-        RotateFire();
+        FireMovement();
     }
 
     void InputMouse_Touch()
@@ -101,7 +114,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }
     }
 
-    void RotateFire()
+    void FireMovement()//Playerの挙動
     {
         if (ClickFlg == 0) {
             count += Time.deltaTime * RotateSpeed;
@@ -137,6 +150,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             rigidBody.isKinematic = false;
             Initialize = false;
             ReleasedFlg = false;
+            FireWindZone.SetActive(false);//WindZoneを非アクティブに
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
         }
@@ -161,6 +175,19 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if (rigidBody.IsSleeping())
+            Debug.Log(rigidBody.IsSleeping());
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.gameObject.tag == "Candle") {
+            FireWindZone.SetActive(true);
+        }
+    }
+
     public bool addspeed//スピードの変化
     {
         get { return AddSpeedFlg ; }
@@ -180,7 +207,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         transform.position = new Vector3(x, y, z);
     }
 
-    public void UpSpeedCandleCenterHit()
+    public void UpSpeedCandleCenterHit()//Speed変化
     {
         if (AddSpeedFlg) {
             RotateSpeed += AddSpeed;
@@ -188,4 +215,18 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             RotateSpeed = tempRotateSpeed;
         }
     }
+
+    private void DebugParticle()
+    {
+        /*if (Input.GetKeyDown(KeyCode.D))
+            FireParticle.Stop();
+        if (Input.GetKeyDown(KeyCode.S))
+            FireParticle.Play();*/
+        if (Input.GetKeyDown(KeyCode.W))
+            FireWindZone.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.Q))
+            FireWindZone.SetActive(false);
+    }
+
+   
 }
