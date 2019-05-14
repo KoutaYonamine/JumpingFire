@@ -5,7 +5,7 @@ using UnityEngine;
 public class CS_Player_copy : InitializeVariable     //サブクラス
 {
     private Rigidbody rigidBody;
-
+    
     private float x, y, z;//プレイヤーの移動座標
     
     private float FreeFallGrvity = 9.8f;//フレーム後に与える力
@@ -20,14 +20,19 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private Stairscollision staircollision; //stairscollisionのスクリプト 変更点
 
     private float Length;//半径
-    float AtanAngle;//方位角　角度
-    float count;
+    private float AtanAngle;//方位角　角度
+    private float count;
     [SerializeField] Vector3 _Vel;
+
+    //private Quaternion WindZoneQuaternion;
+    private Vector3 WindZoneQuaternion;
 
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
 
+        FireWindZone.SetActive(false);//WindZoneを非アクティブに
+        
         StartPosition = this.transform.position;
         Camera = GameObject.Find("Main Camera");
         CameraPosition = Camera.transform.position;
@@ -45,13 +50,13 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     void Update()
     {
         InputMouse_Touch();
-        Debug.Log(RotateSpeed + "   " + tempRotateSpeed + "     " + AddSpeedFlg);
+
         if (ClickFlg == 2)
             FrameCount++;
     }
     private void FixedUpdate()
     {
-        RotateFire();
+        FireMovement();
     }
 
     void InputMouse_Touch()
@@ -101,7 +106,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }
     }
 
-    void RotateFire()
+    void FireMovement()//Playerの挙動
     {
         if (ClickFlg == 0) {
             count += Time.deltaTime * RotateSpeed;
@@ -137,6 +142,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             rigidBody.isKinematic = false;
             Initialize = false;
             ReleasedFlg = false;
+            FireWindZone.SetActive(false);//WindZoneを非アクティブに
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
         }
@@ -144,7 +150,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Respawn" || collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
+        if (/*collision.gameObject.tag == "Respawn" || */collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
             Force_y = 20.0f;//y軸に与える力を初期化
             FirstVelocity = true;//一度だけ入る処理をリセット
             ReleasedFlg = false;
@@ -158,6 +164,14 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 BoundFlg = false;
             }
             count = AtanAngle;
+        }
+    }
+
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.gameObject.tag == "Candle") {
+            FireWindZone.SetActive(true);
         }
     }
 
@@ -180,7 +194,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         transform.position = new Vector3(x, y, z);
     }
 
-    public void UpSpeedCandleCenterHit()
+    public void UpSpeedCandleCenterHit()//Speed変化
     {
         if (AddSpeedFlg) {
             RotateSpeed += AddSpeed;
@@ -188,4 +202,5 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             RotateSpeed = tempRotateSpeed;
         }
     }
+
 }

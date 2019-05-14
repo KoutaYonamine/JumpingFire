@@ -63,8 +63,10 @@ public class Stairscollision : InitializeVariable
             moveflag = false;
         }
         if(collision.gameObject.name == "WallCandleStickUnited_01(Clone)"){    //触れたものが燭台の場合
+            if(Collision == false){
             Candlestick += 1;
             number.View(Candlestick);
+            }
         }
         
     }
@@ -87,6 +89,8 @@ public class Stairscollision : InitializeVariable
         }
         else{
             touchobject.SetActive(true);        //タッチアイコンの表示
+            ParticleAlive.Stop();               //炎のパーティクルを消す
+            
             //タッチアイコンが出たとき
             if (Input.GetMouseButtonDown(0)||Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began){
                 //初期化
@@ -95,7 +99,9 @@ public class Stairscollision : InitializeVariable
                 numberobject.transform.position = NumberPosition;
                 numberobject.transform.localScale = NumberScale;
                 ReloadInitializeVariable();
-                Debug.Log("初期化側");
+                ParticleAlive.Play();           //炎のパーティクルを出す
+                FireWindZone.SetActive(false);
+                //Debug.Log("初期化側");
             }
         }
         if(mouseflag == false){
@@ -120,9 +126,8 @@ public class Stairscollision : InitializeVariable
         if (Collision == true){  
             time += Time.deltaTime;             //時間計測
             if(time >= 2){                      //2秒以上たったら
-                numberobject.transform.localScale = new Vector3(0.75f, 0.75f, 0);           //数字の大きさを変える
-                numberobject.transform.localPosition = new Vector3(0, 95, 0);               //数字の位置を変える
-                Touchbool = true;                   //スイッチオン
+                number.Result();                //桁によるスコアの移動用
+                Touchbool = true;               //スイッチオン
                 time = 0;
             }
         }

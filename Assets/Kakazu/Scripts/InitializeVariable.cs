@@ -13,6 +13,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected bool BoundFlg = false;//階段に落下した際の挙動判定
 
     static protected int Candlestick = 0;                            //進んだ燭台の数
+    static protected int numdigit = 0;                           //桁によるスコアの移動
 
     static protected bool Collision = false;                             //当たり判定用flag
     static protected bool Touchbool = false;                             //タッチアイコン用flag
@@ -25,6 +26,8 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected Number number;
     static protected GameObject Player;
     static protected GameObject numberobject;                    //ナンバーのオブジェクト
+    protected GameObject FireWindZone;//WindZone
+    protected ParticleSystem ParticleAlive;                 //炎のパーティクル
 
     static protected Vector3 StartPosition;                      //プレイヤーの最初の位置
     static protected Vector3 NumberPosition;                     //数字の位置
@@ -44,15 +47,20 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
 
     //燭台に継承している変数
     //火のパーティクルのOn Off
-
-    // Use this for initialization
-    void Start() {
+    private void Awake()
+    {
         Player = GameObject.Find("Fire");
         numberobject = GameObject.Find("Number");       //ナンバーのオブジェクト取得
         StartPosition = GameObject.Find("Fire").transform.position;
         NumberPosition = GameObject.Find("Number").transform.position;  //数字の初期位置
         NumberScale = GameObject.Find("Number").transform.localScale;   //数字の初期大きさ
+        FireWindZone = GameObject.Find("WindZoneManager");
+        ParticleAlive = GameObject.Find("fire1_add").GetComponent<ParticleSystem>();
 
+    }
+    // Use this for initialization
+    void Start() {
+        
     }
 
     // Update is called once per frame
@@ -71,10 +79,11 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
 
         Force_y = 20.0f;//yに与える力
         RotateSpeed = 0.4f;//円運動の速度
-        Debug.Log(RotateSpeed + "aaaaaaaaaaaaaaa");
+
 
         //Player.transform.position = StartPosition;    //スタート位置に行く
         Candlestick = 0;                                //進んだ燭台の数
+        numdigit = 0;                                   //桁によるスコアの移動
         Staflag = false;                                 //スタートflag
         Collision = false;                              //当たっていないとき
         Touchbool = false;                              //タッチアイコンを表示しない
