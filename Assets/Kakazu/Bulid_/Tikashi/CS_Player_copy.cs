@@ -5,9 +5,11 @@ using UnityEngine;
 public class CS_Player_copy : InitializeVariable     //サブクラス
 {
     private Rigidbody rigidBody;
-    
+
+    private Vector3 ClearDirection;//クリアの聖火台の方向
+
     private float x, y, z;//プレイヤーの移動座標
-    
+
     private float FreeFallGrvity = 9.8f;//フレーム後に与える力
     private float UnnaturalGrvity = 19.6f;//指を離した時に与える力
 
@@ -17,12 +19,15 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private GameObject Camera;//カメラをゲットコンポーネント
     private Vector3 CameraPosition;//カメラのポジション
 
+    private GameObject GOAL;
+
     private Stairscollision staircollision; //stairscollisionのスクリプト 変更点
 
     private float Length;//半径
     private float AtanAngle;//方位角　角度
     private float count;
     [SerializeField] Vector3 _Vel;
+    [SerializeField] Vector3 ClearVelocity;//クリアの聖火台にジャンプする時のVelocity
 
     //private Quaternion WindZoneQuaternion;
     private Vector3 WindZoneQuaternion;
@@ -32,7 +37,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         rigidBody = GetComponent<Rigidbody>();
 
         FireWindZone.SetActive(false);//WindZoneを非アクティブに
-        
+
         StartPosition = this.transform.position;
         Camera = GameObject.Find("Main Camera");
         CameraPosition = Camera.transform.position;
@@ -44,8 +49,12 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         tempRotateSpeed = RotateSpeed;//RotateSpeedの値を退避
 
         staircollision = GetComponent<Stairscollision>();
+
+        GOAL = GameObject.Find("PublishFire_Prefab (1)");
+        GOAL.SetActive(false);
+
     }
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -63,19 +72,23 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     {
         // エディタ、実機で処理を分ける
         if (Application.isEditor) {// エディタで実行中
-            if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true) {//押した時
+            if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true && ClearInputFlg == true) {//押した時
                 ClickFlg = 2;
                 ReleasedFlg = true;
                 BoundFlg = true;
             }
-            if (Input.GetMouseButton(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true) {//押し続けた時
+            if (Input.GetMouseButton(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true && ClearInputFlg == true) {//押し続けた時
             }
-            if (Input.GetMouseButtonUp(0)) {//離した時
+            if (Input.GetMouseButtonUp(0) && ClearInputFlg == true) {//離した時
                 if (ReleasedFlg) {
                     ClickFlg = 0;
                     ReleasedFlg = false;
                     BoundFlg = true;
                 }
+            }
+            if (Input.GetMouseButtonDown(0) && ClearInputFlg == false)
+            {
+                MovementToClear();
             }
         }
         else
@@ -110,9 +123,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     {
         if (ClickFlg == 0) {
             count += Time.deltaTime * RotateSpeed;
-　
-            CircularMotion();//円運動
 
+            CircularMotion();//円運動
+            
             Force_y = Force_y - UnnaturalGrvity;//離した時に急な落下をさせる
 
             Force = new Vector3(0, Force_y, 0);
@@ -156,7 +169,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             ReleasedFlg = false;
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
-            if (BoundFlg == true){//階段での動き
+            if (BoundFlg == true) {//階段での動き
                 rigidBody.useGravity = true;
 
                 rigidBody.velocity = _Vel;
@@ -164,6 +177,15 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 BoundFlg = false;
             }
             count = AtanAngle;
+        }
+        if (collision.gameObject.tag == "LastWallCandle")
+        {
+            ClearInputFlg = false;
+            GOAL.SetActive(true);
+        }
+        if(collision.gameObject.tag == "Goal")
+        {
+            initialize = true;
         }
     }
 
@@ -188,19 +210,30 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
   
     private void CircularMotion()//円運動
     {
-        x = Length * Mathf.Sin(count);
-        y = transform.position.y;
-        z = Length * Mathf.Cos(count);
-        transform.position = new Vector3(x, y, z);
+            x = Length * Mathf.Sin(count);
+            y = transform.position.y;
+            z = Length * Mathf.Cos(count);
+            transform.position = new Vector3(x, y, z);
     }
 
     public void UpSpeedCandleCenterHit()//Speed変化
     {
         if (AddSpeedFlg) {
-            RotateSpeed += AddSpeed;
+            //RotateSpeed += AddSpeed;
         } else if (!AddSpeedFlg) {
             RotateSpeed = tempRotateSpeed;
         }
+        
+    }
+
+    private void MovementToClear()
+    {
+        ClearDirection = GOAL.transform.position - transform.position;//ベクトル取得
+        ClearDirection.Normalize();//ベクトルを正規化
+
+        Debug.Log("できた");
+        rigidBody.useGravity = true;
+        rigidBody.AddForce(ClearVelocity, ForceMode.Impulse);
     }
 
 }
