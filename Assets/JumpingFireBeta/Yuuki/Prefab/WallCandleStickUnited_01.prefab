@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114200218771952768}
   m_Layer: 0
   m_Name: WallCandleStickUnited_01
-  m_TagString: Untagged
+  m_TagString: Candle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -57,7 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 3940124327526fa4984dd044bfef7561, type: 2}
+  - {fileID: 2100000, guid: 8f821411e50195c48936fec215d1c206, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,5 +107,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2349f497032fe1648a4ac3f4806a21e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Length: 2
   DifferenceY: 1

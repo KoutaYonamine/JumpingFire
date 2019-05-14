@@ -3,43 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Stairscollision : MonoBehaviour {
+public class Stairscollision : InitializeVariable
+{
+    private float time;                                   //時間計測用
 
-    private int Candlestick;                            //進んだ燭台の数
-    private float time;                                 //時間計測用
-
-    private bool Collision;                             //当たり判定用flag
-    private bool Touchbool;                             //タッチアイコン用flag
-    private bool softfocus;                             //ソフトフォーカスflag
-    private bool Numflag;                               //ナンバーイメージflag
-    private bool Staflag;                               //スタートflag
-    private bool moveflag;                              //移動flag
-    private bool mouseflag = true;                             //画面タッチflag
-
-    private GameObject numberobject;                    //ナンバーのオブジェクト
-    private GameObject touchobject;                     //タッチアイコンのオブジェクト
-    private GameObject startobject;                     //スタートのオブジェクト
-
-    private Number number;                              //ナンバースクリプト
-    //private ColliderLength_copy colliderLength_Copy;
-
-    private Vector3 StartPosition;                      //プレイヤーの最初の位置
-    private Vector3 NumberPosition;                     //数字の位置
-    private Vector3 NumberScale;                        //数字の大きさ
-
-    private Rigidbody rd;                               //FireのRigidbody
+    private GameObject touchobject;                       //タッチアイコンのオブジェクト
+    private GameObject startobject;                       //スタートのオブジェクト
 
     // Use this for initialization
     void Start () {
-        Candlestick = 0;                                //進んだ燭台の数
         time = 0;                                       //計測用
-
-        Staflag = false;                                 //スタートflag
-        Collision = false;                              //当たっていないとき
-        Touchbool = false;                              //タッチアイコンを表示しない
-        softfocus = true;                               //ソフトフォーカス用flag
-        Numflag = false;                                //ナンバーイメージflag
-        moveflag = true;                                //移動flag
 
         numberobject = GameObject.Find("Number");       //ナンバーのオブジェクト取得
         touchobject = GameObject.Find("Touch");         //タッチアイコンのオブジェクト取得
@@ -55,6 +28,7 @@ public class Stairscollision : MonoBehaviour {
 
         StartPosition = this.transform.position;        //スタート位置の保存  
         number.View(Candlestick);                       //最初の数字を読み込む
+
 
     }
 
@@ -84,13 +58,15 @@ public class Stairscollision : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision collision){
-        if(collision.gameObject.name == "Stairs"){      //触れたものが階段の場合
+        if(collision.gameObject.name == "Stairs" || collision.gameObject.tag == "Cylinder"){      //触れたものが階段の場合
             Collision = true;
             moveflag = false;
         }
         if(collision.gameObject.name == "WallCandleStickUnited_01(Clone)"){    //触れたものが燭台の場合
+            if(Collision == false){
             Candlestick += 1;
             number.View(Candlestick);
+            }
         }
         
     }
@@ -113,6 +89,8 @@ public class Stairscollision : MonoBehaviour {
         }
         else{
             touchobject.SetActive(true);        //タッチアイコンの表示
+            ParticleAlive.Stop();               //炎のパーティクルを消す
+            
             //タッチアイコンが出たとき
             if (Input.GetMouseButtonDown(0)||Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began){
                 //初期化
@@ -120,13 +98,14 @@ public class Stairscollision : MonoBehaviour {
                 this.transform.position = StartPosition;    //スタート位置に行く
                 numberobject.transform.position = NumberPosition;
                 numberobject.transform.localScale = NumberScale;
-                Start();
-                mouseflag = false;
+                ReloadInitializeVariable();
+                ParticleAlive.Play();           //炎のパーティクルを出す
+                FireWindZone.SetActive(false);
+                //Debug.Log("初期化側");
             }
         }
         if(mouseflag == false){
             time += Time.deltaTime;
-            Debug.Log(time);
             if(time >= 2){
                 mouseflag = true;
                 time = 0;
@@ -147,9 +126,8 @@ public class Stairscollision : MonoBehaviour {
         if (Collision == true){  
             time += Time.deltaTime;             //時間計測
             if(time >= 2){                      //2秒以上たったら
-                numberobject.transform.localScale = new Vector3(0.75f, 0.75f, 0);           //数字の大きさを変える
-                numberobject.transform.localPosition = new Vector3(0, 95, 0);               //数字の位置を変える
-                Touchbool = true;                   //スイッチオン
+                number.Result();                //桁によるスコアの移動用
+                Touchbool = true;               //スイッチオン
                 time = 0;
             }
         }

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Candle
   - Cylinder
+  - LastWallCandle
+  - Goal
   layers:
   - Default
   - TransparentFX
