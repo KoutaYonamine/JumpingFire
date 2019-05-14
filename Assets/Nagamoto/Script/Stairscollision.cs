@@ -9,7 +9,6 @@ public class Stairscollision : InitializeVariable
 
     private GameObject touchobject;                       //タッチアイコンのオブジェクト
     private GameObject startobject;                       //スタートのオブジェクト
-    
 
     // Use this for initialization
     void Start () {
@@ -64,8 +63,10 @@ public class Stairscollision : InitializeVariable
             moveflag = false;
         }
         if(collision.gameObject.name == "WallCandleStickUnited_01(Clone)"){    //触れたものが燭台の場合
+            if(Collision == false){
             Candlestick += 1;
             number.View(Candlestick);
+            }
         }
         
     }
@@ -125,9 +126,8 @@ public class Stairscollision : InitializeVariable
         if (Collision == true){  
             time += Time.deltaTime;             //時間計測
             if(time >= 2){                      //2秒以上たったら
-                numberobject.transform.localScale = new Vector3(0.75f, 0.75f, 0);           //数字の大きさを変える
-                numberobject.transform.localPosition = new Vector3(0, 95, 0);               //数字の位置を変える
-                Touchbool = true;                   //スイッチオン
+                number.Result();                //桁によるスコアの移動用
+                Touchbool = true;               //スイッチオン
                 time = 0;
             }
         }

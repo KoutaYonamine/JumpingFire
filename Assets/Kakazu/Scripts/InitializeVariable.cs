@@ -13,6 +13,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected bool BoundFlg = false;//階段に落下した際の挙動判定
 
     static protected int Candlestick = 0;                            //進んだ燭台の数
+    static protected int numdigit = 0;                           //桁によるスコアの移動
 
     static protected bool Collision = false;                             //当たり判定用flag
     static protected bool Touchbool = false;                             //タッチアイコン用flag
@@ -82,6 +83,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
 
         //Player.transform.position = StartPosition;    //スタート位置に行く
         Candlestick = 0;                                //進んだ燭台の数
+        numdigit = 0;                                   //桁によるスコアの移動
         Staflag = false;                                 //スタートflag
         Collision = false;                              //当たっていないとき
         Touchbool = false;                              //タッチアイコンを表示しない
