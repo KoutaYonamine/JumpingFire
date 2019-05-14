@@ -6,16 +6,31 @@ ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
+    100002: BezierCircle
+    100004: Cylinder
     400000: //RootNode
+    400002: BezierCircle
+    400004: Cylinder
     2300000: //RootNode
+    2300002: BezierCircle
+    2300004: Cylinder
     3300000: //RootNode
+    3300002: BezierCircle
+    3300004: Cylinder
     4300000: Cylinder.001
+    4300002: BezierCircle
+    4300004: Cylinder
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material.002
     second: {fileID: 2100000, guid: f901b2e57094bee45ad5148a2d66cce0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 364c90c0500ffb1499614ab3e76f3bd7, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
