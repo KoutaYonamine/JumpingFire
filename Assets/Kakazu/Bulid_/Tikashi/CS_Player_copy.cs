@@ -20,8 +20,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private Stairscollision staircollision; //stairscollisionのスクリプト 変更点
 
     private float Length;//半径
-    float AtanAngle;//方位角　角度
-    float count;
+    private float AtanAngle;//方位角　角度
+    private float count;
     [SerializeField] Vector3 _Vel;
 
     //private Quaternion WindZoneQuaternion;
@@ -53,8 +53,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
         if (ClickFlg == 2)
             FrameCount++;
-
-        DebugParticle();//Debug用関数
     }
     private void FixedUpdate()
     {
@@ -152,7 +150,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Respawn" || collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
+        if (/*collision.gameObject.tag == "Respawn" || */collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
             Force_y = 20.0f;//y軸に与える力を初期化
             FirstVelocity = true;//一度だけ入る処理をリセット
             ReleasedFlg = false;
@@ -169,11 +167,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }
     }
 
-    private void OnCollisionStay(Collision collision)
-    {
-        if (rigidBody.IsSleeping())
-            Debug.Log(rigidBody.IsSleeping());
-    }
 
     private void OnCollisionExit(Collision collision)
     {
@@ -210,17 +203,4 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }
     }
 
-    private void DebugParticle()
-    {
-        /*if (Input.GetKeyDown(KeyCode.D))
-            FireParticle.Stop();
-        if (Input.GetKeyDown(KeyCode.S))
-            FireParticle.Play();*/
-        if (Input.GetKeyDown(KeyCode.W))
-            FireWindZone.SetActive(true);
-        if (Input.GetKeyDown(KeyCode.Q))
-            FireWindZone.SetActive(false);
-    }
-
-   
 }

@@ -55,7 +55,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
         NumberScale = GameObject.Find("Number").transform.localScale;   //数字の初期大きさ
         FireWindZone = GameObject.Find("WindZoneManager");
         ParticleAlive = GameObject.Find("fire1_add").GetComponent<ParticleSystem>();
-        Debug.Log(GameObject.Find("fire1_add"));
+
     }
     // Use this for initialization
     void Start() {
@@ -78,7 +78,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
 
         Force_y = 20.0f;//yに与える力
         RotateSpeed = 0.4f;//円運動の速度
-        Debug.Log(RotateSpeed + "aaaaaaaaaaaaaaa");
+
 
         //Player.transform.position = StartPosition;    //スタート位置に行く
         Candlestick = 0;                                //進んだ燭台の数
