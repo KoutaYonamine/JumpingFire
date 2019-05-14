@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Candle
   - Cylinder
+  - LastWallCandle
   layers:
   - Default
   - TransparentFX
