@@ -24,6 +24,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected bool moveflag = true;                              //移動flag
     static protected bool mouseflag = true;                      //画面タッチflag
     static protected bool goalflag = false;                     //ゴールflag
+    static protected bool StopBoneFire = false;
 
     static protected Number number;
     static protected GameObject Player;
@@ -46,23 +47,25 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected float RotateSpeed = 0.4f;//円運動の速度
 
     static protected Vector3 Vel = new Vector3(0, 10.0f, 10);//初速度
+    static protected Vector3 ClearVelocity = new Vector3(0, 10.0f, -10.0f);//クリアの聖火台にジャンプする時のVelocity
 
     //燭台に継承している変数
+    //static protected ParticleSystem BoneFire;
+
     //火のパーティクルのOn Off
     private void Awake()
     {
-        Player = GameObject.Find("Fire");
+        Player = GameObject.Find("Fire");//Player
         numberobject = GameObject.Find("Number");       //ナンバーのオブジェクト取得
         StartPosition = GameObject.Find("Fire").transform.position;
         NumberPosition = GameObject.Find("Number").transform.position;  //数字の初期位置
         NumberScale = GameObject.Find("Number").transform.localScale;   //数字の初期大きさ
         FireWindZone = GameObject.Find("WindZoneManager");
         ParticleAlive = GameObject.Find("fire1_add").GetComponent<ParticleSystem>();
-
     }
     // Use this for initialization
     void Start() {
-        
+
     }
 
     // Update is called once per frame
@@ -80,9 +83,10 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
         Initialize = false; //スピード初期化判定
         ClearInputFlg = true;//円運動の許可
 
-
         Force_y = 20.0f;//yに与える力
         RotateSpeed = 0.4f;//円運動の速度
+
+        ClearVelocity = new Vector3(0, 10.0f, -10.0f);//クリアの聖火台にジャンプする時のVelocity
 
 
         //Player.transform.position = StartPosition;    //スタート位置に行く
@@ -101,11 +105,11 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
         rd.velocity = Vector3.zero;
         numberobject.transform.position = NumberPosition;
         numberobject.transform.localScale = NumberScale;
+        StopBoneFire = false;
 
         //Force;//AddForce
         FrameCount = 0;//フレームをカウント
 
         Vel = new Vector3(0, 10.0f, 10);//初速度
-
     }
 }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CS_Player_copy : InitializeVariable     //サブクラス
 {
+    private AudioSource audioSource; //サウンド
+    private AudioClip JumpFireSounds;   //サウンド
+
     private Rigidbody rigidBody;
 
     private Vector3 ClearDirection;//クリアの聖火台の方向
@@ -24,13 +27,16 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private float AtanAngle;//方位角　角度
     private float count;
     [SerializeField] Vector3 _Vel;
-    [SerializeField] Vector3 ClearVelocity;//クリアの聖火台にジャンプする時のVelocity
+    //[SerializeField] Vector3 ClearVelocity;//クリアの聖火台にジャンプする時のVelocity
 
     public Camera MainCamera;
     public Camera ClearCamera;
 
     void Start()
     {
+        audioSource = this.GetComponent<AudioSource>();  //サウンド
+        JumpFireSounds = audioSource.clip;  //サウンド
+
         rigidBody = GetComponent<Rigidbody>();
 
         FireWindZone.SetActive(false);//WindZoneを非アクティブに
@@ -71,6 +77,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         // エディタ、実機で処理を分ける
         if (Application.isEditor) {// エディタで実行中
             if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true && ClearInputFlg == true) {//押した時
+
                 ClickFlg = 2;
                 ReleasedFlg = true;
                 BoundFlg = true;
@@ -120,7 +127,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     void FireMovement()//Playerの挙動
     {
         if (ClickFlg == 0) {
-            count += Time.deltaTime * RotateSpeed;
+            //count += Time.deltaTime * RotateSpeed;
 
             CircularMotion();//円運動
             
@@ -131,8 +138,10 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }
 
         if (ClickFlg == 2) {
-            count += Time.deltaTime * RotateSpeed;//今いる位置から移動を開始
+            //count += Time.deltaTime * RotateSpeed;//今いる位置から移動を開始
             if (FirstVelocity) {//一度だけ入る
+                audioSource.PlayOneShot(JumpFireSounds);    //サウンド
+
                 rigidBody.velocity = Vel;//初速度を与える
                 FirstVelocity = false;
             }
@@ -151,11 +160,13 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             Force_y = 20.0f;//y軸に与える力を初期化
             FirstVelocity = true;//一度だけ入る処理をリセット
             rigidBody.isKinematic = false;
+            rigidBody.useGravity = false;
             Initialize = false;
             ReleasedFlg = false;
             FireWindZone.SetActive(false);//WindZoneを非アクティブに
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
+           
         }
     }
 
@@ -190,6 +201,12 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.tag == "Candle") {
+            CircularMotion();
+        }
+    }
 
     private void OnCollisionExit(Collision collision)
     {
@@ -211,10 +228,17 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
   
     private void CircularMotion()//円運動
     {
-            x = Length * Mathf.Sin(count);
-            y = transform.position.y;
-            z = Length * Mathf.Cos(count);
-            transform.position = new Vector3(x, y, z);
+        count += Time.deltaTime * RotateSpeed;
+
+        x = Length * Mathf.Sin(count);
+        y = transform.position.y;
+        z = Length * Mathf.Cos(count);
+        transform.position = new Vector3(x, y, z);
+    }
+
+    private void BoundMotion()
+    {
+        CircularMotion();
     }
 
     public void UpSpeedCandleCenterHit()//Speed変化
