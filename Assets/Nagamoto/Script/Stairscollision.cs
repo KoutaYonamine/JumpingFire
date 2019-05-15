@@ -9,6 +9,7 @@ public class Stairscollision : InitializeVariable
 
     private GameObject touchobject;                       //タッチアイコンのオブジェクト
     private GameObject startobject;                       //スタートのオブジェクト
+    private GameObject clearobject;                       //クリアのオブジェクト
 
     // Use this for initialization
     void Start () {
@@ -17,6 +18,7 @@ public class Stairscollision : InitializeVariable
         numberobject = GameObject.Find("Number");       //ナンバーのオブジェクト取得
         touchobject = GameObject.Find("Touch");         //タッチアイコンのオブジェクト取得
         startobject = GameObject.Find("Start");         //スタートのオブジェクト取得
+        clearobject = GameObject.Find("Clear");         //クリアのオブジェクト取得
 
         number = GameObject.Find("Canvas").GetComponent<Number>();  //ナンバースクリプトの取得
         //colliderLength_Copy = GameObject.Find("WallCandleStickUnited_01").GetComponent<ColliderLength_copy>();
@@ -56,6 +58,14 @@ public class Stairscollision : InitializeVariable
     public bool getmouseflag(){
         return mouseflag;
     }
+    //Touchboolを返す
+    public bool gettouchbool(){
+        return Touchbool;
+    }
+    //Touchboolを返す
+    public bool getgoalflag(){
+        return goalflag;
+    }
 
     private void OnCollisionEnter(Collision collision){
         if(collision.gameObject.name == "Stairs" || collision.gameObject.tag == "Cylinder"){      //触れたものが階段の場合
@@ -67,6 +77,10 @@ public class Stairscollision : InitializeVariable
             Candlestick += 1;
             number.View(Candlestick);
             }
+        }
+        if(collision.gameObject.name == "PublishFire_Prefab (1)"){      //触れたものがゴールの場合
+            moveflag = false;
+            goalflag = true;
         }
         
     }
@@ -127,11 +141,24 @@ public class Stairscollision : InitializeVariable
         //触れてからの時間差
         if (Collision == true){  
             time += Time.deltaTime;             //時間計測
-            if(time >= 2){                      //2秒以上たったら
+            if(time >= 1){                      //2秒以上たったら
                 number.Result();                //桁によるスコアの移動用
                 Touchbool = true;               //スイッチオン
                 time = 0;
             }
+        }
+        //クリアイメージの表示/非表示
+        if(goalflag == true){
+            time += Time.deltaTime;             //時間計測
+            if (time >= 1){
+                Debug.Log("Claer");
+                clearobject.SetActive(true);    //クリアを表示
+                Touchbool = true;
+                time = 0;
+            }
+        }
+        else{
+            clearobject.SetActive(false);       //クリアを非表示
         }
     }
 }
