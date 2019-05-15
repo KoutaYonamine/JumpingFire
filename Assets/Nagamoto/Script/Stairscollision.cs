@@ -11,6 +11,9 @@ public class Stairscollision : InitializeVariable
     private GameObject startobject;                       //スタートのオブジェクト
     private GameObject clearobject;                       //クリアのオブジェクト
 
+    public GameObject CandleStick;
+    private ParticleSystem BoneFire;
+
     // Use this for initialization
     void Start () {
         time = 0;                                       //計測用
@@ -31,7 +34,7 @@ public class Stairscollision : InitializeVariable
         StartPosition = this.transform.position;        //スタート位置の保存  
         number.View(Candlestick);                       //最初の数字を読み込む
 
-
+        BoneFire = CandleStick.GetComponent<ColliderLength_copy>().transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
     }
 
     //Collisionflagを返す
@@ -103,7 +106,8 @@ public class Stairscollision : InitializeVariable
         else{
             touchobject.SetActive(true);        //タッチアイコンの表示
             ParticleAlive.Stop();               //炎のパーティクルを消す
-            
+            StopBoneFire = true;
+
             //タッチアイコンが出たとき
             if (Input.GetMouseButtonDown(0)||Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began){
                 //初期化
@@ -117,6 +121,7 @@ public class Stairscollision : InitializeVariable
                 var CameraManeger = Player.GetComponent<CS_Player_copy>();
                 CameraManeger.MainCamera.enabled = true;
                 CameraManeger.ClearCamera.enabled = false;
+
             }
         }
         if(mouseflag == false){

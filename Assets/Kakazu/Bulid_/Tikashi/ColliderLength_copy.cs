@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColliderLength_copy : MonoBehaviour
+public class ColliderLength_copy : InitializeVariable
 {
     AudioSource[] audiosource; //サウンド
     AudioClip HitSounds; //サウンド
     AudioClip NotSounds; //サウンド
-
-    private GameObject BoneFire;
 
     private Vector3 P_Position; //プレイヤーのポジション
     private Vector3 Difference; //プレイヤーと燭台の差分
@@ -25,6 +23,8 @@ public class ColliderLength_copy : MonoBehaviour
 
     [SerializeField] float DifferenceY;
 
+    private ParticleSystem BoneFire;
+
     // Use this for initialization
     void Start () {
         audiosource = GetComponents<AudioSource>();  //サウンド
@@ -33,8 +33,9 @@ public class ColliderLength_copy : MonoBehaviour
         NotSounds = audiosource[1].clip;    //サウンド
         Debug.Log(NotSounds);
 
-        BoneFire = GameObject.Find("CampFire");
-        BoneFire.SetActive(false);
+        //BoneFire.SetActive(false);
+        BoneFire = transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
+        BoneFire.Stop();
 
         targetObject = GameObject.Find("Main Camera");
         this.transform.LookAt(new Vector3(targetObject.transform.position.x, transform.position.y, targetObject.transform.position.z)); //燭台をカメラに向ける
@@ -47,25 +48,30 @@ public class ColliderLength_copy : MonoBehaviour
 
     // Update is called once per frame
     void Update () {
-        
+        if (StopBoneFire)
+            BoneFire.Stop();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player") //プレイヤーが触れたら
         {
-            BoneFire.SetActive(true);
+            BoneFire.Play();//炎のParticleをアクティブに
             P_Position = collision.transform.position; //プレイヤーの座標を代入
             Difference = P_Position - transform.position; //差分
             Magnitude = Difference.magnitude;
             LengthCheck(); //フラグ切り替え
             PlayerObj.GetComponent<CS_Player_copy>().UpSpeedCandleCenterHit();
-            //Debug.Log("Candle側");
         }
         if (P_Position.y > transform.position.y + DifferenceY) {//燭台より上
             CsPlayer.initialize = true; //燭台に乗ったらtrue
             RigidPlayer.isKinematic = true;//物理挙動をカット
+            RigidPlayer.useGravity = true;
+            //RigidPlayer.velocity = Vector3.zero;
+            //BoneFire.SetActive(false);
         }
+        var mat = this.GetComponent<BoxCollider>().material;//使われているマテリアル取得
+
     }
     private void OnCollisionExit(Collision collision)
     {
