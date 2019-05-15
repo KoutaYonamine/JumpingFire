@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ClearCandle : MonoBehaviour {
 
+    private GameObject ClearBoneFire;
+
     public GameObject Player;
     private CS_Player_copy PlayerScript;
     private Rigidbody RigidPlayer;
@@ -12,6 +14,8 @@ public class ClearCandle : MonoBehaviour {
 	void Start () {
         PlayerScript = Player.GetComponent<CS_Player_copy>();
         RigidPlayer = Player.GetComponent<Rigidbody>();
+        ClearBoneFire = GameObject.Find("ClearCampFire");
+        ClearBoneFire.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -22,6 +26,8 @@ public class ClearCandle : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Player") {
+            ClearBoneFire.SetActive(true);
+
             PlayerScript.initialize = true;
             RigidPlayer.isKinematic = true;
         }
