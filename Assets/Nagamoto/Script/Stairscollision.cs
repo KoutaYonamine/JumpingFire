@@ -72,7 +72,7 @@ public class Stairscollision : InitializeVariable
             Collision = true;
             moveflag = false;
         }
-        if(collision.gameObject.name == "WallCandleStickUnited_01(Clone)"){    //触れたものが燭台の場合
+        if(collision.gameObject.tag == "Candle"){    //触れたものが燭台の場合
             if(Collision == false){
             Candlestick += 1;
             number.View(Candlestick);
@@ -92,7 +92,6 @@ public class Stairscollision : InitializeVariable
             startobject.SetActive(true);        //スタートイメージの表示
         }
         else{
-
             startobject.SetActive(false);       //スタートイメージの非表示
             Numflag = true;
         }
@@ -130,6 +129,7 @@ public class Stairscollision : InitializeVariable
         //スタートを押したとき
         if (Input.GetMouseButtonDown(0) && mouseflag == true || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && mouseflag == true){
             Staflag = true;
+
         }
         //ナンバーイメージの表示/非表示
         if (Numflag == false){
