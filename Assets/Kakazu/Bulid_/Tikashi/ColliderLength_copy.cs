@@ -29,7 +29,9 @@ public class ColliderLength_copy : MonoBehaviour
     void Start () {
         audiosource = GetComponents<AudioSource>();  //サウンド
         HitSounds = audiosource[0].clip;    //サウンド
+        Debug.Log(HitSounds);
         NotSounds = audiosource[1].clip;    //サウンド
+        Debug.Log(NotSounds);
 
         BoneFire = GameObject.Find("CampFire");
         BoneFire.SetActive(false);
@@ -67,7 +69,7 @@ public class ColliderLength_copy : MonoBehaviour
     }
     private void OnCollisionExit(Collision collision)
     {
-        CsPlayer.initialize = false;
+        //CsPlayer.initialize = false;
     }
 
     private void LengthCheck() //フラグ切り替え
