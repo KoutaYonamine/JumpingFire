@@ -15,6 +15,7 @@ public class ClearCandle : MonoBehaviour {
         PlayerScript = Player.GetComponent<CS_Player_copy>();
         RigidPlayer = Player.GetComponent<Rigidbody>();
         ClearBoneFire = GameObject.Find("ClearCampFire");
+        ClearBoneFire.SetActive(false);
 	}
 	
 	// Update is called once per frame
