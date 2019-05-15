@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4453016, g: 0.49494362, b: 0.57394195, a: 1}
+  m_IndirectSpecularColor: {r: 0.44530243, g: 0.4949444, b: 0.57394284, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -5010,7 +5010,9 @@ Prefab:
       propertyPath: m_TagString
       value: LastWallCandle
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 199798264658363512, guid: 8e4ad10781ed71d4bae03b1f233dabde, type: 2}
+    - {fileID: 198460006607113316, guid: 8e4ad10781ed71d4bae03b1f233dabde, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 8e4ad10781ed71d4bae03b1f233dabde, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1489738897
@@ -5171,12 +5173,12 @@ Prefab:
     - target: {fileID: 224528356452901546, guid: 6df8d6fb2c1d31141a4af67b3415e5ab,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 320
+      value: 120.5
       objectReference: {fileID: 0}
     - target: {fileID: 224528356452901546, guid: 6df8d6fb2c1d31141a4af67b3415e5ab,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 240
+      value: 214
       objectReference: {fileID: 0}
     - target: {fileID: 224528356452901546, guid: 6df8d6fb2c1d31141a4af67b3415e5ab,
         type: 2}
@@ -8892,7 +8894,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3776eee9533012d40b677ac7f8f89e8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createObject: {fileID: 1076481871427012, guid: 1fe26b775391e094ba6252b0151fe519,
+  createObject: {fileID: 1813920090893492, guid: 9f80de18cc35c2e41af2f497d9354ba1,
     type: 2}
   itemCount: 60
   radius: 5
