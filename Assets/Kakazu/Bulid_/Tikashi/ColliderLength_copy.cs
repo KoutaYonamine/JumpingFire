@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ColliderLength_copy : MonoBehaviour
 {
+    AudioSource[] audiosource; //サウンド
+    AudioClip HitSounds; //サウンド
+    AudioClip NotSounds; //サウンド
+
     private GameObject BoneFire;
 
     private Vector3 P_Position; //プレイヤーのポジション
@@ -23,6 +27,10 @@ public class ColliderLength_copy : MonoBehaviour
 
     // Use this for initialization
     void Start () {
+        audiosource = GetComponents<AudioSource>();  //サウンド
+        HitSounds = audiosource[0].clip;    //サウンド
+        NotSounds = audiosource[1].clip;    //サウンド
+
         BoneFire = GameObject.Find("CampFire");
         BoneFire.SetActive(false);
 
@@ -66,12 +74,16 @@ public class ColliderLength_copy : MonoBehaviour
     {
         if(Magnitude <= Length)
         {
+            audiosource[0].PlayOneShot(HitSounds); //サウンド
+
             CsPlayer.addspeed = true;
 
             //Debug.Log(CsPlayer.addspeed);
         }
         else if(Magnitude > Length)
         {
+            audiosource[1].PlayOneShot(NotSounds); //サウンド
+
             CsPlayer.addspeed = false;
             //Debug.Log(CsPlayer.addspeed);
         }
