@@ -75,8 +75,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 ReleasedFlg = true;
                 BoundFlg = true;
             }
-            if (Input.GetMouseButton(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true && ClearInputFlg == true) {//押し続けた時
-            }
             if (Input.GetMouseButtonUp(0) && ClearInputFlg == true) {//離した時
                 if (ReleasedFlg) {
                     ClickFlg = 0;
@@ -97,21 +95,23 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 // タッチ情報の取得
                 Touch touch = Input.GetTouch(0);
 
-                if (touch.phase == TouchPhase.Began && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true)//押した瞬間
+                if (touch.phase == TouchPhase.Began && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true && ClearInputFlg == true)//押した瞬間
                 {
                     ClickFlg = 2;
                     ReleasedFlg = true;
+                    BoundFlg = true;
                 }
 
-                if (touch.phase == TouchPhase.Moved && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true) {//押しっぱなし
-                }
-
-                if (touch.phase == TouchPhase.Ended)//離した瞬間
+                if (touch.phase == TouchPhase.Ended && ClearInputFlg == true)//離した瞬間
                 {
                     if (ReleasedFlg) {
                         ClickFlg = 0;
                         ReleasedFlg = false;
+                        BoundFlg = true;
                     }
+                }
+                if (touch.phase == TouchPhase.Began && ClearInputFlg == false) {
+                    MovementToClear();
                 }
             }
         }

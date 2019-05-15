@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ColliderLength_copy : MonoBehaviour
 {
+    private GameObject BoneFire;
 
     private Vector3 P_Position; //プレイヤーのポジション
     private Vector3 Difference; //プレイヤーと燭台の差分
@@ -22,6 +23,9 @@ public class ColliderLength_copy : MonoBehaviour
 
     // Use this for initialization
     void Start () {
+        BoneFire = GameObject.Find("CampFire");
+        BoneFire.SetActive(false);
+
         targetObject = GameObject.Find("Main Camera");
         this.transform.LookAt(new Vector3(targetObject.transform.position.x, transform.position.y, targetObject.transform.position.z)); //燭台をカメラに向ける
 
@@ -40,6 +44,7 @@ public class ColliderLength_copy : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player") //プレイヤーが触れたら
         {
+            BoneFire.SetActive(true);
             P_Position = collision.transform.position; //プレイヤーの座標を代入
             Difference = P_Position - transform.position; //差分
             Magnitude = Difference.magnitude;

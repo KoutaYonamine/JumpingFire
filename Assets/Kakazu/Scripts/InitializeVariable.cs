@@ -23,6 +23,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected bool Staflag = false;                               //スタートflag
     static protected bool moveflag = true;                              //移動flag
     static protected bool mouseflag = true;                      //画面タッチflag
+    static protected bool goalflag = false;                     //ゴールflag
 
     static protected Number number;
     static protected GameObject Player;
@@ -94,6 +95,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
         Numflag = false;                                //ナンバーイメージflag
         moveflag = true;                                //移動flag
         mouseflag = false;
+        goalflag = false;
         number.View(Candlestick);                       //最初の数字を読み込む
         rd.useGravity = false;
         rd.velocity = Vector3.zero;
