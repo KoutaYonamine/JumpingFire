@@ -24,7 +24,7 @@ public class Softfocus : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if(stair.getCollisionflag() == true){
+        if(stair.gettouchbool() == true && stair.getgoalflag() == false){
             completely.color = new Color(red, green, blue, alfa);
             if(alfa <= 0.5f){
                 alfa += speed;
