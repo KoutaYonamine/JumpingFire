@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33826125400419608}
   - component: {fileID: 23518523699382542}
   - component: {fileID: 114614972142710808}
-  - component: {fileID: 65889734208248806}
   m_Layer: 0
   m_Name: WallCandleStickUnited_Prefab_01
   m_TagString: Untagged
@@ -84,18 +83,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1556473707607236}
   m_Mesh: {fileID: 4300000, guid: 0b1fb67606a906b499b83dcaf2a3df6a, type: 3}
---- !u!65 &65889734208248806
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1556473707607236}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.2, y: 0, z: 0.0276835}
-  m_Center: {x: -0.000000001192093, y: 0.0147781, z: -0.004127565}
 --- !u!114 &114614972142710808
 MonoBehaviour:
   m_ObjectHideFlags: 1
