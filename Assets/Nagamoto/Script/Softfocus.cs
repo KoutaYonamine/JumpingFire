@@ -12,7 +12,6 @@ public class Softfocus : MonoBehaviour {
     private float red, green, blue;             //色
     private Stairscollision stair;              //Stairscollisionスクリプトの取得
 
-
     // Use this for initialization
     void Start () {
         completely = GameObject.Find("Completely").GetComponent<Image>();

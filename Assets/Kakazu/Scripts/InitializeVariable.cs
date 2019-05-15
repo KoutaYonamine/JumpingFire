@@ -11,8 +11,10 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected bool AddSpeedFlg = false;//燭台の中心に当たったかどうか
     static protected bool Initialize = false; //スピード初期化判定
     static protected bool BoundFlg = false;//階段に落下した際の挙動判定
+    static protected bool ClearInputFlg = true;//円運動の許可
 
     static protected int Candlestick = 0;                            //進んだ燭台の数
+    static protected int numdigit = 0;                           //桁によるスコアの移動
 
     static protected bool Collision = false;                             //当たり判定用flag
     static protected bool Touchbool = false;                             //タッチアイコン用flag
@@ -75,6 +77,8 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
         FirstVelocity = true;//一度だけ入る(1フレーム目
         AddSpeedFlg = false;//燭台の中心に当たったかどうか
         Initialize = false; //スピード初期化判定
+        ClearInputFlg = true;//円運動の許可
+
 
         Force_y = 20.0f;//yに与える力
         RotateSpeed = 0.4f;//円運動の速度
@@ -82,6 +86,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
 
         //Player.transform.position = StartPosition;    //スタート位置に行く
         Candlestick = 0;                                //進んだ燭台の数
+        numdigit = 0;                                   //桁によるスコアの移動
         Staflag = false;                                 //スタートflag
         Collision = false;                              //当たっていないとき
         Touchbool = false;                              //タッチアイコンを表示しない
