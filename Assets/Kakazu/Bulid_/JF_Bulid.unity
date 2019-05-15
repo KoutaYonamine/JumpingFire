@@ -5144,12 +5144,12 @@ Prefab:
     - target: {fileID: 224450179717873660, guid: 41089b58b5942f245a41e54e84fdf458,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 118.5
+      value: 120.5
       objectReference: {fileID: 0}
     - target: {fileID: 224450179717873660, guid: 41089b58b5942f245a41e54e84fdf458,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 211
+      value: 214
       objectReference: {fileID: 0}
     - target: {fileID: 224450179717873660, guid: 41089b58b5942f245a41e54e84fdf458,
         type: 2}
@@ -5556,7 +5556,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1754176362}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: -2.83, y: -0.21, z: 0.73}
+  m_LocalPosition: {x: -2.83, y: -0.71, z: 0.25}
   m_LocalScale: {x: 4, y: 1, z: 1}
   m_Children:
   - {fileID: 1181770172}
@@ -5679,7 +5679,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -1444624128
+  randomSeed: 446621055
   InitialModule:
     serializedVersion: 3
     enabled: 1
