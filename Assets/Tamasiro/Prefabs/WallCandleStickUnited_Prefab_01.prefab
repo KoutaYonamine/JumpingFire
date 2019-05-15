@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114614972142710808}
   - component: {fileID: 65889734208248806}
   m_Layer: 0
-  m_Name: WallCandleStickUnited_Prefab
+  m_Name: WallCandleStickUnited_Prefab_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
