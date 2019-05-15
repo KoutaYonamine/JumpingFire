@@ -101,7 +101,9 @@ public class Stairscollision : InitializeVariable
                 ReloadInitializeVariable();
                 ParticleAlive.Play();           //炎のパーティクルを出す
                 FireWindZone.SetActive(false);
-                //Debug.Log("初期化側");
+                var CameraManeger = Player.GetComponent<CS_Player_copy>();
+                CameraManeger.MainCamera.enabled = true;
+                CameraManeger.ClearCamera.enabled = false;
             }
         }
         if(mouseflag == false){

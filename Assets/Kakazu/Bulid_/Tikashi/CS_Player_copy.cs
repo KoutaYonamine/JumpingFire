@@ -16,9 +16,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     [SerializeField] private float AddSpeed;//燭台の中心に乗った時にSpeedUp
     private float tempRotateSpeed;//RotateSpeedの退避用変数
 
-    private GameObject Camera;//カメラをゲットコンポーネント
-    private Vector3 CameraPosition;//カメラのポジション
-
     private GameObject GOAL;
 
     private Stairscollision staircollision; //stairscollisionのスクリプト 変更点
@@ -29,8 +26,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     [SerializeField] Vector3 _Vel;
     [SerializeField] Vector3 ClearVelocity;//クリアの聖火台にジャンプする時のVelocity
 
-    //private Quaternion WindZoneQuaternion;
-    private Vector3 WindZoneQuaternion;
+    public Camera MainCamera;
+    public Camera ClearCamera;
 
     void Start()
     {
@@ -39,8 +36,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         FireWindZone.SetActive(false);//WindZoneを非アクティブに
 
         StartPosition = this.transform.position;
-        Camera = GameObject.Find("Main Camera");
-        CameraPosition = Camera.transform.position;
+        //Camera = GameObject.Find("Main Camera");
+        //CameraPosition = Camera.transform.position;
 
         Length = transform.position.magnitude - 0.5f;
         AtanAngle = Mathf.Atan2(StartPosition.x, StartPosition.z);
@@ -53,6 +50,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         GOAL = GameObject.Find("PublishFire_Prefab (1)");
         GOAL.SetActive(false);
 
+        ClearCamera.enabled = false;//クリア時のカメラを無効
     }
 
     // Update is called once per frame
@@ -163,7 +161,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (/*collision.gameObject.tag == "Respawn" || */collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
+        if (collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
             Force_y = 20.0f;//y軸に与える力を初期化
             FirstVelocity = true;//一度だけ入る処理をリセット
             ReleasedFlg = false;
@@ -182,6 +180,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         {
             ClearInputFlg = false;
             GOAL.SetActive(true);
+
+            MainCamera.enabled = false;
+            ClearCamera.enabled = true;
         }
         if(collision.gameObject.tag == "Goal")
         {
@@ -231,7 +232,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         ClearDirection = GOAL.transform.position - transform.position;//ベクトル取得
         ClearDirection.Normalize();//ベクトルを正規化
 
-        Debug.Log("できた");
         rigidBody.useGravity = true;
         rigidBody.AddForce(ClearVelocity, ForceMode.Impulse);
     }
