@@ -76,7 +76,7 @@ public class Stairscollision : InitializeVariable
             moveflag = false;
         }
         if(collision.gameObject.tag == "Candle"){    //触れたものが燭台の場合
-            if(Collision == false){
+            if(Collision == false && StopBoneFire == false){
             Candlestick += 1;
             number.View(Candlestick);
             }
