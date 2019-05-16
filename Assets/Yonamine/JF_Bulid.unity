@@ -3709,16 +3709,6 @@ Prefab:
       value: 
       objectReference: {fileID: 1059939004876370, guid: 490eba275b369c64a95d6f48e6827671,
         type: 2}
-    - target: {fileID: 114601163346150860, guid: 2d4de448ac2b55e4faa13fbfda668117,
-        type: 2}
-      propertyPath: StairsVel.x
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114601163346150860, guid: 2d4de448ac2b55e4faa13fbfda668117,
-        type: 2}
-      propertyPath: StairsVel.y
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d4de448ac2b55e4faa13fbfda668117, type: 2}
   m_IsPrefabParent: 0

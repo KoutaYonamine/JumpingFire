@@ -32,4 +32,10 @@ public class ClearCandle : MonoBehaviour {
             RigidPlayer.isKinematic = true;
         }
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        ClearBoneFire.SetActive(false);
+        this.gameObject.SetActive(false);
+    }
 }
