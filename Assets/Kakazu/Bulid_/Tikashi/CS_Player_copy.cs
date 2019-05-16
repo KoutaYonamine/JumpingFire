@@ -21,16 +21,18 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private GameObject GOAL;
 
-    private Stairscollision staircollision; //stairscollisionのスクリプト 変更点
+    private Stairscollision staircollision; 
 
     private float Length;//半径
     private float AtanAngle;//方位角　角度
     private float count;
-    [SerializeField] Vector3 _Vel;
-    //[SerializeField] Vector3 ClearVelocity;//クリアの聖火台にジャンプする時のVelocity
+    Vector3 StairsVel　= new Vector3(6, 4, 0);//階段に落ちたときのバウンドVelocity
 
     public Camera MainCamera;
     public Camera ClearCamera;
+
+    private bool DebugBoundFlg;
+    private float BoundCount;
 
     void Start()
     {
@@ -42,8 +44,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         FireWindZone.SetActive(false);//WindZoneを非アクティブに
 
         StartPosition = this.transform.position;
-        //Camera = GameObject.Find("Main Camera");
-        //CameraPosition = Camera.transform.position;
 
         Length = transform.position.magnitude - 0.5f;
         AtanAngle = Mathf.Atan2(StartPosition.x, StartPosition.z);
@@ -62,10 +62,16 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     // Update is called once per frame
     void Update()
     {
+        DebugLogFunction();
         InputMouse_Touch();
 
         if (ClickFlg == 2)
             FrameCount++;
+
+        if (DebugBoundFlg) {
+            //BoundMotion();
+            
+        }
     }
     private void FixedUpdate()
     {
@@ -92,6 +98,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             if (Input.GetMouseButtonDown(0) && ClearInputFlg == false)
             {
                 MovementToClear();
+                
             }
         }
         else
@@ -119,6 +126,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 }
                 if (touch.phase == TouchPhase.Began && ClearInputFlg == false) {
                     MovementToClear();
+                    
                 }
             }
         }
@@ -127,8 +135,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     void FireMovement()//Playerの挙動
     {
         if (ClickFlg == 0) {
-            //count += Time.deltaTime * RotateSpeed;
-
             CircularMotion();//円運動
             
             Force_y = Force_y - UnnaturalGrvity;//離した時に急な落下をさせる
@@ -138,7 +144,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }
 
         if (ClickFlg == 2) {
-            //count += Time.deltaTime * RotateSpeed;//今いる位置から移動を開始
             if (FirstVelocity) {//一度だけ入る
                 audioSource.PlayOneShot(JumpFireSounds);    //サウンド
 
@@ -160,13 +165,13 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             Force_y = 20.0f;//y軸に与える力を初期化
             FirstVelocity = true;//一度だけ入る処理をリセット
             rigidBody.isKinematic = false;
-            rigidBody.useGravity = false;
+            //rigidBody.useGravity = false;
             Initialize = false;
             ReleasedFlg = false;
             FireWindZone.SetActive(false);//WindZoneを非アクティブに
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
-           
+            DebugBoundFlg = true;
         }
     }
 
@@ -181,11 +186,13 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             if (BoundFlg == true) {//階段での動き
                 rigidBody.useGravity = true;
 
-                rigidBody.velocity = _Vel;
+                rigidBody.velocity = StairsVel;
                 CircularMotion();//円運動
                 BoundFlg = false;
             }
+            BoundCount = count;
             count = AtanAngle;
+            //BoundMotion();
         }
         if (collision.gameObject.tag == "LastWallCandle")
         {
@@ -195,16 +202,14 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             MainCamera.enabled = false;
             ClearCamera.enabled = true;
         }
-        if(collision.gameObject.tag == "Goal")
-        {
-            initialize = true;
+        if(collision.gameObject.tag == "Candle") {
         }
     }
 
     private void OnCollisionStay(Collision collision)
     {
         if(collision.gameObject.tag == "Candle") {
-            CircularMotion();
+            //BoundMotion();
         }
     }
 
@@ -212,6 +217,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     {
         if(collision.gameObject.tag == "Candle") {
             FireWindZone.SetActive(true);
+            //DebugBoundFlg = false;
         }
     }
 
@@ -238,7 +244,17 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private void BoundMotion()
     {
-        CircularMotion();
+        //BoundCount = count;
+        BoundCount += Time.deltaTime * 0.1f;
+
+        x = Length * Mathf.Sin(BoundCount);
+        y = transform.position.y;
+        z = Length * Mathf.Cos(BoundCount);
+        transform.position = new Vector3(x, y, z);
+        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        Debug.Log(BoundCount + " : BoundCount");
+        Vector3 _Force = new Vector3(0, 1.0f, 0);
+        rigidBody.AddForce(_Force, ForceMode.Impulse);
     }
 
     public void UpSpeedCandleCenterHit()//Speed変化
@@ -251,7 +267,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         
     }
 
-    private void MovementToClear()
+    private void MovementToClear()//最後の燭台に乗った時ベクトルを変更
     {
         ClearDirection = GOAL.transform.position - transform.position;//ベクトル取得
         ClearDirection.Normalize();//ベクトルを正規化
@@ -260,4 +276,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         rigidBody.AddForce(ClearVelocity, ForceMode.Impulse);
     }
 
+    private void DebugLogFunction()
+    {
+        //Debug.Log(count + " : count");
+        //Debug.Log(BoundCount + " : BoundCount");
+    }
 }

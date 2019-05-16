@@ -50,7 +50,6 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected Vector3 ClearVelocity = new Vector3(0, 10.0f, -10.0f);//クリアの聖火台にジャンプする時のVelocity
 
     //燭台に継承している変数
-    //static protected ParticleSystem BoneFire;
 
     //火のパーティクルのOn Off
     private void Awake()
