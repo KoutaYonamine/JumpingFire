@@ -31,6 +31,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     public Camera MainCamera;
     public Camera ClearCamera;
 
+    private bool DebugBoundFlg;
+    private float BoundCount;
+
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();  //サウンド
@@ -59,10 +62,16 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     // Update is called once per frame
     void Update()
     {
+        DebugLogFunction();
         InputMouse_Touch();
 
         if (ClickFlg == 2)
             FrameCount++;
+
+        if (DebugBoundFlg) {
+            //BoundMotion();
+            
+        }
     }
     private void FixedUpdate()
     {
@@ -156,13 +165,13 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             Force_y = 20.0f;//y軸に与える力を初期化
             FirstVelocity = true;//一度だけ入る処理をリセット
             rigidBody.isKinematic = false;
-            rigidBody.useGravity = false;
+            //rigidBody.useGravity = false;
             Initialize = false;
             ReleasedFlg = false;
             FireWindZone.SetActive(false);//WindZoneを非アクティブに
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
-
+            DebugBoundFlg = true;
         }
     }
 
@@ -181,7 +190,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 CircularMotion();//円運動
                 BoundFlg = false;
             }
+            BoundCount = count;
             count = AtanAngle;
+            //BoundMotion();
         }
         if (collision.gameObject.tag == "LastWallCandle")
         {
@@ -198,7 +209,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private void OnCollisionStay(Collision collision)
     {
         if(collision.gameObject.tag == "Candle") {
-            //CircularMotion();
+            //BoundMotion();
         }
     }
 
@@ -206,6 +217,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     {
         if(collision.gameObject.tag == "Candle") {
             FireWindZone.SetActive(true);
+            //DebugBoundFlg = false;
         }
     }
 
@@ -232,7 +244,17 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private void BoundMotion()
     {
-        
+        //BoundCount = count;
+        BoundCount += Time.deltaTime * 0.1f;
+
+        x = Length * Mathf.Sin(BoundCount);
+        y = transform.position.y;
+        z = Length * Mathf.Cos(BoundCount);
+        transform.position = new Vector3(x, y, z);
+        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        Debug.Log(BoundCount + " : BoundCount");
+        Vector3 _Force = new Vector3(0, 1.0f, 0);
+        rigidBody.AddForce(_Force, ForceMode.Impulse);
     }
 
     public void UpSpeedCandleCenterHit()//Speed変化
@@ -254,4 +276,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         rigidBody.AddForce(ClearVelocity, ForceMode.Impulse);
     }
 
+    private void DebugLogFunction()
+    {
+        //Debug.Log(count + " : count");
+        //Debug.Log(BoundCount + " : BoundCount");
+    }
 }
