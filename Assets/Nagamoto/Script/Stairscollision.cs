@@ -13,6 +13,7 @@ public class Stairscollision : InitializeVariable
 
     public GameObject CandleStick;
     private ParticleSystem BoneFire;
+    private ColliderLength_copy Length_Copy;
 
     // Use this for initialization
     void Start () {
@@ -35,6 +36,7 @@ public class Stairscollision : InitializeVariable
         number.View(Candlestick);                       //最初の数字を読み込む
 
         BoneFire = CandleStick.GetComponent<ColliderLength_copy>().transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
+        Length_Copy = CandleStick.GetComponent<ColliderLength_copy>();
     }
 
     //Collisionflagを返す
@@ -76,9 +78,9 @@ public class Stairscollision : InitializeVariable
             moveflag = false;
         }
         if(collision.gameObject.tag == "Candle"){    //触れたものが燭台の場合
-            if(Collision == false && StopBoneFire == false){
-            Candlestick += 1;
-            number.View(Candlestick);
+            if (Collision == false && Length_Copy.getBoneFire() == false){
+                Candlestick += 1;
+                number.View(Candlestick);
             }
         }
         if(collision.gameObject.name == "PublishFire_Prefab (1)"){      //触れたものがゴールの場合
