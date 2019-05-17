@@ -37,6 +37,7 @@ public class Stairscollision : InitializeVariable
 
         BoneFire = CandleStick.GetComponent<ColliderLength_copy>().transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         Length_Copy = CandleStick.GetComponent<ColliderLength_copy>();
+
     }
 
     //Collisionflagを返す
@@ -123,7 +124,6 @@ public class Stairscollision : InitializeVariable
                 var CameraManeger = Player.GetComponent<CS_Player_copy>();
                 CameraManeger.MainCamera.enabled = true;
                 CameraManeger.ClearCamera.enabled = false;
-
             }
         }
         if(mouseflag == false){

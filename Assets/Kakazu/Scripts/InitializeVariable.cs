@@ -105,7 +105,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
         numberobject.transform.position = NumberPosition;
         numberobject.transform.localScale = NumberScale;
         StopBoneFire = false;
-
+        
         //Force;//AddForce
         FrameCount = 0;//フレームをカウント
 
