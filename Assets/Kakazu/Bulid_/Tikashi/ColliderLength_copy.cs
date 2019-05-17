@@ -25,6 +25,8 @@ public class ColliderLength_copy : InitializeVariable
 
     private ParticleSystem BoneFire;
 
+    private bool BoneFireflag;
+
     // Use this for initialization
     void Start () {
         audiosource = GetComponents<AudioSource>();  //サウンド
@@ -50,6 +52,10 @@ public class ColliderLength_copy : InitializeVariable
             BoneFire.Stop();//燭台の炎を止める
     }
 
+    public bool getBoneFire(){
+        return BoneFire;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player") //プレイヤーが触れたら
@@ -66,6 +72,7 @@ public class ColliderLength_copy : InitializeVariable
             CsPlayer.initialize = true; //燭台に乗ったらtrue
             RigidPlayer.isKinematic = true;//物理挙動をカット
             RigidPlayer.useGravity = true;
+
         }
 
     }
