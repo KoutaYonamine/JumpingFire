@@ -34,6 +34,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private bool DebugBoundFlg;
     private float BoundCount;
 
+    private bool ClearClickCheck = true; //クリック制御
+
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();  //サウンド
@@ -82,23 +84,29 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     {
         // エディタ、実機で処理を分ける
         if (Application.isEditor) {// エディタで実行中
-            if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true && ClearInputFlg == true) {//押した時
+            if (ClearInputFlg == true)
+            {
+                if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true && ClearInputFlg == true)
+                {//押した時
 
-                ClickFlg = 2;
-                ReleasedFlg = true;
-                BoundFlg = true;
-            }
-            if (Input.GetMouseButtonUp(0) && ClearInputFlg == true) {//離した時
-                if (ReleasedFlg) {
-                    ClickFlg = 0;
-                    ReleasedFlg = false;
+                    ClickFlg = 2;
+                    ReleasedFlg = true;
                     BoundFlg = true;
+                }
+                if (Input.GetMouseButtonUp(0) && ClearInputFlg == true)
+                {//離した時
+                    if (ReleasedFlg)
+                    {
+                        ClickFlg = 0;
+                        ReleasedFlg = false;
+                        BoundFlg = true;
+                    }
                 }
             }
             if (Input.GetMouseButtonDown(0) && ClearInputFlg == false)
             {
+
                 MovementToClear();
-                
             }
         }
         else
@@ -124,9 +132,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                         BoundFlg = true;
                     }
                 }
-                if (touch.phase == TouchPhase.Began && ClearInputFlg == false) {
+                if (touch.phase == TouchPhase.Began && ClearInputFlg == false && ClearClickCheck) {
                     MovementToClear();
-                    
+                    ClearClickCheck = false;
                 }
             }
         }
