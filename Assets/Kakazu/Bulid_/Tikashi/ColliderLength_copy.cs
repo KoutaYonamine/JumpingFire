@@ -76,10 +76,7 @@ public class ColliderLength_copy : InitializeVariable
         }
         if (P_Position.y > transform.position.y + DifferenceY) {//燭台より上
             CsPlayer.initialize = true; //燭台に乗ったらtrue
-            //RigidPlayer.isKinematic = true;//物理挙動をカット
-            //RigidPlayer.useGravity = true;
-            RigidPlayer.velocity = Vector3.zero;
-
+            RigidPlayer.velocity = Vector3.zero;//velocityをゼロに
         }
 
     }
@@ -103,7 +100,7 @@ public class ColliderLength_copy : InitializeVariable
         }
         else if(Magnitude > Length)
         {
-            audiosource[1].PlayOneShot(NotSounds); //サウンド
+            audiosource[1].PlayOneShot(NotSounds); //サウンド 端っこ
 
             CsPlayer.addspeed = false;
         }
