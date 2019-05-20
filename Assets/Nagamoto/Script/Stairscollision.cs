@@ -13,6 +13,7 @@ public class Stairscollision : InitializeVariable
 
     public GameObject CandleStick;
     private ParticleSystem BoneFire;
+    private ColliderLength_copy Length_Copy;
 
     // Use this for initialization
     void Start () {
@@ -35,6 +36,8 @@ public class Stairscollision : InitializeVariable
         number.View(Candlestick);                       //最初の数字を読み込む
 
         BoneFire = CandleStick.GetComponent<ColliderLength_copy>().transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
+        Length_Copy = CandleStick.GetComponent<ColliderLength_copy>();
+
     }
 
     //Collisionflagを返す
@@ -76,9 +79,9 @@ public class Stairscollision : InitializeVariable
             moveflag = false;
         }
         if(collision.gameObject.tag == "Candle"){    //触れたものが燭台の場合
-            if(Collision == false && StopBoneFire == false){
-            Candlestick += 1;
-            number.View(Candlestick);
+            if (Collision == false && Length_Copy.getBoneFire() == false){
+                Candlestick += 1;
+                number.View(Candlestick);
             }
         }
         if(collision.gameObject.name == "PublishFire_Prefab (1)"){      //触れたものがゴールの場合
@@ -97,6 +100,7 @@ public class Stairscollision : InitializeVariable
         else{
             startobject.SetActive(false);       //スタートイメージの非表示
             Numflag = true;
+
         }
         //タッチアイコンの表示/非表示
         if (Touchbool == false){
@@ -121,19 +125,28 @@ public class Stairscollision : InitializeVariable
                 var CameraManeger = Player.GetComponent<CS_Player_copy>();
                 CameraManeger.MainCamera.enabled = true;
                 CameraManeger.ClearCamera.enabled = false;
-
             }
         }
         if(mouseflag == false){
             time += Time.deltaTime;
-            if(time >= 2){
-                mouseflag = true;
-                time = 0;
+            Debug.Log(time);
+            if(Staflag == true){
+                if(time >= 0.1){
+                    mouseflag = true;
+                    time = 0;
+                }
+            }
+            else{
+                if (time >= 0.7){
+                    mouseflag = true;
+                    time = 0;
+                }
             }
         }
         //スタートを押したとき
-        if (Input.GetMouseButtonDown(0) && mouseflag == true || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && mouseflag == true){
+        if (Input.GetMouseButtonDown(0) && mouseflag == true && Staflag == false|| Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && mouseflag == true && Staflag == false){
             Staflag = true;
+            mouseflag = false;
 
         }
         //ナンバーイメージの表示/非表示
@@ -147,7 +160,7 @@ public class Stairscollision : InitializeVariable
         if (Collision == true){  
             time += Time.deltaTime;             //時間計測
             if(time >= 1){                      //2秒以上たったら
-                number.Result();                //桁によるスコアの移動用
+                number.Result();                //桁によるスコアの移動
                 Touchbool = true;               //スイッチオン
                 time = 0;
             }
