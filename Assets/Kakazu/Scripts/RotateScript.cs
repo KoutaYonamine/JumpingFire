@@ -42,25 +42,36 @@ public class RotateScript : MonoBehaviour {
         PlayerMovement();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        //transform.position = Vector3.Lerp(transform.position, new Vector3(StartPosition.x, StartPosition.y + 20.0f, StartPosition.z), Time.deltaTime);
+        transform.Translate(Vector3.up * 1.0f, Space.Self);
+    }
+
     private void Input_Mouse()
     {
         if (Input.GetMouseButtonDown(0)){
             ClickFlg = 1;
+            transform.position = Vector3.Lerp(transform.position, new Vector3(StartPosition.x, StartPosition.y + 5.0f, StartPosition.z), Time.deltaTime * 2);
         }
         if (Input.GetMouseButtonUp(0)) {
             ClickFlg = 0;
+            //transform.Translate(Vector3.up * 1.0f);
+        }
+        if (Input.GetMouseButton(0)) {
+            //transform.Translate(Vector3.up * 0.05f);
         }
     }
 
     private void PlayerMovement()
     {
         if(ClickFlg == 1) {
-            RotateMovement();
-            //CircularMotion();
-            float Force_y = 10;
-            Vector3 Force = new Vector3(1, Force_y, 1);//y座標に力を加算
-            rbody.AddForce(Force);
-            Debug.Log(rbody.velocity);
+            //RotateMovement();
+            CircularMotion();
+            //float Force_y = 10;
+            //Vector3 Force = new Vector3(1, Force_y, 1);//y座標に力を加算
+            //rbody.AddForce(Force);
+            //Debug.Log(rbody.velocity);
         }
     }
 
