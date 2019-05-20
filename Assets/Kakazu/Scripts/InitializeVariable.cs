@@ -43,6 +43,9 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected Vector3 Force;//AddForce
     static protected int FrameCount = 0;//フレームをカウント
 
+    static private GameObject camera;
+    static private Vector3 CameraPosInit;       //カメラの初期位置
+
     /*[SerializeField] */
     static protected float RotateSpeed = 0.4f;//円運動の速度
 
@@ -62,6 +65,9 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
         NumberScale = GameObject.Find("Number").transform.localScale;   //数字の初期大きさ
         FireWindZone = GameObject.Find("WindZoneManager");
         ParticleAlive = GameObject.Find("fire1_add").GetComponent<ParticleSystem>();
+
+        camera = GameObject.FindGameObjectWithTag("MainCamera");       //カメラにアクセス
+        CameraPosInit = new Vector3(camera.transform.position.x, Player.transform.position.y + 6.0f, camera.transform.position.z);      //カメラの初期位置確保
     }
     // Use this for initialization
     void Start() {
@@ -111,5 +117,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
         FrameCount = 0;//フレームをカウント
 
         Vel = new Vector3(0, 10.0f, 10);//初速度
+
+        camera.transform.position = CameraPosInit;      //カメラの位置を初期化
     }
 }
