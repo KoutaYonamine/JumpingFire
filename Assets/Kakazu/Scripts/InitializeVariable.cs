@@ -52,8 +52,10 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected Vector3 Vel = new Vector3(0, 10.0f, 10);//初速度
     static protected Vector3 ClearVelocity = new Vector3(0, 10.0f, -10.0f);//クリアの聖火台にジャンプする時のVelocity
 
+    static protected bool IsBound = false;//燭台の上でバウンドするか
+    static protected bool JustOnce = false;//
+
     //燭台に継承している変数
-    //static protected ParticleSystem BoneFire;
 
     //火のパーティクルのOn Off
     private void Awake()
@@ -112,6 +114,9 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
         numberobject.transform.position = NumberPosition;
         numberobject.transform.localScale = NumberScale;
         StopBoneFire = false;
+
+        IsBound = false;
+        JustOnce = false;
 
         //Force;//AddForce
         FrameCount = 0;//フレームをカウント

@@ -6,6 +6,9 @@ public class ClearCandle : MonoBehaviour {
 
     private GameObject ClearBoneFire;
 
+    AudioSource audioSource;
+    AudioClip audioClip;
+
     public GameObject Player;
     private CS_Player_copy PlayerScript;
     private Rigidbody RigidPlayer;
@@ -16,6 +19,8 @@ public class ClearCandle : MonoBehaviour {
         RigidPlayer = Player.GetComponent<Rigidbody>();
         ClearBoneFire = GameObject.Find("ClearCampFire");
         ClearBoneFire.SetActive(false);
+        audioSource = GetComponent<AudioSource>();
+        audioClip = audioSource.clip;
 	}
 	
 	// Update is called once per frame
@@ -27,9 +32,18 @@ public class ClearCandle : MonoBehaviour {
     {
         if(collision.gameObject.tag == "Player") {
             ClearBoneFire.SetActive(true);
+            audioSource.PlayOneShot(audioClip);
 
             PlayerScript.initialize = true;
             RigidPlayer.isKinematic = true;
         }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        audioSource.Stop();
+
+        ClearBoneFire.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 }

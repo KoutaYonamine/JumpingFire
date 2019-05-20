@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Number : InitializeVariable {
+public class Number : InitializeVariable{
 
     public Sprite[] numimg;                             //ナンバーイメージ格納用
     public List<int> num = new List<int>();             //数値を入れる配列
