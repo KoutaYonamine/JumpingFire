@@ -33,7 +33,7 @@ public class ColliderLength_copy : InitializeVariable
         audiosource = GetComponents<AudioSource>();  //サウンド
         HitSounds = audiosource[0].clip;    //サウンド
         NotSounds = audiosource[1].clip;    //サウンド
-        BoneFireSounds = audiosource[2].clip; //サウンド
+        //BoneFireSounds = audiosource[2].clip; //サウンド
 
         BoneFire = transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         BoneFire.Stop();
@@ -65,7 +65,7 @@ public class ColliderLength_copy : InitializeVariable
         if (collision.gameObject.tag == "Player") //プレイヤーが触れたら
         {
             BoneFire.Play();//炎のParticleをアクティブに
-            audiosource[2].Play();//サウンド
+            //audiosource[2].Play();//サウンド
 
             P_Position = collision.transform.position; //プレイヤーの座標を代入
             Difference = P_Position - transform.position; //差分
@@ -87,7 +87,7 @@ public class ColliderLength_copy : InitializeVariable
 
     private void AudioSourceStop()
     {
-        audiosource[2].Stop();//サウンド
+        //audiosource[2].Stop();//サウンド
     }
 
     private void LengthCheck() //フラグ切り替え

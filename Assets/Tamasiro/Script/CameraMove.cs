@@ -36,7 +36,7 @@ public class CameraMove : MonoBehaviour {
         Vector3 SectionAreaLinescreenPos = cam.WorldToScreenPoint(sectionAreaLine.position);
         Debug.Log("SectionAreaLinescreen is" + SectionAreaLinescreenPos.x + "pixels from the left");
         Vector3 CamerascreenPos = cam.WorldToScreenPoint(pivot.position);
-        Debug.Log("pivot is" + CamerascreenPos.x + "pixels from the left");
+        //Debug.Log("pivot is" + CamerascreenPos.x + "pixels from the left");
 
         if (SectionAreaLinescreenPos.y <= CamerascreenPos.y)
         {

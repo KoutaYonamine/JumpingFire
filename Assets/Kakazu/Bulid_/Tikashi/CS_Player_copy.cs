@@ -239,7 +239,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             //if (BoundCountUp > 0) {
                 BoundForce = TempBoundForce / 2;//
            //}
-            if(/*BoundCountUp == 1*/ Type.typenumber == 1) {
+            if(BoundCountUp == 1 /*Type.typenumber == 1*/) {
                 //1回バウンド
                 //音が2回なる
                 //燭台の右側に着地するとそのまま落下
