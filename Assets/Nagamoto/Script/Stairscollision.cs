@@ -100,6 +100,7 @@ public class Stairscollision : InitializeVariable
         else{
             startobject.SetActive(false);       //スタートイメージの非表示
             Numflag = true;
+
         }
         //タッチアイコンの表示/非表示
         if (Touchbool == false){
@@ -128,14 +129,23 @@ public class Stairscollision : InitializeVariable
         }
         if(mouseflag == false){
             time += Time.deltaTime;
-            if(time >= 2){
-                mouseflag = true;
-                time = 0;
+            if(Staflag == true){
+                if(time >= 0.1){
+                    mouseflag = true;
+                    time = 0;
+                }
+            }
+            else{
+                if (time >= 0.7){
+                    mouseflag = true;
+                    time = 0;
+                }
             }
         }
         //スタートを押したとき
-        if (Input.GetMouseButtonDown(0) && mouseflag == true || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && mouseflag == true){
+        if (Input.GetMouseButtonDown(0) && mouseflag == true && Staflag == false|| Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && mouseflag == true && Staflag == false){
             Staflag = true;
+            mouseflag = false;
 
         }
         //ナンバーイメージの表示/非表示
@@ -149,7 +159,7 @@ public class Stairscollision : InitializeVariable
         if (Collision == true){  
             time += Time.deltaTime;             //時間計測
             if(time >= 1){                      //2秒以上たったら
-                number.Result();                //桁によるスコアの移動用
+                number.Result();                //桁によるスコアの移動
                 Touchbool = true;               //スイッチオン
                 time = 0;
             }

@@ -6,15 +6,16 @@ public class CameraMove : MonoBehaviour {
 
     [SerializeField]
     private Transform pivot;       //プレイヤーのTransform取得
-    //private GameObject canvas;
-    //private GameObject sectionAreaLine;     //セクションエリアラインにアクセス用変数
-
-
-    //Camera cam;     //カメラコンポーネントにアクセス用変数
-    //RectTransform SectionAreaLine;     //  キャンバスコンポーネントにアクセス用変数
+    private GameObject maincamera;
+    private Transform sectionAreaLine;     //セクションエリアラインにアクセス用変数
+    [SerializeField] private float CameraRiseSpeed = 20.0f;
+    Camera cam;     //カメラコンポーネントにアクセス用変数
+    RectTransform SectionAreaLine;     //  キャンバスコンポーネントにアクセス用変数
 
     private int Lookright   = 3;          //プレイヤーから右を見る
     private int Lookup      = -2;         //プレイヤーから上を見る
+
+
 
     //private GameObject player;
 
@@ -22,31 +23,35 @@ public class CameraMove : MonoBehaviour {
     void Start () {
         //player = GameObject.FindGameObjectWithTag("Player");
 
-        //canvas = GameObject.Find("Canvas");
-        //sectionAreaLine = canvas.transform.GetChild(4);
-        //cam = GetComponent<Camera>();       //カメラコンポーネントにアクセス
-        //SectionAreaLine = GetComponent<RectTransform>();       //キャンバスコンポーネントにアクセス
+        maincamera = GameObject.Find("Main Camera");
+        sectionAreaLine = maincamera.transform.GetChild(1);
+        cam = GetComponent<Camera>();       //カメラコンポーネントにアクセス
+        //SectionAreaLine = sectionAreaLine.GetComponent<RectTransform>();       //キャンバスコンポーネントにアクセス
 
-        //transform.position = new Vector3(transform.position.x, pivot.position.y + 6.0f, transform.position.z);
+        this.transform.position = new Vector3(this.transform.position.x, pivot.position.y + 6.0f, this.transform.position.z);
     }
-	
-	// Update is called once per frame
-	void Update () {
-        //Vector3 SectionAreaLinescreenPos = SectionAreaLine.WorldToScreenPoint(sectionAreaLine.position);
-        //Vector3 CamerascreenPos = cam.WorldToScreenPoint(pivot.position);
+
+    // Update is called once per frame
+    void Update () {
+        Vector3 SectionAreaLinescreenPos = cam.WorldToScreenPoint(sectionAreaLine.position);
+        Debug.Log("SectionAreaLinescreen is" + SectionAreaLinescreenPos.x + "pixels from the left");
+        Vector3 CamerascreenPos = cam.WorldToScreenPoint(pivot.position);
         //Debug.Log("pivot is" + CamerascreenPos.x + "pixels from the left");
 
-
+        if (SectionAreaLinescreenPos.y <= CamerascreenPos.y)
+        {
+            this.transform.Translate(Vector3.up * CameraRiseSpeed * Time.deltaTime, Space.World);
+        }
     }
     private void LateUpdate()
     {
+        
 
+        Vector3 LookPos = new Vector3(pivot.position.x, transform.position.y - 6.0f, pivot.position.z);
+        transform.LookAt(LookPos + transform.right * Lookright + transform.up * Lookup);
 
-        //Vector3 LookPos = new Vector3(pivot.position.x, transform.position.y - 6.0f, pivot.position.z);
-        //transform.LookAt(LookPos + transform.right * Lookright + transform.up * Lookup);
-
-        transform.position = new Vector3(transform.position.x, pivot.position.y + 6.0f, transform.position.z);
-        transform.LookAt(pivot.position + transform.right * Lookright + transform.up * Lookup);
+        //transform.position = new Vector3(transform.position.x, pivot.position.y + 6.0f, transform.position.z);
+        //transform.LookAt(pivot.position + transform.right * Lookright + transform.up * Lookup);
     }
 }
 

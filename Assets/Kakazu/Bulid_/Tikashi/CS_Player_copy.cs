@@ -36,6 +36,17 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private bool ClearClickCheck = true; //クリック制御
 
+    /************燭台上でのバウンド処理*************/
+    //private bool IsBound = false;//燭台の上でバウンドするか
+    //private bool JustOnce = false;//
+    [SerializeField]private float BoundGravity = 0.01f;//0.05
+    [SerializeField]private float BoundForce = 0.1f;//2.0
+    private float TempBoundForce;
+    private int BoundCountUp = 0;
+    private int countup = 0;
+    public GameObject Candle;
+    private CandleType Type;
+
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();  //サウンド
@@ -52,6 +63,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         count = AtanAngle;
 
         tempRotateSpeed = RotateSpeed;//RotateSpeedの値を退避
+        TempBoundForce = BoundForce;
 
         staircollision = GetComponent<Stairscollision>();
 
@@ -59,21 +71,20 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         GOAL.SetActive(false);
 
         ClearCamera.enabled = false;//クリア時のカメラを無効
+
+        Type = Candle.GetComponent<CandleType>();//CandleType取得
     }
 
     // Update is called once per frame
     void Update()
     {
-        DebugLogFunction();
         InputMouse_Touch();
 
         if (ClickFlg == 2)
             FrameCount++;
 
-        if (DebugBoundFlg) {
-            //BoundMotion();
-            
-        }
+        if (IsBound)
+            BoundMotion();
     }
     private void FixedUpdate()
     {
@@ -103,7 +114,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                     }
                 }
             }
-            if (Input.GetMouseButtonDown(0) && ClearInputFlg == false)
+            if (Input.GetMouseButtonDown(0) && ClearInputFlg == false)//最後の燭台に乗った時ベクトルの方向変える
             {
 
                 MovementToClear();
@@ -152,6 +163,11 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }
 
         if (ClickFlg == 2) {
+            IsBound = false;//ジャンプしたらバウンド処理を無効
+            JustOnce = false;
+            BoundForce = TempBoundForce;
+            BoundCountUp = 0;
+
             if (FirstVelocity) {//一度だけ入る
                 audioSource.PlayOneShot(JumpFireSounds);    //サウンド
 
@@ -172,14 +188,16 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         {
             Force_y = 20.0f;//y軸に与える力を初期化
             FirstVelocity = true;//一度だけ入る処理をリセット
-            rigidBody.isKinematic = false;
-            //rigidBody.useGravity = false;
             Initialize = false;
             ReleasedFlg = false;
             FireWindZone.SetActive(false);//WindZoneを非アクティブに
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
-            DebugBoundFlg = true;
+            if (JustOnce) {
+                IsBound = true;
+                Debug.Log("1");
+            }
+            BoundCountUp++;
         }
     }
 
@@ -191,6 +209,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             ReleasedFlg = false;
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
+
             if (BoundFlg == true) {//階段での動き
                 rigidBody.useGravity = true;
 
@@ -200,7 +219,11 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             }
             BoundCount = count;
             count = AtanAngle;
-            //BoundMotion();
+
+            IsBound = false;
+            JustOnce = false;
+            BoundForce = TempBoundForce;
+            BoundCountUp = 0;
         }
         if (collision.gameObject.tag == "LastWallCandle")
         {
@@ -209,23 +232,42 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
             MainCamera.enabled = false;
             ClearCamera.enabled = true;
-        }
-        if(collision.gameObject.tag == "Candle") {
+        }//最後の燭台
+        if(collision.gameObject.tag == "Candle") {//燭台に乗ったら
+            JustOnce = true;
+            Debug.Log("2");
+            //if (BoundCountUp > 0) {
+                BoundForce = TempBoundForce / 2;//
+           //}
+            if(BoundCountUp == 1 /*Type.typenumber == 1*/) {
+                //1回バウンド
+                //音が2回なる
+                //燭台の右側に着地するとそのまま落下
+                Debug.Log("3");
+                JustOnce = false;
+                IsBound = false;
+            }
+            if(BoundCountUp == 2) {
+                //2回バウンド
+                //音が3回なる
+                //燭台の左側に着地しないとそのまま落下
+                //JustOnce = false;
+                //IsBound = false;
+            }
         }
     }
 
     private void OnCollisionStay(Collision collision)
     {
         if(collision.gameObject.tag == "Candle") {
-            //BoundMotion();
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if(collision.gameObject.tag == "Candle") {
+        Vector3 CandlePos = collision.transform.position; ;
+        if (collision.gameObject.tag == "Candle") {
             FireWindZone.SetActive(true);
-            //DebugBoundFlg = false;
         }
     }
 
@@ -250,19 +292,12 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         transform.position = new Vector3(x, y, z);
     }
 
-    private void BoundMotion()
+    private void BoundMotion()//燭台の上でバウンド
     {
-        //BoundCount = count;
-        BoundCount += Time.deltaTime * 0.1f;
-
-        x = Length * Mathf.Sin(BoundCount);
-        y = transform.position.y;
-        z = Length * Mathf.Cos(BoundCount);
-        transform.position = new Vector3(x, y, z);
-        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        Debug.Log(BoundCount + " : BoundCount");
-        Vector3 _Force = new Vector3(0, 1.0f, 0);
-        rigidBody.AddForce(_Force, ForceMode.Impulse);
+        CircularMotion();//円運動
+        transform.Translate(Vector3.up * BoundForce);
+        BoundForce = BoundForce - BoundGravity;
+       
     }
 
     public void UpSpeedCandleCenterHit()//Speed変化
