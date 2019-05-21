@@ -129,7 +129,6 @@ public class Stairscollision : InitializeVariable
         }
         if(mouseflag == false){
             time += Time.deltaTime;
-            Debug.Log(time);
             if(Staflag == true){
                 if(time >= 0.1){
                     mouseflag = true;
