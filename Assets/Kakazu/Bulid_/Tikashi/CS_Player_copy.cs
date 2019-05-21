@@ -44,8 +44,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private float TempBoundForce;
     private int BoundCountUp = 0;
     private int countup = 0;
-    public GameObject Candle;
-    private CandleType Type;
     private int TypeNumber;
 
     void Start()
@@ -73,7 +71,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
         ClearCamera.enabled = false;//クリア時のカメラを無効
 
-        Type = Candle.GetComponent<CandleType>();//CandleType取得
     }
 
     // Update is called once per frame
@@ -81,13 +78,15 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     {
         InputMouse_Touch();
 
-        if (ClickFlg == 2)
-            FrameCount++;
-
         if (IsBound)
             BoundMotion();
 
-        Debug.Log(BoundCountUp);
+        if (ClickFlg == 2)
+            FrameCount++;
+
+        if (ClickFlg == 99 && rigidBody.useGravity == false) {
+            rigidBody.velocity = Vector3.zero;
+        }
     }
     private void FixedUpdate()
     {
@@ -170,7 +169,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             JustOnce = false;
             BoundForce = TempBoundForce;
             BoundCountUp = 0;
-
             if (FirstVelocity) {//一度だけ入る
                 audioSource.PlayOneShot(JumpFireSounds);    //サウンド
 
@@ -239,8 +237,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }//最後の燭台
         if(collision.gameObject.tag == "Candle") {//燭台に乗ったら
             JustOnce = true;
-            BoundForce = TempBoundForce / 2;//
-            Debug.Log(TypeNumber);
+            BoundForce = TempBoundForce / 2;
 
             /***乗った燭台の種類によってどんなバウンド処理をするかをCheck***/
             if (collision.transform.name == "WallCandleStickUnited_01 (2) 1 1(Clone)") {
@@ -251,8 +248,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             if (collision.transform.name == "name2")
                 TypeNumber = 3;
 
-
             BoundSeparate();//TypeNumberによってバウンド処理を分ける
+
         }
     }
 
@@ -295,7 +292,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     {
         CircularMotion();//円運動
         transform.Translate(Vector3.up * BoundForce);
-        BoundForce = BoundForce - BoundGravity;    
+        BoundForce = BoundForce - BoundGravity;
+        
+
     }
     private void BoundSeparate()
     {
@@ -305,7 +304,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             //燭台の右側に着地するとそのまま落下
             JustOnce = false;
             IsBound = false;
-            Debug.Log("1バウンド");
+            //BoundCountUp = 0;
         }
         if (BoundCountUp == 2 && TypeNumber == 2) {
             //2回バウンド
@@ -321,7 +320,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             rigidBody.isKinematic = true;
             rigidBody.isKinematic = false;
             rigidBody.velocity = Vector3.zero;
-            Debug.Log("とまれ");
+            Debug.Log("ピタッ！！");
         }
     }
 
