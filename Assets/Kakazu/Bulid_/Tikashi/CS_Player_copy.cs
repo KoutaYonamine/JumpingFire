@@ -93,6 +93,10 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         FireMovement();
     }
 
+    public int getBoundCountUp() {
+        return BoundCountUp;
+    }
+
     void InputMouse_Touch()
     {
         // エディタ、実機で処理を分ける

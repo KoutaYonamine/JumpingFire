@@ -14,6 +14,7 @@ public class Stairscollision : InitializeVariable
     public GameObject CandleStick;
     private ParticleSystem BoneFire;
     private ColliderLength_copy Length_Copy;
+    private CS_Player_copy player_copy;
 
     // Use this for initialization
     void Start () {
@@ -37,6 +38,7 @@ public class Stairscollision : InitializeVariable
 
         BoneFire = CandleStick.GetComponent<ColliderLength_copy>().transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         Length_Copy = CandleStick.GetComponent<ColliderLength_copy>();
+        player_copy = this.GetComponent<CS_Player_copy>();
 
     }
 
@@ -79,7 +81,7 @@ public class Stairscollision : InitializeVariable
             moveflag = false;
         }
         if(collision.gameObject.tag == "Candle"){    //触れたものが燭台の場合
-            if (Collision == false && Length_Copy.getBoneFire() == false){
+            if (Collision == false && player_copy.getBoundCountUp() == 0){
                 Candlestick += 1;
                 number.View(Candlestick);
                 //Length_Copy.getFireflag(false);
