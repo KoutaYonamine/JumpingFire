@@ -44,8 +44,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private float TempBoundForce;
     private int BoundCountUp = 0;
     private int countup = 0;
-    public GameObject Candle;
-    private CandleType Type;
+    private int TypeNumber;
 
     void Start()
     {
@@ -72,7 +71,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
         ClearCamera.enabled = false;//クリア時のカメラを無効
 
-        Type = Candle.GetComponent<CandleType>();//CandleType取得
     }
 
     // Update is called once per frame
@@ -80,11 +78,15 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     {
         InputMouse_Touch();
 
+        if (IsBound)
+            BoundMotion();
+
         if (ClickFlg == 2)
             FrameCount++;
 
-        if (IsBound)
-            BoundMotion();
+        if (ClickFlg == 99 && rigidBody.useGravity == false) {
+            rigidBody.velocity = Vector3.zero;
+        }
     }
     private void FixedUpdate()
     {
@@ -167,7 +169,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             JustOnce = false;
             BoundForce = TempBoundForce;
             BoundCountUp = 0;
-
             if (FirstVelocity) {//一度だけ入る
                 audioSource.PlayOneShot(JumpFireSounds);    //サウンド
 
@@ -182,6 +183,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
             Force = new Vector3(0, Force_y, 0);//y座標に力を加算
             rigidBody.AddForce(Force);
+
+            
         }
 
         if (Initialize == true)//燭台に乗った時
@@ -195,7 +198,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             ClickFlg = 99;
             if (JustOnce) {
                 IsBound = true;
-                Debug.Log("1");
             }
             BoundCountUp++;
         }
@@ -235,25 +237,19 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }//最後の燭台
         if(collision.gameObject.tag == "Candle") {//燭台に乗ったら
             JustOnce = true;
-            Debug.Log("2");
-            //if (BoundCountUp > 0) {
-                BoundForce = TempBoundForce / 2;//
-           //}
-            if(BoundCountUp == 1 /*Type.typenumber == 1*/) {
-                //1回バウンド
-                //音が2回なる
-                //燭台の右側に着地するとそのまま落下
-                Debug.Log("3");
-                JustOnce = false;
-                IsBound = false;
+            BoundForce = TempBoundForce / 2;
+
+            /***乗った燭台の種類によってどんなバウンド処理をするかをCheck***/
+            if (collision.transform.name == "WallCandleStickUnited_01 (2) 1 1(Clone)") {
+                TypeNumber = 1;
             }
-            if(BoundCountUp == 2) {
-                //2回バウンド
-                //音が3回なる
-                //燭台の左側に着地しないとそのまま落下
-                //JustOnce = false;
-                //IsBound = false;
-            }
+            if (collision.transform.name == "name1")
+                TypeNumber = 2;
+            if (collision.transform.name == "name2")
+                TypeNumber = 3;
+
+            BoundSeparate();//TypeNumberによってバウンド処理を分ける
+
         }
     }
 
@@ -297,7 +293,35 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         CircularMotion();//円運動
         transform.Translate(Vector3.up * BoundForce);
         BoundForce = BoundForce - BoundGravity;
-       
+        
+
+    }
+    private void BoundSeparate()
+    {
+        if (BoundCountUp == 1 && TypeNumber == 1) {
+            //1回バウンド
+            //音が2回なる
+            //燭台の右側に着地するとそのまま落下
+            JustOnce = false;
+            IsBound = false;
+            //BoundCountUp = 0;
+        }
+        if (BoundCountUp == 2 && TypeNumber == 2) {
+            //2回バウンド
+            //音が3回なる
+            //燭台の左側に着地しないとそのまま落下
+            JustOnce = false;
+            IsBound = false;
+            Debug.Log("2バウンド");
+        }
+        if (TypeNumber == 3) {
+            JustOnce = false;
+            IsBound = false;
+            rigidBody.isKinematic = true;
+            rigidBody.isKinematic = false;
+            rigidBody.velocity = Vector3.zero;
+            Debug.Log("ピタッ！！");
+        }
     }
 
     public void UpSpeedCandleCenterHit()//Speed変化

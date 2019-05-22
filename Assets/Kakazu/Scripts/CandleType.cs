@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CandleType : MonoBehaviour {
 
-    private int TypeNumber = 0;
+    private int TypeNumber = 99;
 
 	// Use this for initialization
 	void Start () {
@@ -13,24 +13,33 @@ public class CandleType : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+       
+    }
 
     void TypeCheck()
     {
-        if (transform.name == "WallCandleStickUnited_01 (2) 1 1(Clone)")
-            TypeNumber = 0;
-        if (transform.name == "WallCandleStickUnited_01 (2) 1 1(Clone)")
+        if (transform.name == "WallCandleStickUnited_01 (2) 1 1(Clone)") {
+            Debug.Log(TypeNumber);
             TypeNumber = 1;
+        }
         if (transform.name == "name1")
             TypeNumber = 2;
         if (transform.name == "name2")
             TypeNumber = 3;
     }
 
-    public int typenumber//playerにどの燭台に乗ったかを伝える
-    {
-        get { return TypeNumber; }
-        set { TypeNumber = value; }
-    }
+    //public int typenumber//playerにどの燭台に乗ったかを伝える
+    //{
+    //    get { return TypeNumber; }
+    //    set { TypeNumber = value; }
+    //}
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(collision.gameObject.tag == "Player") {
+    //        TypeCheck();
+    //        //TypeNumber++;
+    //        Debug.Log(TypeNumber + " : Candle");
+    //    }
+    //}
 }

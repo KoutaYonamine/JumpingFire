@@ -34,7 +34,7 @@ public class CameraMove : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         Vector3 SectionAreaLinescreenPos = cam.WorldToScreenPoint(sectionAreaLine.position);
-        Debug.Log("SectionAreaLinescreen is" + SectionAreaLinescreenPos.x + "pixels from the left");
+        //Debug.Log("SectionAreaLinescreen is" + SectionAreaLinescreenPos.x + "pixels from the left");
         Vector3 CamerascreenPos = cam.WorldToScreenPoint(pivot.position);
         //Debug.Log("pivot is" + CamerascreenPos.x + "pixels from the left");
 
