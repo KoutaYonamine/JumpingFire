@@ -27,6 +27,7 @@ public class ColliderLength_copy : InitializeVariable
     private ParticleSystem BoneFire;
 
     private bool BoneFireflag;
+    private bool Fireflag = false;
 
     // Use this for initialization
     void Start () {
@@ -57,7 +58,10 @@ public class ColliderLength_copy : InitializeVariable
 
     public bool getBoneFire(){
         return BoneFire;
-
+    }
+    public bool getFireflag(bool a){
+        Fireflag = a;
+        return Fireflag;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -77,11 +81,14 @@ public class ColliderLength_copy : InitializeVariable
         if (P_Position.y > transform.position.y + DifferenceY) {//燭台より上
             CsPlayer.initialize = true; //燭台に乗ったらtrue
             RigidPlayer.velocity = Vector3.zero;//velocityをゼロに
+            Fireflag = true;
+            //getFireflag(true);
         }
 
     }
     private void OnCollisionExit(Collision collision)
     {
+        
         Invoke("AudioSourceStop", 4);
     }
 

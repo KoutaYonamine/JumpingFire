@@ -82,6 +82,7 @@ public class Stairscollision : InitializeVariable
             if (Collision == false && Length_Copy.getBoneFire() == false){
                 Candlestick += 1;
                 number.View(Candlestick);
+                //Length_Copy.getFireflag(false);
             }
         }
         if(collision.gameObject.name == "PublishFire_Prefab (1)"){      //触れたものがゴールの場合
