@@ -5,7 +5,7 @@ using UnityEngine;
 public class InitializeVariable : MonoBehaviour {//スーパークラス
     
     //プレイヤーに継承している変数
-    static protected float ClickFlg = 99;//クリックしているかどうか
+    static protected int ClickFlg = 99;//クリックしているかどうか
     static protected bool ReleasedFlg = false;//連打禁止 
     static protected bool FirstVelocity = true;//一度だけ入る(1フレーム目
     static protected bool AddSpeedFlg = false;//燭台の中心に当たったかどうか

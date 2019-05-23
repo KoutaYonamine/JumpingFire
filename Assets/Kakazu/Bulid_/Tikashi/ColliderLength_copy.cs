@@ -79,13 +79,18 @@ public class ColliderLength_copy : InitializeVariable
             //PlayerObj.GetComponent<CS_Player_copy>().UpSpeedCandleCenterHit();//PlayerのスピードをUp /***今は使われていない***/
         }
         if (P_Position.y > transform.position.y + DifferenceY) {//燭台より上
-            CsPlayer.initialize = true; //燭台に乗ったらtrue
+            if (PlayerObj.GetComponent<CS_Player_copy>().clickflg != 99 && PlayerObj.GetComponent<CS_Player_copy>().clickcount > 10) {
+                PlayerObj.GetComponent<CS_Player_copy>().initialize = true; //燭台に乗ったらtrue
+                Debug.Log("燭台に乗ったら");
+            } else if (PlayerObj.GetComponent<CS_Player_copy>().clickflg == 99)
+
+
             RigidPlayer.velocity = Vector3.zero;//velocityをゼロに
             Fireflag = true;
             //getFireflag(true);
         }
-
     }
+    
     private void OnCollisionExit(Collision collision)
     {
         
