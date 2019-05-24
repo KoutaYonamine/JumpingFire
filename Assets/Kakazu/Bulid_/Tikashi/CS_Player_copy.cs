@@ -39,14 +39,15 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     /************燭台上でのバウンド処理*************/
     //private bool IsBound = false;//燭台の上でバウンドするか
     //private bool JustOnce = false;//
-    [SerializeField]private float BoundGravity = 0.01f;//0.05
-    [SerializeField]private float BoundForce = 0.1f;//2.0
+    private float BoundGravity = 0.04f;//
+    private float BoundForce;//
     private float TempBoundForce;
+    private float TempBoundGravity;
     private int BoundCountUp = 0;
     private int countup = 0;
-    public GameObject Candle;
-    private CandleType Type;
     private int TypeNumber;
+    private bool check;
+    private float ClickCount = 0;
 
     void Start()
     {
@@ -64,7 +65,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         count = AtanAngle;
 
         tempRotateSpeed = RotateSpeed;//RotateSpeedの値を退避
-        TempBoundForce = BoundForce;
+        //TempBoundForce = BoundForce;
+        TempBoundGravity = BoundGravity;
 
         staircollision = GetComponent<Stairscollision>();
 
@@ -73,25 +75,32 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
         ClearCamera.enabled = false;//クリア時のカメラを無効
 
-        Type = Candle.GetComponent<CandleType>();//CandleType取得
     }
 
     // Update is called once per frame
     void Update()
     {
         InputMouse_Touch();
-
-        if (ClickFlg == 2)
+        
+        if (ClickFlg == 2) {
             FrameCount++;
+        }
+        if(ClickFlg == 2 || ClickFlg == 0)
+            ClickCount++;
 
+        //Debug.Log(ClickCount);
         if (IsBound)
             BoundMotion();
 
-        Debug.Log(BoundCountUp);
+        if (ClickFlg == 99 && rigidBody.useGravity == false) {
+            rigidBody.velocity = Vector3.zero;
+        }
+
     }
     private void FixedUpdate()
     {
         FireMovement();
+        
     }
 
     void InputMouse_Touch()
@@ -106,14 +115,16 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                     ClickFlg = 2;
                     ReleasedFlg = true;
                     BoundFlg = true;
+                    //Debug.Log("押す");
+                    
                 }
                 if (Input.GetMouseButtonUp(0) && ClearInputFlg == true)
                 {//離した時
-                    if (ReleasedFlg)
-                    {
+                    if (ReleasedFlg) {
                         ClickFlg = 0;
                         ReleasedFlg = false;
                         BoundFlg = true;
+                        //Debug.Log("離す");
                     }
                 }
             }
@@ -136,6 +147,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                     ClickFlg = 2;
                     ReleasedFlg = true;
                     BoundFlg = true;
+                    
                 }
 
                 if (touch.phase == TouchPhase.Ended && ClearInputFlg == true)//離した瞬間
@@ -169,8 +181,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             IsBound = false;//ジャンプしたらバウンド処理を無効
             JustOnce = false;
             BoundForce = TempBoundForce;
+            BoundGravity = TempBoundGravity;
             BoundCountUp = 0;
-
+            rigidBody.useGravity = false;
             if (FirstVelocity) {//一度だけ入る
                 audioSource.PlayOneShot(JumpFireSounds);    //サウンド
 
@@ -184,9 +197,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             CircularMotion();//円運動
 
             Force = new Vector3(0, Force_y, 0);//y座標に力を加算
-            rigidBody.AddForce(Force);
-
-            
+            rigidBody.AddForce(Force);            
         }
 
         if (Initialize == true)//燭台に乗った時
@@ -198,10 +209,14 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             FireWindZone.SetActive(false);//WindZoneを非アクティブに
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
+            ClickCount = 0;
             if (JustOnce) {
                 IsBound = true;
             }
             BoundCountUp++;
+            Debug.Log("1!");
+            Debug.Log(BoundCountUp + "バウンドカウント");
+            BoundForce = TempBoundForce / 2;
         }
     }
 
@@ -227,34 +242,40 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             IsBound = false;
             JustOnce = false;
             BoundForce = TempBoundForce;
+            BoundGravity = TempBoundGravity;
             BoundCountUp = 0;
         }
-        if (collision.gameObject.tag == "LastWallCandle")
+        if (collision.gameObject.tag == "LastWallCandle")//最後の燭台
         {
             ClearInputFlg = false;
             GOAL.SetActive(true);
 
             MainCamera.enabled = false;
             ClearCamera.enabled = true;
-        }//最後の燭台
-        if(collision.gameObject.tag == "Candle") {//燭台に乗ったら
+        }
+        if (collision.gameObject.tag == "Candle") {//燭台に乗ったら
             JustOnce = true;
-            BoundForce = TempBoundForce / 2;//
-            Debug.Log(TypeNumber);
-
+            
+            Debug.Log("2!");
             /***乗った燭台の種類によってどんなバウンド処理をするかをCheck***/
             if (collision.transform.name == "WallCandleStickUnited_01 (2) 1 1(Clone)") {
                 TypeNumber = 1;
+                BoundForce = 0.1f;
+                TempBoundForce = BoundForce;
             }
-            if (collision.transform.name == "name1")
+            if (collision.transform.name == "name1") {
                 TypeNumber = 2;
+                BoundForce = 0.1f;
+                TempBoundForce = BoundForce;
+            }
             if (collision.transform.name == "name2")
                 TypeNumber = 3;
 
-
             BoundSeparate();//TypeNumberによってバウンド処理を分ける
+
         }
     }
+   
 
     private void OnCollisionStay(Collision collision)
     {
@@ -280,7 +301,20 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         get { return Initialize; }
         set { Initialize = value; }
     }
-  
+    public int clickflg
+    {
+        get { return ClickFlg; }
+    }
+    public float clickcount
+    {
+        get { return ClickCount; }
+    }
+
+    public int getBoundCountUp()
+    {
+        return BoundCountUp;
+    }
+
     private void CircularMotion()//円運動
     {
         count += Time.deltaTime * RotateSpeed;
@@ -295,7 +329,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     {
         CircularMotion();//円運動
         transform.Translate(Vector3.up * BoundForce);
-        BoundForce = BoundForce - BoundGravity;    
+        BoundForce = BoundForce - BoundGravity;      
     }
     private void BoundSeparate()
     {
@@ -305,15 +339,16 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             //燭台の右側に着地するとそのまま落下
             JustOnce = false;
             IsBound = false;
-            Debug.Log("1バウンド");
+            ClickFlg = 99;
         }
-        if (BoundCountUp == 2 && TypeNumber == 2) {
+        if (BoundCountUp == 1 && TypeNumber == 2) {
             //2回バウンド
             //音が3回なる
             //燭台の左側に着地しないとそのまま落下
             JustOnce = false;
             IsBound = false;
-            Debug.Log("2バウンド");
+            ClickFlg = 99;
+            Debug.Log("2回バウンド");
         }
         if (TypeNumber == 3) {
             JustOnce = false;
@@ -321,7 +356,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             rigidBody.isKinematic = true;
             rigidBody.isKinematic = false;
             rigidBody.velocity = Vector3.zero;
-            Debug.Log("とまれ");
+            Debug.Log("ピタッ！！");
         }
     }
 
@@ -331,8 +366,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             //RotateSpeed += AddSpeed;
         } else if (!AddSpeedFlg) {
             RotateSpeed = tempRotateSpeed;
-        }
-        
+        }      
     }
 
     private void MovementToClear()//最後の燭台に乗った時ベクトルを変更
@@ -342,11 +376,5 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
         rigidBody.useGravity = true;
         rigidBody.AddForce(ClearVelocity, ForceMode.Impulse);
-    }
-
-    private void DebugLogFunction()
-    {
-        //Debug.Log(count + " : count");
-        //Debug.Log(BoundCount + " : BoundCount");
     }
 }
