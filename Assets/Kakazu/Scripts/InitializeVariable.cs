@@ -38,7 +38,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
 
     static protected Rigidbody rd;
 
-    static protected float Force_y = 20.0f;//yに与える力
+   /* [SerializeField]*/ static protected float Force_y = 20.0f;//yに与える力
 
     static protected Vector3 Force;//AddForce
     static protected int FrameCount = 0;//フレームをカウント
@@ -46,10 +46,9 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static private GameObject camera;
     static private Vector3 CameraPosInit;       //カメラの初期位置
 
-    /*[SerializeField] */
-    static protected float RotateSpeed = 0.4f;//円運動の速度
+    /*[SerializeField]*/ static protected float RotateSpeed = 0.4f;//円運動の速度
 
-    static protected Vector3 Vel = new Vector3(0, 10.0f, 10);//初速度
+    static protected Vector3 Vel = new Vector3(0, 5.0f, 0);//初速度
     static protected Vector3 ClearVelocity = new Vector3(0, 10.0f, -10.0f);//クリアの聖火台にジャンプする時のVelocity
 
     static protected bool IsBound = false;//燭台の上でバウンドするか
@@ -121,7 +120,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
         //Force;//AddForce
         FrameCount = 0;//フレームをカウント
 
-        Vel = new Vector3(0, 10.0f, 10);//初速度
+        Vel = new Vector3(0, 5.0f, 0);//初速度
 
         camera.transform.position = CameraPosInit;      //カメラの位置を初期化
     }

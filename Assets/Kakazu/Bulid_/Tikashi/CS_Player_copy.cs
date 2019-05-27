@@ -186,7 +186,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             rigidBody.useGravity = false;
             if (FirstVelocity) {//一度だけ入る
                 audioSource.PlayOneShot(JumpFireSounds);    //サウンド
-
                 rigidBody.velocity = Vel;//初速度を与える
                 FirstVelocity = false;
             }
@@ -214,8 +213,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 IsBound = true;
             }
             BoundCountUp++;
-            Debug.Log("1!");
-            Debug.Log(BoundCountUp + "バウンドカウント");
             BoundForce = TempBoundForce / 2;
         }
     }
@@ -256,7 +253,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         if (collision.transform.root.tag == "Candle") {//燭台に乗ったら
             JustOnce = true;
             
-            Debug.Log("2!");
             /***乗った燭台の種類によってどんなバウンド処理をするかをCheck***/
             if (collision.transform.tag == "BlueCandle") {
                 TypeNumber = 1;
@@ -340,7 +336,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             JustOnce = false;
             IsBound = false;
             ClickFlg = 99;
-            Debug.Log("!!!!!!!!!!!!");
         }
         if (BoundCountUp == 1 && TypeNumber == 2) {
             //2回バウンド
@@ -349,7 +344,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             JustOnce = false;
             IsBound = false;
             ClickFlg = 99;
-            Debug.Log("#################");
         }
         if (TypeNumber == 3) {
             JustOnce = false;
@@ -357,7 +351,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             rigidBody.isKinematic = true;
             rigidBody.isKinematic = false;
             rigidBody.velocity = Vector3.zero;
-            Debug.Log("$$$$$$$$$$$$$$");
+
         }
     }
 
