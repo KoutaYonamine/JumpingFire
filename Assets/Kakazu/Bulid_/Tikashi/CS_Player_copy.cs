@@ -253,22 +253,22 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             MainCamera.enabled = false;
             ClearCamera.enabled = true;
         }
-        if (collision.gameObject.tag == "Candle") {//燭台に乗ったら
+        if (collision.transform.root.tag == "Candle") {//燭台に乗ったら
             JustOnce = true;
             
             Debug.Log("2!");
             /***乗った燭台の種類によってどんなバウンド処理をするかをCheck***/
-            if (collision.transform.name == "WallCandleStickUnited_01 (2) 1 1(Clone)") {
+            if (collision.transform.tag == "BlueCandle") {
                 TypeNumber = 1;
                 BoundForce = 0.1f;
                 TempBoundForce = BoundForce;
             }
-            if (collision.transform.name == "name1") {
+            if (collision.transform.tag == "BrownCandle") {
                 TypeNumber = 2;
-                BoundForce = 0.1f;
+                BoundForce = 0.3f;
                 TempBoundForce = BoundForce;
             }
-            if (collision.transform.name == "name2")
+            if (collision.transform.tag == "BlackCandle")
                 TypeNumber = 3;
 
             BoundSeparate();//TypeNumberによってバウンド処理を分ける
@@ -340,6 +340,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             JustOnce = false;
             IsBound = false;
             ClickFlg = 99;
+            Debug.Log("!!!!!!!!!!!!");
         }
         if (BoundCountUp == 1 && TypeNumber == 2) {
             //2回バウンド
@@ -348,7 +349,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             JustOnce = false;
             IsBound = false;
             ClickFlg = 99;
-            Debug.Log("2回バウンド");
+            Debug.Log("#################");
         }
         if (TypeNumber == 3) {
             JustOnce = false;
@@ -356,7 +357,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             rigidBody.isKinematic = true;
             rigidBody.isKinematic = false;
             rigidBody.velocity = Vector3.zero;
-            Debug.Log("ピタッ！！");
+            Debug.Log("$$$$$$$$$$$$$$");
         }
     }
 

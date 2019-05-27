@@ -25,6 +25,7 @@ public class ColliderLength_copy : InitializeVariable
     [SerializeField] float DifferenceY;
 
     private ParticleSystem BoneFire;
+    [SerializeField] private float ParticleStartDilay = 0.1f;
 
     private bool BoneFireflag;
     private bool Fireflag = false;
@@ -38,6 +39,7 @@ public class ColliderLength_copy : InitializeVariable
 
         BoneFire = transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         BoneFire.Stop();
+        BoneFire.startDelay = ParticleStartDilay;
 
         targetObject = GameObject.Find("Main Camera");
         this.transform.LookAt(new Vector3(targetObject.transform.position.x, transform.position.y, targetObject.transform.position.z)); //燭台をカメラに向ける

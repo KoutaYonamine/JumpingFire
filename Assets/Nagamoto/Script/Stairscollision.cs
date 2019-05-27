@@ -80,7 +80,7 @@ public class Stairscollision : InitializeVariable
             Collision = true;
             moveflag = false;
         }
-        if(collision.gameObject.tag == "Candle"){    //触れたものが燭台の場合
+        if(collision.transform.root.tag == "Candle"){    //触れたものが燭台の場合
             if (Collision == false && player_copy.getBoundCountUp() == 0){
                 Candlestick += 1;
                 number.View(Candlestick);
