@@ -37,8 +37,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private bool ClearClickCheck = true; //クリック制御
 
     /************燭台上でのバウンド処理*************/
-    //private bool IsBound = false;//燭台の上でバウンドするか
-    //private bool JustOnce = false;//
     private float BoundGravity = 0.04f;//
     private float BoundForce;//
     private float TempBoundForce;
@@ -48,6 +46,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private int TypeNumber;
     private bool check;
     private float ClickCount = 0;
+
+    private Vector3 BoundFallPosition;
+    private bool BoundFallFlg;
 
     void Start()
     {
@@ -94,6 +95,10 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
         if (ClickFlg == 99 && rigidBody.useGravity == false) {
             rigidBody.velocity = Vector3.zero;
+        }
+
+        if (BoundFallFlg && this.transform.position.y < BoundFallPosition.y) {
+            Debug.Log("バウンドして落ちた");
         }
 
     }
@@ -279,11 +284,15 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisionExit(Collision collision)//コライダから抜けたとき
     {
         Vector3 CandlePos = collision.transform.position; ;
-        if (collision.gameObject.tag == "Candle") {
+        if (collision.transform.root.tag == "Candle") {
             FireWindZone.SetActive(true);
+
+            BoundFallPosition = collision.gameObject.transform.position;//最後に乗った燭台の座標を取得
+            Debug.Log(BoundFallPosition);
+            BoundFallFlg = true;
         }
     }
 
