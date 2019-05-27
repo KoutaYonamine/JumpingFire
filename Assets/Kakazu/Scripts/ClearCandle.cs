@@ -41,9 +41,9 @@ public class ClearCandle : MonoBehaviour {
 
     private void OnCollisionExit(Collision collision)
     {
-        audioSource.Stop();
+        //audioSource.Stop();
 
-        ClearBoneFire.SetActive(false);
-        this.gameObject.SetActive(false);
+        //ClearBoneFire.SetActive(false);
+        //this.gameObject.SetActive(false);
     }
 }

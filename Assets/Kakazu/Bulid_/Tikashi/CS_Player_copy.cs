@@ -72,7 +72,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         staircollision = GetComponent<Stairscollision>();
 
         GOAL = GameObject.Find("PublishFire_Prefab (1)");
-        GOAL.SetActive(false);
+        //GOAL.SetActive(false);
 
         ClearCamera.enabled = false;//クリア時のカメラを無効
 
