@@ -98,7 +98,7 @@ public class Stairscollision : InitializeVariable
 
     private void OnCollisionExit(Collision collision){
         time += Time.deltaTime;             //時間計測
-        if(collision.transform.root.tag == "Candle" && time <= 0.5f){
+        if(collision.transform.root.tag == "Candle" && time >= 0.1f){
             scoreflag = true;
         }
     }
