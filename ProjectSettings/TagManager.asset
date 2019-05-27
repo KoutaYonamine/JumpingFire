@@ -8,6 +8,9 @@ TagManager:
   - Cylinder
   - LastWallCandle
   - Goal
+  - BrownCandle
+  - BlueCandle
+  - BlackCandle
   layers:
   - Default
   - TransparentFX
