@@ -83,8 +83,7 @@ public class Stairscollision : InitializeVariable
             moveflag = false;
         }
         if(collision.transform.root.tag == "Candle"){    //触れたものが燭台の場合
-            if (Collision == false && st != collision.gameObject.name)
-            {
+            if (Collision == false && st != collision.gameObject.name){
                 Candlestick += 1;
                 number.View(Candlestick);
                 scoreflag = false;
@@ -164,7 +163,7 @@ public class Stairscollision : InitializeVariable
         //触れてからの時間差
         if (Collision == true){  
             time += Time.deltaTime;             //時間計測
-            if(time >= 1){                      //2秒以上たったら
+            if(time >= 0.1){                      //1秒以上たったら
                 number.Result();                //桁によるスコアの移動
                 Touchbool = true;               //スイッチオン
                 time = 0;
