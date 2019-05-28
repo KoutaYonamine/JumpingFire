@@ -36,14 +36,15 @@ public class ClearCandle : MonoBehaviour {
 
             PlayerScript.initialize = true;
             RigidPlayer.isKinematic = true;
+            RigidPlayer.isKinematic = false;
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        //audioSource.Stop();
+        audioSource.Stop();
 
-        //ClearBoneFire.SetActive(false);
+        ClearBoneFire.SetActive(false);
         //this.gameObject.SetActive(false);
     }
 }

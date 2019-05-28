@@ -247,14 +247,14 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             BoundGravity = TempBoundGravity;
             BoundCountUp = 0;
         }
-        if (collision.gameObject.tag == "LastWallCandle")//最後の燭台
-        {
-            ClearInputFlg = false;
-            GOAL.SetActive(true);
+        //if (collision.gameObject.tag == "LastWallCandle")//最後の燭台
+        //{
+        //    ClearInputFlg = false;
+        //    GOAL.SetActive(true);
 
-            MainCamera.enabled = false;
-            ClearCamera.enabled = true;
-        }
+        //    MainCamera.enabled = false;
+        //    ClearCamera.enabled = true;
+        //}
         if (collision.transform.root.tag == "Candle") {//燭台に乗ったら
             JustOnce = true;
             
@@ -275,6 +275,11 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             BoundSeparate();//TypeNumberによってバウンド処理を分ける
 
         }
+
+        if(collision.gameObject.tag == "Goal")
+        {
+            //Debug.Log("Goal");
+        }
     }
    
 
@@ -291,7 +296,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             FireWindZone.SetActive(true);
 
             BoundFallPosition = collision.gameObject.transform.position;//最後に乗った燭台の座標を取得
-            Debug.Log(BoundFallPosition);
             BoundFallFlg = true;
         }
     }
