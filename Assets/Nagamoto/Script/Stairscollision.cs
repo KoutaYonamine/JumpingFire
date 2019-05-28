@@ -61,8 +61,9 @@ public class Stairscollision : InitializeVariable
         return Staflag;
     }
     //moveflagを返す
-    public bool getmoveflag(){
-        return moveflag;
+    public bool getmoveflag{
+        get { return moveflag; }
+        set{ moveflag = value; }
     }
     //mouseflagを返す
     public bool getmouseflag(){
