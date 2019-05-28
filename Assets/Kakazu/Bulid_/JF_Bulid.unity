@@ -13989,16 +13989,16 @@ Prefab:
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4347614412043556, guid: 2d4de448ac2b55e4faa13fbfda668117, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      propertyPath: m_LocalScale.x
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4347614412043556, guid: 2d4de448ac2b55e4faa13fbfda668117, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      propertyPath: m_LocalScale.y
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4347614412043556, guid: 2d4de448ac2b55e4faa13fbfda668117, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d4de448ac2b55e4faa13fbfda668117, type: 2}
@@ -21447,7 +21447,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 379024238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.47, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810591687}
@@ -21576,7 +21576,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.5
+      scalar: 0.8
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -21953,7 +21953,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 10000
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -97665,12 +97665,12 @@ Prefab:
     - target: {fileID: 224528356452901546, guid: 6df8d6fb2c1d31141a4af67b3415e5ab,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 118.5
+      value: 121.5
       objectReference: {fileID: 0}
     - target: {fileID: 224528356452901546, guid: 6df8d6fb2c1d31141a4af67b3415e5ab,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 211
+      value: 216
       objectReference: {fileID: 0}
     - target: {fileID: 224528356452901546, guid: 6df8d6fb2c1d31141a4af67b3415e5ab,
         type: 2}
@@ -97755,10 +97755,6 @@ Prefab:
     - target: {fileID: 1532590746657728, guid: 6df8d6fb2c1d31141a4af67b3415e5ab, type: 2}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 1532590746657728, guid: 6df8d6fb2c1d31141a4af67b3415e5ab, type: 2}
-      propertyPath: m_TagString
-      value: Cylinder
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6df8d6fb2c1d31141a4af67b3415e5ab, type: 2}
@@ -111755,10 +111751,6 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 464.6211
       objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: e6354b548d562c94384e8013bbfceb33, type: 3}
-      propertyPath: m_TagString
-      value: Cylinder
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e6354b548d562c94384e8013bbfceb33, type: 3}
   m_IsPrefabParent: 0
@@ -115310,8 +115302,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1810591686}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 0.72, y: 0, z: -2.37}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1, y: 0, z: -1.96}
+  m_LocalScale: {x: 1.7, y: 1, z: 1.7}
   m_Children:
   - {fileID: 379024239}
   m_Father: {fileID: 375698993}
@@ -115433,7 +115425,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1246839711
+  randomSeed: 1395184106
   InitialModule:
     serializedVersion: 3
     enabled: 1
