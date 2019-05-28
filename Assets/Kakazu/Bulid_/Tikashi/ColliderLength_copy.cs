@@ -84,7 +84,7 @@ public class ColliderLength_copy : InitializeVariable
         if (P_Position.y > transform.position.y + DifferenceY) {//燭台より上
             if (PlayerObj.GetComponent<CS_Player_copy>().clickflg != 99 && PlayerObj.GetComponent<CS_Player_copy>().clickcount > 10) {
                 PlayerObj.GetComponent<CS_Player_copy>().initialize = true; //燭台に乗ったらtrue
-                Debug.Log("燭台に乗ったら");
+
             } else if (PlayerObj.GetComponent<CS_Player_copy>().clickflg == 99)
 
 
