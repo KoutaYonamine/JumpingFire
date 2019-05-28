@@ -20,7 +20,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
     static protected bool Touchbool = false;                             //タッチアイコン用flag
     static protected bool softfocus = true;                             //ソフトフォーカスflag
     static protected bool Numflag = false;                               //ナンバーイメージflag
-    static protected bool Staflag = false;                               //スタートflag
+    static protected bool Staflag = true;                               //スタートflag
     static protected bool moveflag = false;                              //移動flag
     static protected bool mouseflag = true;                      //画面タッチflag
     static protected bool goalflag = false;                     //ゴールflag

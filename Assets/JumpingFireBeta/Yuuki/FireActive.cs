@@ -12,7 +12,7 @@ public class FireActive : InitializeVariable
     [SerializeField] private Material M_Fire;
     private Material Temp_M_Fire;
 
-    private int SetFrameCount = 20;
+    private int SetFrameCount = 10;
 
     private Vector3 StartPos;
     private Vector3 MovePos;
@@ -58,6 +58,8 @@ public class FireActive : InitializeVariable
             M_Fire.color = new Color32(255, 255, 255, 255);
 
             CountFlg = true;
+
+            
         }
 
     }
@@ -72,6 +74,7 @@ public class FireActive : InitializeVariable
         if (SetFrameCount == 0)
         {
             moveflag = true;
+            Staflag = false;
             this.gameObject.SetActive(false);
         }
         SetFrameCount--;

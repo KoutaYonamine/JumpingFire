@@ -89,7 +89,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         if(ClickFlg == 2 || ClickFlg == 0)
             ClickCount++;
 
-        //Debug.Log(ClickCount);
         if (IsBound)
             BoundMotion();
 
@@ -97,8 +96,12 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             rigidBody.velocity = Vector3.zero;
         }
 
-        if (BoundFallFlg && this.transform.position.y < BoundFallPosition.y) {
+        if (BoundFallFlg && this.transform.position.y < BoundFallPosition.y) {//直前に乗った燭台より下に落ちたら
             Debug.Log("バウンドして落ちた");
+            IsBound = false;
+            JustOnce = false;
+            rigidBody.useGravity = true;
+            BoundFallFlg = false;
         }
 
     }
@@ -119,9 +122,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
                     ClickFlg = 2;
                     ReleasedFlg = true;
-                    BoundFlg = true;
-                    //Debug.Log("押す");
-                    
+                    BoundFlg = true;                    
                 }
                 if (Input.GetMouseButtonUp(0) && ClearInputFlg == true)
                 {//離した時
@@ -129,7 +130,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                         ClickFlg = 0;
                         ReleasedFlg = false;
                         BoundFlg = true;
-                        //Debug.Log("離す");
                     }
                 }
             }
@@ -188,7 +188,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             BoundForce = TempBoundForce;
             BoundGravity = TempBoundGravity;
             BoundCountUp = 0;
-            rigidBody.useGravity = false;
+            //rigidBody.useGravity = false;
             if (FirstVelocity) {//一度だけ入る
                 audioSource.PlayOneShot(JumpFireSounds);    //サウンド
                 rigidBody.velocity = Vel;//初速度を与える
@@ -232,7 +232,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             ClickFlg = 99;
 
             if (BoundFlg == true) {//階段での動き
-                rigidBody.useGravity = true;
+                //rigidBody.useGravity = true;
 
                 rigidBody.velocity = StairsVel;
                 CircularMotion();//円運動
@@ -269,8 +269,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 BoundForce = 0.3f;
                 TempBoundForce = BoundForce;
             }
-            if (collision.transform.tag == "BlackCandle")
+            if (collision.transform.tag == "BlackCandle") {
                 TypeNumber = 3;
+            }
 
             BoundSeparate();//TypeNumberによってバウンド処理を分ける
 
@@ -364,7 +365,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             rigidBody.isKinematic = true;
             rigidBody.isKinematic = false;
             rigidBody.velocity = Vector3.zero;
-
+            //ClickFlg = 99;
         }
     }
 
