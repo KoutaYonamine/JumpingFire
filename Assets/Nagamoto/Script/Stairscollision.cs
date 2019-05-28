@@ -106,8 +106,7 @@ public class Stairscollision : InitializeVariable
         }
         else{
             startobject.SetActive(false);       //スタートイメージの非表示
-            Numflag = true;
-
+            
         }
         //タッチアイコンの表示/非表示
         if (Touchbool == false){
@@ -153,7 +152,7 @@ public class Stairscollision : InitializeVariable
         if (Input.GetMouseButtonDown(0) && mouseflag == true && Staflag == false|| Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && mouseflag == true && Staflag == false){
             Staflag = true;
             mouseflag = false;
-
+            Numflag = true;
         }
         //ナンバーイメージの表示/非表示
         if (Numflag == false){

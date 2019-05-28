@@ -58,6 +58,8 @@ public class FireActive : InitializeVariable
             M_Fire.color = new Color32(255, 255, 255, 255);
 
             CountFlg = true;
+
+            Staflag = false;
         }
 
     }
