@@ -136,7 +136,7 @@ public class Stairscollision : InitializeVariable
         if(mouseflag == false){
             time += Time.deltaTime;
             if(Staflag == true){
-                if(time >= 0.1){
+                if(time >= 0.01){
                     mouseflag = true;
                     time = 0;
                 }

@@ -70,6 +70,7 @@ public class ColliderLength_copy : InitializeVariable
     {
         if (collision.gameObject.tag == "Player") //プレイヤーが触れたら
         {
+            audiosource[1].PlayOneShot(NotSounds); //当たった時の音
             BoneFire.Play();//炎のParticleをアクティブに
             //audiosource[2].Play();//サウンド
 
@@ -77,7 +78,7 @@ public class ColliderLength_copy : InitializeVariable
             Difference = P_Position - transform.position; //差分
             Magnitude = Difference.magnitude;
 
-            LengthCheck(); //Playerが燭台の中心に乗ったかどうか
+           // LengthCheck(); //Playerが燭台の中心に乗ったかどうか
             //PlayerObj.GetComponent<CS_Player_copy>().UpSpeedCandleCenterHit();//PlayerのスピードをUp /***今は使われていない***/
         }
         if (P_Position.y > transform.position.y + DifferenceY) {//燭台より上
@@ -104,19 +105,19 @@ public class ColliderLength_copy : InitializeVariable
         //audiosource[2].Stop();//サウンド
     }
 
-    private void LengthCheck() //フラグ切り替え
-    {
-        if(Magnitude <= Length)
-        {
-            audiosource[0].PlayOneShot(HitSounds); //サウンド
+    //private void LengthCheck() //フラグ切り替え
+    //{
+    //    if(Magnitude <= Length)
+    //    {
+    //        audiosource[0].PlayOneShot(HitSounds); //サウンド
 
-            CsPlayer.addspeed = true;
-        }
-        else if(Magnitude > Length)
-        {
-            audiosource[1].PlayOneShot(NotSounds); //サウンド 端っこ
+    //        CsPlayer.addspeed = true;
+    //    }
+    //    else if(Magnitude > Length)
+    //    {
+    //        audiosource[1].PlayOneShot(NotSounds); //サウンド 端っこ
 
-            CsPlayer.addspeed = false;
-        }
-    }
+    //        CsPlayer.addspeed = false;
+    //    }
+    //}
 }
