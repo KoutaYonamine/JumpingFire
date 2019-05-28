@@ -96,6 +96,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         }
 
         if (BoundFallFlg && this.transform.position.y < BoundFallPosition.y) {//直前に乗った燭台より下に落ちた(燭台から落下）
+            staircollision.getmoveflag = false;
+
             //Rayの作成        原点                     方向
             Ray ray = new Ray(this.transform.position, Vector3.down);
             RaycastHit hit;//Rayが当たったオブジェクト情報を格納
@@ -144,7 +146,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         if (Application.isEditor) {// エディタで実行中
             if (ClearInputFlg == true)
             {
-                if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true && ClearInputFlg == true)
+                if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag == true && staircollision.getmouseflag() == true && ClearInputFlg == true)
                 {//押した時
 
                     ClickFlg = 2;
@@ -174,7 +176,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 // タッチ情報の取得
                 Touch touch = Input.GetTouch(0);
 
-                if (touch.phase == TouchPhase.Began && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true && ClearInputFlg == true)//押した瞬間
+                if (touch.phase == TouchPhase.Began && staircollision.getmoveflag == true && staircollision.getmouseflag() == true && ClearInputFlg == true)//押した瞬間
                 {
                     ClickFlg = 2;
                     ReleasedFlg = true;

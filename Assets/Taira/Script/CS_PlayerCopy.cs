@@ -58,12 +58,12 @@ public class CS_PlayerCopy : InitializeVariable     //サブクラス
     {
         // エディタ、実機で処理を分ける
         if (Application.isEditor) {// エディタで実行中
-            if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true) {//押した時
+            if (Input.GetMouseButtonDown(0) && staircollision.getmoveflag == true && staircollision.getmouseflag() == true) {//押した時
                 ClickFlg = 2;
                 ReleasedFlg = true;
                 BoundFlg = true;
             }
-            if (Input.GetMouseButton(0) && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true) {//押し続けた時
+            if (Input.GetMouseButton(0) && staircollision.getmoveflag == true && staircollision.getmouseflag() == true) {//押し続けた時
             }
             if (Input.GetMouseButtonUp(0)) {//離した時
                 if (ReleasedFlg) {
@@ -81,13 +81,13 @@ public class CS_PlayerCopy : InitializeVariable     //サブクラス
                 // タッチ情報の取得
                 Touch touch = Input.GetTouch(0);
 
-                if (touch.phase == TouchPhase.Began && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true)//押した瞬間
+                if (touch.phase == TouchPhase.Began && staircollision.getmoveflag == true && staircollision.getmouseflag() == true)//押した瞬間
                 {
                     ClickFlg = 2;
                     ReleasedFlg = true;
                 }
 
-                if (touch.phase == TouchPhase.Moved && staircollision.getmoveflag() == true && staircollision.getmouseflag() == true) {//押しっぱなし
+                if (touch.phase == TouchPhase.Moved && staircollision.getmoveflag == true && staircollision.getmouseflag() == true) {//押しっぱなし
                 }
 
                 if (touch.phase == TouchPhase.Ended)//離した瞬間
