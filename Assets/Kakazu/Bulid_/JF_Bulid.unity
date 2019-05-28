@@ -97665,12 +97665,12 @@ Prefab:
     - target: {fileID: 224528356452901546, guid: 6df8d6fb2c1d31141a4af67b3415e5ab,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 121.5
+      value: 118.5
       objectReference: {fileID: 0}
     - target: {fileID: 224528356452901546, guid: 6df8d6fb2c1d31141a4af67b3415e5ab,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 216
+      value: 211
       objectReference: {fileID: 0}
     - target: {fileID: 224528356452901546, guid: 6df8d6fb2c1d31141a4af67b3415e5ab,
         type: 2}
@@ -111750,6 +111750,10 @@ Prefab:
     - target: {fileID: 400000, guid: e6354b548d562c94384e8013bbfceb33, type: 3}
       propertyPath: m_LocalScale.z
       value: 464.6211
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e6354b548d562c94384e8013bbfceb33, type: 3}
+      propertyPath: m_TagString
+      value: Cylinder
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e6354b548d562c94384e8013bbfceb33, type: 3}
