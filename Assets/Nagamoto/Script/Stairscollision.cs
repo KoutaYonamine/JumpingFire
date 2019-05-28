@@ -7,6 +7,7 @@ public class Stairscollision : InitializeVariable
 {
     private float time;                                   //時間計測用
     private bool scoreflag = true;
+    private string st;
 
     private GameObject touchobject;                       //タッチアイコンのオブジェクト
     private GameObject startobject;                       //スタートのオブジェクト
@@ -82,11 +83,12 @@ public class Stairscollision : InitializeVariable
             moveflag = false;
         }
         if(collision.transform.root.tag == "Candle"){    //触れたものが燭台の場合
-            if (Collision == false && player_copy.getBoundCountUp() == 0 && scoreflag == true){
+            if (Collision == false && st != collision.gameObject.name)
+            {
                 Candlestick += 1;
                 number.View(Candlestick);
                 scoreflag = false;
-                //Length_Copy.getFireflag(false);
+                st = collision.gameObject.name;
             }
         }
         if(collision.gameObject.name == "PublishFire_Prefab (1)"){      //触れたものがゴールの場合
@@ -94,13 +96,6 @@ public class Stairscollision : InitializeVariable
             goalflag = true;
         }
         
-    }
-
-    private void OnCollisionExit(Collision collision){
-        time += Time.deltaTime;             //時間計測
-        if(collision.transform.root.tag == "Candle" && time >= 0.1f){
-            scoreflag = true;
-        }
     }
 
     // Update is called once per frame
