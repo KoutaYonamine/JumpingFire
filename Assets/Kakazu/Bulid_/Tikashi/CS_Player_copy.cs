@@ -26,7 +26,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private float Length;//半径
     private float AtanAngle;//方位角　角度
     private float count;
-    Vector3 StairsVel　= new Vector3(6, 4, 0);//階段に落ちたときのバウンドVelocity
+    Vector3 StairsVel　= new Vector3(3, 4, 3);//階段に落ちたときのバウンドVelocity
 
     public Camera MainCamera;
     public Camera ClearCamera;
@@ -49,6 +49,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private Vector3 BoundFallPosition;
     private bool BoundFallFlg;
+
+    private bool CheckGround;//Rayが地面に当たったかどうか
 
     void Start()
     {
@@ -89,20 +91,37 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         if(ClickFlg == 2 || ClickFlg == 0)
             ClickCount++;
 
-        if (IsBound)
-            BoundMotion();
-
         if (ClickFlg == 99 && rigidBody.useGravity == false) {
             rigidBody.velocity = Vector3.zero;
         }
 
-        if (BoundFallFlg && this.transform.position.y < BoundFallPosition.y) {//直前に乗った燭台より下に落ちたら
-            Debug.Log("バウンドして落ちた");
-            IsBound = false;
-            JustOnce = false;
-            rigidBody.useGravity = true;
-            BoundFallFlg = false;
+        if (BoundFallFlg && this.transform.position.y < BoundFallPosition.y) {//直前に乗った燭台より下に落ちた(燭台から落下）
+            //Rayの作成        原点                     方向
+            Ray ray = new Ray(this.transform.position, Vector3.down);
+            RaycastHit hit;//Rayが当たったオブジェクト情報を格納
+            float RayDistance = 2.0f;//Rayの距離0.5
+            //Rayの可視化  
+            Debug.DrawLine(ray.origin, ray.origin + ray.direction * RayDistance, Color.red);
+
+            //Rayがオブジェクトに当たった時
+            if (Physics.Raycast(ray, out hit, RayDistance)) {
+                Debug.Log(hit.collider.name);
+
+                if (hit.collider.tag == "Cylinder") {
+                    CheckGround = true;
+                    GroundBound();
+                }
+            }
         }
+
+        if (IsBound)
+            BoundMotion();
+        //Rayの作成        原点                     方向
+        //Ray ray = new Ray(this.transform.position, Vector3.down);
+        //RaycastHit hit;//Rayが当たったオブジェクト情報を格納
+        //float RayDistance = 0.5f;//Rayの距離0.5
+        //                         //Rayの可視化  
+        //Debug.DrawLine(ray.origin, ray.origin + ray.direction * RayDistance, Color.red);
 
     }
     private void FixedUpdate()
@@ -231,21 +250,22 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
 
-            if (BoundFlg == true) {//階段での動き
-                //rigidBody.useGravity = true;
+            //if (BoundFlg && CheckGround) {//階段での動き
+            //    //rigidBody.useGravity = true;
 
-                rigidBody.velocity = StairsVel;
-                CircularMotion();//円運動
-                BoundFlg = false;
-            }
+            //    rigidBody.velocity = StairsVel;
+            //    CircularMotion();//円運動
+            //    BoundFlg = false;
+            //    CheckGround = false;
+            //}
             BoundCount = count;
             count = AtanAngle;
 
-            IsBound = false;
-            JustOnce = false;
-            BoundForce = TempBoundForce;
-            BoundGravity = TempBoundGravity;
-            BoundCountUp = 0;
+            //IsBound = false;
+            //JustOnce = false;
+            //BoundForce = TempBoundForce;
+            //BoundGravity = TempBoundGravity;
+            //BoundCountUp = 0;
         }
         //if (collision.gameObject.tag == "LastWallCandle")//最後の燭台
         //{
@@ -385,5 +405,27 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
         rigidBody.useGravity = true;
         rigidBody.AddForce(ClearVelocity, ForceMode.Impulse);
+    }
+
+    private void GroundBound()
+    {
+        if (BoundFlg && CheckGround) {//階段での動き
+            rigidBody.useGravity = true;
+            BoundFlg = false;
+            CheckGround = false;
+
+            IsBound = false;
+            JustOnce = false;
+
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.velocity = StairsVel;
+            BoundFallFlg = false;
+
+            BoundForce = TempBoundForce;
+            BoundGravity = TempBoundGravity;
+            BoundCountUp = 0;
+
+            Debug.Log("GroundBound");
+        }
     }
 }
