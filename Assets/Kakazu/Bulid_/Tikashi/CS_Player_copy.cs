@@ -97,7 +97,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
         if (BoundFallFlg && this.transform.position.y < BoundFallPosition.y) {//直前に乗った燭台より下に落ちた(燭台から落下）
             staircollision.getmoveflag = false;
-
+           
             //Rayの作成        原点                     方向
             Ray ray = new Ray(this.transform.position, Vector3.down);
             RaycastHit hit;//Rayが当たったオブジェクト情報を格納
@@ -107,8 +107,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
             //Rayがオブジェクトに当たった時
             if (Physics.Raycast(ray, out hit, RayDistance)) {
-                Debug.Log(hit.collider.name);
-
                 if (hit.collider.tag == "Cylinder") {
                     Force_y = 20.0f;//y軸に与える力を初期化
                     FirstVelocity = true;//一度だけ入る処理をリセット
@@ -121,6 +119,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                     CheckGround = true;
                     GroundBound();
                 }
+
+                if(hit.collider.tag == "Goal")
+                    BoundFallFlg = false;
             }
         }
 
@@ -217,7 +218,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             BoundForce = TempBoundForce;
             BoundGravity = TempBoundGravity;
             BoundCountUp = 0;
-            //rigidBody.useGravity = false;
+
             if (FirstVelocity) {//一度だけ入る
                 audioSource.PlayOneShot(JumpFireSounds);    //サウンド
                 rigidBody.velocity = Vel;//初速度を与える
@@ -254,28 +255,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
-            //Force_y = 20.0f;//y軸に与える力を初期化
-            //FirstVelocity = true;//一度だけ入る処理をリセット
-            //ReleasedFlg = false;
-            //FrameCount = 0;//フレームカウントを初期化
-            //ClickFlg = 99;
-
-            //if (BoundFlg && CheckGround) {//階段での動き
-            //    //rigidBody.useGravity = true;
-
-            //    rigidBody.velocity = StairsVel;
-            //    CircularMotion();//円運動
-            //    BoundFlg = false;
-            //    CheckGround = false;
-            //}
-            //BoundCount = count;
-            //count = AtanAngle;
-
-            //IsBound = false;
-            //JustOnce = false;
-            //BoundForce = TempBoundForce;
-            //BoundGravity = TempBoundGravity;
-            //BoundCountUp = 0;
+            
         }
         //if (collision.gameObject.tag == "LastWallCandle")//最後の燭台
         //{
@@ -309,7 +289,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
         if(collision.gameObject.tag == "Goal")
         {
-            //Debug.Log("Goal");
         }
     }
    
@@ -317,18 +296,22 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private void OnCollisionStay(Collision collision)
     {
         if(collision.gameObject.tag == "Candle") {
+
         }
     }
 
     private void OnCollisionExit(Collision collision)//コライダから抜けたとき
     {
-        Vector3 CandlePos = collision.transform.position; ;
+        Vector3 CandlePos = collision.transform.position;
         if (collision.transform.root.tag == "Candle") {
             FireWindZone.SetActive(true);
 
             BoundFallPosition = collision.gameObject.transform.position;//最後に乗った燭台の座標を取得
             BoundFallFlg = true;
         }
+
+        //if (collision.gameObject.tag == "Goal")
+        //    staircollision.getmoveflag = true;
     }
 
     public bool addspeed//スピードの変化
@@ -434,8 +417,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             BoundForce = TempBoundForce;
             BoundGravity = TempBoundGravity;
             BoundCountUp = 0;
-
-            Debug.Log("GroundBound");
         }
     }
 }
