@@ -11,6 +11,7 @@ TagManager:
   - BrownCandle
   - BlueCandle
   - BlackCandle
+  - StartCandle
   layers:
   - Default
   - TransparentFX

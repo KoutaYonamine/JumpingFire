@@ -52,6 +52,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private bool CheckGround;//Rayが地面に当たったかどうか
 
+    private bool StartCandleFlg;
+
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();  //サウンド
@@ -254,8 +256,29 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Cylinder") {//地面に落ちたらスタートのポジションにリスポーン
-            
+        if (collision.gameObject.tag == "Cylinder" && StartCandleFlg) {//地面に落ちたらスタートのポジションにリスポーン
+            Force_y = 20.0f;//y軸に与える力を初期化
+            FirstVelocity = true;//一度だけ入る処理をリセット
+            ReleasedFlg = false;
+            FrameCount = 0;//フレームカウントを初期化
+            ClickFlg = 99;
+
+            if (BoundFlg /*&& CheckGround*/) {//階段での動き
+                rigidBody.useGravity = true;
+
+                rigidBody.velocity = StairsVel;
+                CircularMotion();//円運動
+                BoundFlg = false;
+                //CheckGround = false;
+            }
+            BoundCount = count;
+            count = AtanAngle;
+
+            //IsBound = false;
+            //JustOnce = false;
+            //BoundForce = TempBoundForce;
+            //BoundGravity = TempBoundGravity;
+            //BoundCountUp = 0;
         }
         //if (collision.gameObject.tag == "LastWallCandle")//最後の燭台
         //{
@@ -308,6 +331,10 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
             BoundFallPosition = collision.gameObject.transform.position;//最後に乗った燭台の座標を取得
             BoundFallFlg = true;
+        }
+
+        if(collision.gameObject.tag == "StartCandle") {
+            StartCandleFlg = true;
         }
 
         //if (collision.gameObject.tag == "Goal")

@@ -111811,7 +111811,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100010, guid: 4f3a4d2e7c130574496ab299a226319e, type: 3}
       propertyPath: m_TagString
-      value: Candle
+      value: StartCandle
       objectReference: {fileID: 0}
     - target: {fileID: 2300008, guid: 4f3a4d2e7c130574496ab299a226319e, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -111839,7 +111839,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 4f3a4d2e7c130574496ab299a226319e, type: 3}
       propertyPath: m_TagString
-      value: Candle
+      value: StartCandle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f3a4d2e7c130574496ab299a226319e, type: 3}
