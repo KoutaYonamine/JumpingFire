@@ -122,8 +122,17 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                     GroundBound();
                 }
 
-                if(hit.collider.tag == "Goal")
+                if (hit.collider.tag == "Goal") {
                     BoundFallFlg = false;
+
+                    Force_y = 20.0f;//y軸に与える力を初期化
+                    FirstVelocity = true;//一度だけ入る処理をリセット
+                    ReleasedFlg = false;
+                    FrameCount = 0;//フレームカウントを初期化
+                    ClickFlg = 99;
+                    BoundCount = count;
+                    count = AtanAngle;
+                }
             }
         }
 
