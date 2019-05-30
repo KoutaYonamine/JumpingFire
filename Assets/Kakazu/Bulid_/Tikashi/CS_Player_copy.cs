@@ -88,10 +88,12 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         InputMouse_Touch();
         
         if (ClickFlg == 2) {
-            FrameCount++;
+            //FrameCount++;
+            FrameCount += Time.deltaTime * 1.0f;
+            Debug.Log(FrameCount + "    :FrameCount");
         }
-        if(ClickFlg == 2 || ClickFlg == 0)
-            ClickCount++;
+        if (ClickFlg == 2 || ClickFlg == 0)
+            ClickCount += Time.deltaTime * 1.0f;
 
         if (ClickFlg == 99 && rigidBody.useGravity == false) {
             rigidBody.velocity = Vector3.zero;
@@ -235,7 +237,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                 rigidBody.velocity = Vel;//初速度を与える
                 FirstVelocity = false;
             }
-            if (FrameCount > 20) {//20フレーム超えたらForceに重力を加算
+            if (FrameCount > 0.4f) {//20フレーム超えたらForceに重力を加算
                 Force_y = Force_y - FreeFallGrvity;
             }
 

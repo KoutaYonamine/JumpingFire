@@ -41,7 +41,7 @@ public class InitializeVariable : MonoBehaviour {//スーパークラス
    /* [SerializeField]*/ static protected float Force_y = 20.0f;//yに与える力
 
     static protected Vector3 Force;//AddForce
-    static protected int FrameCount = 0;//フレームをカウント
+    static protected float FrameCount = 0;//フレームをカウント
 
     static private GameObject camera;
     static private Vector3 CameraPosInit;       //カメラの初期位置
