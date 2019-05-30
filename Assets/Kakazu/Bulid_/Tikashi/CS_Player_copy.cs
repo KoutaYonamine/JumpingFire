@@ -7,6 +7,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private AudioSource audioSource; //サウンド
     private AudioClip JumpFireSounds;   //サウンド
 
+    [SerializeField] private AudioSource LongTapSound;
+    private AudioClip LongTapClip;
+
     private Rigidbody rigidBody;
 
     private Vector3 ClearDirection;//クリアの聖火台の方向
@@ -56,6 +59,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     void Start()
     {
+        LongTapClip = LongTapSound.clip;
+
         audioSource = this.GetComponent<AudioSource>();  //サウンド
         JumpFireSounds = audioSource.clip;  //サウンド
 
@@ -163,7 +168,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
                     ClickFlg = 2;
                     ReleasedFlg = true;
-                    BoundFlg = true;                    
+                    BoundFlg = true;
+                    LongTapSound.PlayOneShot(LongTapClip);
                 }
                 if (Input.GetMouseButtonUp(0) && ClearInputFlg == true)
                 {//離した時
@@ -171,6 +177,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                         ClickFlg = 0;
                         ReleasedFlg = false;
                         BoundFlg = true;
+                        LongTapSound.Stop();
                     }
                 }
             }
