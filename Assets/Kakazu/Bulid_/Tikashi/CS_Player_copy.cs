@@ -151,8 +151,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     }
     private void FixedUpdate()
     {
-        FireMovement();
-        
+        FireMovement();       
     }
 
     void InputMouse_Touch()
@@ -179,11 +178,11 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                     }
                 }
             }
-            if (Input.GetMouseButtonDown(0) && ClearInputFlg == false)//最後の燭台に乗った時ベクトルの方向変える
-            {
+            //if (Input.GetMouseButtonDown(0) && ClearInputFlg == false)//最後の燭台に乗った時ベクトルの方向変える
+            //{
 
-                MovementToClear();
-            }
+            //    MovementToClear();
+            //}
         }
         else
         {
@@ -210,10 +209,10 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                         LongTapSound.Stop();
                     }
                 }
-                if (touch.phase == TouchPhase.Began && ClearInputFlg == false && ClearClickCheck) {
-                    MovementToClear();
-                    ClearClickCheck = false;
-                }
+                //if (touch.phase == TouchPhase.Began && ClearInputFlg == false && ClearClickCheck) {
+                //    MovementToClear();
+                //    ClearClickCheck = false;
+                //}
             }
         }
     }
