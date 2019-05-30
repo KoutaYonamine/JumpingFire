@@ -310,12 +310,12 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             /***乗った燭台の種類によってどんなバウンド処理をするかをCheck***/
             if (collision.transform.tag == "BlueCandle") {
                 TypeNumber = 1;
-                BoundForce = 0.1f;
+                BoundForce = 0.025f;
                 TempBoundForce = BoundForce;
             }
             if (collision.transform.tag == "BrownCandle") {
                 TypeNumber = 2;
-                BoundForce = 0.3f;
+                BoundForce = 0.1f;
                 TempBoundForce = BoundForce;
             }
             if (collision.transform.tag == "BlackCandle") {
