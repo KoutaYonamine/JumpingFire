@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FireActive : InitializeVariable
 {
+    private Rigidbody Rigid;
 
     bool CountFlg = false;
     [SerializeField] private float Speed;
@@ -19,8 +20,13 @@ public class FireActive : InitializeVariable
 
     private GameObject Eff_Fire_Fix;
 
+    private float BoundForce = 20.0f;
+    private bool CheckBound = false;
+
     // Use this for initialization
     void Start () {
+        Rigid = GetComponent<Rigidbody>();
+
         StartPos = FirePlayer.transform.position;
         MovePos = StartPos - this.transform.position;
 
@@ -31,13 +37,21 @@ public class FireActive : InitializeVariable
 
         Eff_Fire_Fix = FirePlayer.transform.GetChild(1).gameObject;
         Eff_Fire_Fix.SetActive(false);
-        Debug.Log(Eff_Fire_Fix);
 	}
 
     // Update is called once per frame
     void Update()
     {
-        DownFire();
+        //    DownFire();
+        if(!Rigid.useGravity)//重力がFalseなら
+            BoundForce = BoundForce - 4.0f;
+
+        if (CheckBound) {
+            SetFlg();
+            M_Fire.color = new Color32(255, 255, 255, 255);
+            CountFlg = true;
+        }
+
         if(CountFlg == true)
         {
             SetActive();
@@ -52,14 +66,16 @@ public class FireActive : InitializeVariable
         }
         else if (StartPos.y >= this.transform.position.y)
         {
-            SetFlg();
-            this.transform.position = new Vector3(transform.position.x, StartPos.y, transform.position.z);
+            //Rigid.AddForce(Vector3.up * BoundForce, ForceMode.Impulse);
+            //BoundForce = BoundForce - 4.0f;
+            //if (BoundForce < 0)
+            //   CheckBound = true;
+        //SetFlg();
+        //this.transform.position = new Vector3(transform.position.x, StartPos.y, transform.position.z);//プレイヤーのポジションに移動
 
-            M_Fire.color = new Color32(255, 255, 255, 255);
+        //M_Fire.color = new Color32(255, 255, 255, 255);
 
-            CountFlg = true;
-
-            
+        //CountFlg = true;
         }
 
     }
@@ -78,5 +94,24 @@ public class FireActive : InitializeVariable
             this.gameObject.SetActive(false);
         }
         SetFrameCount--;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "StartCandle") {
+            Rigid.useGravity = false;//AddForceで上にあげるために重力を解除
+            Rigid.AddForce(Vector3.up * BoundForce, ForceMode.Impulse);
+
+            if (BoundForce < 0) {//BoundForceが0以下になるとバウンド処理を終了
+                CheckBound = true;
+                Rigid.isKinematic = true;
+            }
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "StartCandle") {
+            Rigid.useGravity = true;//AddForceで上げたFireを下に落とすために重力を設定
+        }
     }
 }
