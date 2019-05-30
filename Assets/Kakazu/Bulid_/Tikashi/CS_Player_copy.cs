@@ -91,7 +91,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         if (ClickFlg == 2) {
             //FrameCount++;
             FrameCount += Time.deltaTime * 1.0f;
-            Debug.Log(FrameCount + "    :FrameCount");
         }
         if (ClickFlg == 2 || ClickFlg == 0)
             ClickCount += Time.deltaTime * 1.0f;
@@ -199,7 +198,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                     ClickFlg = 2;
                     ReleasedFlg = true;
                     BoundFlg = true;
-                    
+                    LongTapSound.PlayOneShot(LongTapClip);
                 }
 
                 if (touch.phase == TouchPhase.Ended && ClearInputFlg == true)//離した瞬間
@@ -208,6 +207,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                         ClickFlg = 0;
                         ReleasedFlg = false;
                         BoundFlg = true;
+                        LongTapSound.Stop();
                     }
                 }
                 if (touch.phase == TouchPhase.Began && ClearInputFlg == false && ClearClickCheck) {
