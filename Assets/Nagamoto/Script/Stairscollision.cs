@@ -125,12 +125,12 @@ public class Stairscollision : InitializeVariable
                 this.transform.position = StartPosition;    //スタート位置に行く
                 numberobject.transform.position = NumberPosition;
                 numberobject.transform.localScale = NumberScale;
+                st = null;
                 ReloadInitializeVariable();
                 ParticleAlive.Play();           //炎のパーティクルを出す
                 FireWindZone.SetActive(false);
                 var CameraManeger = Player.GetComponent<CS_Player_copy>();
-                CameraManeger.MainCamera.enabled = true;
-                CameraManeger.ClearCamera.enabled = false;
+                
             }
         }
         if(mouseflag == false){

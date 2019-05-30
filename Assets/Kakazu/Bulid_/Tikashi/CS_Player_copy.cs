@@ -7,6 +7,9 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private AudioSource audioSource; //サウンド
     private AudioClip JumpFireSounds;   //サウンド
 
+    [SerializeField] private AudioSource LongTapSound;
+    private AudioClip LongTapClip;
+
     private Rigidbody rigidBody;
 
     private Vector3 ClearDirection;//クリアの聖火台の方向
@@ -28,8 +31,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private float count;
     Vector3 StairsVel　= new Vector3(3, 4, 3);//階段に落ちたときのバウンドVelocity
 
-    public Camera MainCamera;
-    public Camera ClearCamera;
 
     private bool DebugBoundFlg;
     private float BoundCount;
@@ -56,6 +57,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
     void Start()
     {
+        LongTapClip = LongTapSound.clip;
+
         audioSource = this.GetComponent<AudioSource>();  //サウンド
         JumpFireSounds = audioSource.clip;  //サウンド
 
@@ -77,8 +80,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
         GOAL = GameObject.Find("PublishFire_Prefab (1)");
         //GOAL.SetActive(false);
-
-        ClearCamera.enabled = false;//クリア時のカメラを無効
 
     }
 
@@ -112,6 +113,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             //Rayがオブジェクトに当たった時
             if (Physics.Raycast(ray, out hit, RayDistance)) {
                 if (hit.collider.tag == "Cylinder") {
+                    LongTapSound.Stop(); //タップ中の音を消す
                     Force_y = 20.0f;//y軸に与える力を初期化
                     FirstVelocity = true;//一度だけ入る処理をリセット
                     ReleasedFlg = false;
@@ -165,7 +167,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
                     ClickFlg = 2;
                     ReleasedFlg = true;
-                    BoundFlg = true;                    
+                    BoundFlg = true;
+                    LongTapSound.PlayOneShot(LongTapClip);
                 }
                 if (Input.GetMouseButtonUp(0) && ClearInputFlg == true)
                 {//離した時
@@ -173,6 +176,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
                         ClickFlg = 0;
                         ReleasedFlg = false;
                         BoundFlg = true;
+                        LongTapSound.Stop();
                     }
                 }
             }
@@ -273,6 +277,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             ReleasedFlg = false;
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
+            LongTapSound.Stop(); //タップ中の音を消す
 
             if (BoundFlg /*&& CheckGround*/) {//階段での動き
                 rigidBody.useGravity = true;
@@ -301,7 +306,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         //}
         if (collision.transform.root.tag == "Candle") {//燭台に乗ったら
             JustOnce = true;
-            
+            LongTapSound.Stop(); //タップ中の音を消す
+
             /***乗った燭台の種類によってどんなバウンド処理をするかをCheck***/
             if (collision.transform.tag == "BlueCandle") {
                 TypeNumber = 1;
