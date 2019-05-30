@@ -28,8 +28,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
     private float count;
     Vector3 StairsVel　= new Vector3(6, 4, 0);//階段に落ちたときのバウンドVelocity
 
-    public Camera MainCamera;
-    public Camera ClearCamera;
 
     private bool DebugBoundFlg;
     private float BoundCount;
@@ -73,8 +71,6 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
 
         GOAL = GameObject.Find("PublishFire_Prefab (1)");
         //GOAL.SetActive(false);
-
-        ClearCamera.enabled = false;//クリア時のカメラを無効
 
     }
 
