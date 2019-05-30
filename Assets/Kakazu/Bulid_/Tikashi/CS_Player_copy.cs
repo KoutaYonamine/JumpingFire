@@ -115,6 +115,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             //Rayがオブジェクトに当たった時
             if (Physics.Raycast(ray, out hit, RayDistance)) {
                 if (hit.collider.tag == "Cylinder") {
+                    LongTapSound.Stop(); //タップ中の音を消す
                     Force_y = 20.0f;//y軸に与える力を初期化
                     FirstVelocity = true;//一度だけ入る処理をリセット
                     ReleasedFlg = false;
@@ -278,6 +279,7 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
             ReleasedFlg = false;
             FrameCount = 0;//フレームカウントを初期化
             ClickFlg = 99;
+            LongTapSound.Stop(); //タップ中の音を消す
 
             if (BoundFlg /*&& CheckGround*/) {//階段での動き
                 rigidBody.useGravity = true;
@@ -306,7 +308,8 @@ public class CS_Player_copy : InitializeVariable     //サブクラス
         //}
         if (collision.transform.root.tag == "Candle") {//燭台に乗ったら
             JustOnce = true;
-            
+            LongTapSound.Stop(); //タップ中の音を消す
+
             /***乗った燭台の種類によってどんなバウンド処理をするかをCheck***/
             if (collision.transform.tag == "BlueCandle") {
                 TypeNumber = 1;
