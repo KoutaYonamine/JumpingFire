@@ -25,6 +25,8 @@ public class Number : InitializeVariable{
 
     public void View(int move){
         var digit = move;
+        num10 = GameObject.Find("Num10");
+        num100 = GameObject.Find("Num100");
         //要素数0には１桁目の値が格納
         num = new List<int>();
         if (digit == 0){
@@ -50,11 +52,13 @@ public class Number : InitializeVariable{
                 numberimage.localPosition += new Vector3(-30, 0, 0);
                 numdigit = 1;
                 numberimage.name = "Num10";
+                
             }
             if(i == 2){
                 numberimage.localPosition += new Vector3(-60, 0, 0);
                 numdigit = 2;
                 numberimage.name = "Num100";
+                
 
             }
             numberimage.GetComponent<Image>().sprite = numimg[num[i]];
@@ -66,6 +70,7 @@ public class Number : InitializeVariable{
     public void Result(){
         //10の位
         if (numdigit == 1){
+            num10 = GameObject.Find("Num10");
             numberobject.transform.localScale = new Vector3(0.75f, 0.75f, 0);           //数字の大きさを変える
             numberobject.transform.localPosition = new Vector3(50, 95, 0);               //数字の位置を変える
             num10.transform.localScale = new Vector3(0.75f, 0.75f, 0);
@@ -73,6 +78,7 @@ public class Number : InitializeVariable{
         }
         //100の位
         else if (numdigit == 2){
+            num100 = GameObject.Find("Num100");
             numberobject.transform.localScale = new Vector3(0.75f, 0.75f, 0);           //数字の大きさを変える
             numberobject.transform.localPosition = new Vector3(80, 95, 0);               //数字の位置を変える
             num10.transform.localScale = new Vector3(0.75f, 0.75f, 0);
@@ -88,8 +94,8 @@ public class Number : InitializeVariable{
 
     // Update is called once per frame
     void Update () {
-        num10 = GameObject.Find("Num10");
-        num100 = GameObject.Find("Num100");
+        //num10 = GameObject.Find("Num10");
+        //num100 = GameObject.Find("Num100");
         if (sta.getmouseflag() == false){
             Destroy(num10);
             Destroy(num100);
